@@ -18,7 +18,6 @@ date >> ${LOG}
 
 ../deleteOrphans.csh ${RATDATADIR} ${RATSPECIESKEY}
 ../deleteRefSeqs.csh ${RATDATADIR} ${RATSPECIESKEY}
-../convertToEG.csh ${RATDATADIR} ${RATSPECIESKEY}
 ../createSets.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
 ./createBuckets.csh
 ../runreports.csh ${RATDATADIR} ${RATARCHIVEDIR}
