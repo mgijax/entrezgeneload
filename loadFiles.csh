@@ -18,16 +18,16 @@ date >> ${LOG}
 
 # grab latest files
 
-#cp ${FTPDATA1}/gene2accession.gz ${EGINPUTDIR}
-#cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
-#cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
-#cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene2accession.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
 
 # uncompress the files
-#cd ${EGINPUTDIR}
-#foreach i (*.gz)
-#/usr/local/bin/gunzip -f $i >>& ${LOG}
-#end
+cd ${EGINPUTDIR}
+foreach i (*.gz)
+/usr/local/bin/gunzip -f $i >>& ${LOG}
+end
 
 # split up gene_info
 cd ${EGINSTALLDIR}
