@@ -28,7 +28,7 @@ mkdir ${MOUSEARCHIVEDIR}/${LOADDATE}
 mv ${MOUSEDATADIR}/*.rpt ${MOUSEARCHIVEDIR}/${LOADDATE}
 
 foreach i (preload*.sql)
-$i ${MOUSEDATADIR}/$i.rpt
+$i ${MOUSEDATADIR}/$i
 end
 
 foreach i (preload*.py)

@@ -19,11 +19,18 @@ print ""
 
 select distinct e1.geneID "EntrezGene ID", m.symbol "MGI Symbol", e1.compareID "MGI Acc ID"
 from ${RADARDB}..WRK_EntrezGene_EGSet e1, ACC_Accession a, MRK_Marker m
-where e1.idType = 'MGI'
+where e1.taxid = ${MOUSETAXID}
+and e1.idType = 'MGI'
 and exists (select 1 from ${RADARDB}..WRK_EntrezGene_MGISet e where e1.compareID = e.mgiID)
-and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_EGSet e where e1.geneID = e.geneID and e.idType = 'Gen' 
+and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_EGSet e 
+	where e1.geneID = e.geneID 
+	and e.taxID = ${MOUSETAXID}
+	and e.idType = 'Gen' 
 	and e.compareID not like 'NM%')
-and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_MGISet e where e1.compareID = e.mgiID and e.idType = 'Gen')
+and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_MGISet e 
+	where e1.compareID = e.mgiID 
+	and e.taxID = ${MOUSETAXID}
+	and e.idType = 'Gen')
 and e1.compareID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
 and a._Object_key = m._Marker_key
