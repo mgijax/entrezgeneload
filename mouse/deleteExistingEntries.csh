@@ -27,7 +27,7 @@ go
 select a._Accession_key
 into #todelete
 from ACC_Accession a, ACC_AccessionReference r, MRK_Marker m 
-where r._Refs_key = ${MOUSEREFERENCEKEY}
+where r._Refs_key = ${REFERENCEKEY}
 and r._Accession_key = a._Accession_key 
 and a._MGIType_key = ${MARKERTYPEKEY}
 and a._Object_key = m._Marker_key

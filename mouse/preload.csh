@@ -19,26 +19,20 @@ touch $LOG
 echo "Generating Preload Reports..." >> $LOG
 date >> $LOG
 
-setenv PRELOADDATE    `date '+%d-%m-%Y'`
+setenv LOADDATE    `date '+%d-%m-%Y'`
 
 # Run PreLoad QC Reports
 # Save previous version/date tag each output file
 
+mkdir ${MOUSEARCHIVEDIR}/${LOADDATE}
+mv ${MOUSEDATADIR}/*.rpt ${MOUSEARCHIVEDIR}/${LOADDATE}
+
 foreach i (preload*.sql)
-rm -rf ${MOUSEDATADIR}/$i.rpt
-mv ${MOUSEDATADIR}/$i.*.rpt ${MOUSEARCHIVEDIR}
-$i ${MOUSEDATADIR}/$i.${PRELOADDATE}
-ln -s ${MOUSEDATADIR}/$i.${PRELOADDATE}.rpt ${MOUSEDATADIR}/$i.rpt
+$i ${MOUSEDATADIR}/$i.rpt
 end
-exit 0
 
 foreach i (preload*.py)
-set r=`basename $i .py`
-rm -rf ${MOUSEDATADIR}/$r.rpt
-mv ${MOUSEDATADIR}/$r.*.rpt ${MOUSEARCHIVEDIR}
 $i
-mv ${MOUSEDATADIR}/$r.rpt ${MOUSEDATADIR}/$r.${PRELOADDATE}.rpt
-ln -s ${MOUSEDATADIR}/$r.${PRELOADDATE}.rpt ${MOUSEDATADIR}/$r.rpt
 end
 
 date >> $LOG
