@@ -19,7 +19,7 @@ go
 select distinct e.geneID, e.compareID, i.symbol
 into #nomatch
 from ${RADARDB}..WRK_EntrezGene_EGSet e, ${RADARDB}..DP_EntrezGene_Info i
-where e1.taxID = ${MOUSETAXID}
+where e.taxID = ${MOUSETAXID}
 and e.idType = 'MGI'
 and not exists (select 1 from ACC_Accession m 
 	where m._MGIType_key = ${MARKERTYPEKEY} 
