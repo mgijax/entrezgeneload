@@ -80,8 +80,7 @@ def createMatches():
 	'from %s..DP_EntrezGene_Accession e, ACC_Accession a ' % (radar) + \
 	'where a._MGIType_key = %s ' % (markerTypeKey) + \
 	'and a._LogicalDB_key = %s ' % (logicalSeqKey) + \
-	'and a.accID = e.rna ' + \
-	'and not exists (select 1 from %s..WRK_EntrezGene_ExcludeA x where x.geneID = e.geneID)' % (radar), None)
+	'and a.accID = e.rna ', None)
     db.sql('create index idx1 on #markermatch(geneID)', None)
 
     #
@@ -93,8 +92,7 @@ def createMatches():
 	'from %s..DP_EntrezGene_Accession e, ACC_Accession a ' % (radar) + \
 	'where a._MGIType_key = %s ' % (probeTypeKey) + \
 	'and a._LogicalDB_key = %s ' % (logicalSeqKey) + \
-	'and a.accID = e.rna ' + \
-	'and not exists (select 1 from %s..WRK_EntrezGene_ExcludeA x where x.geneID = e.geneID)' % (radar), None)
+	'and a.accID = e.rna ', None)
     db.sql('create index idx1 on #probematch(geneID)', None)
 
 def bucket10(fp):
@@ -106,9 +104,9 @@ def bucket10(fp):
 
          An EntrezGene record is determined to be unpublished it has no PubMed ID. 
          Excludes genomic Seq IDs.
-
     ''')
 
+    fp.write(CRT)
     fp.write(string.ljust('EG ID', 10) + SPACE)
     fp.write(string.ljust('EG Symbol', 35) + SPACE)
     fp.write(string.ljust('MGI Acc ID', 20) + SPACE)
@@ -278,9 +276,9 @@ def bucket11(fp):
          An EntrezGene record is determined to be published if it has at least one PubMed ID.
          A reference is determined to be in MGI if the EntrezGene PubMed ID is in MGI.
          Seq IDs which are attached to MGI Probes contain an asterisk.
-
     ''')
 
+    fp.write(CRT)
     fp.write(string.ljust('EG ID', 10) + SPACE)
     fp.write(string.ljust('EG Symbol', 20) + SPACE)
     fp.write(string.ljust('MGI Acc ID', 20) + SPACE)
@@ -418,9 +416,9 @@ def bucket12(fp):
          An EntrezGene record is determined to be published if it has at least one PubMed ID.
          A reference is determined to not be in MGI if the EntrezGene PubMed ID is not in MGI.
          Seq IDs which are attached to MGI Probes contain an asterisk.
-
     ''')
 
+    fp.write(CRT)
     fp.write(string.ljust('EG ID', 10) + SPACE)
     fp.write(string.ljust('EG Symbol', 20) + SPACE)
     fp.write(string.ljust('MGI Acc ID', 20) + SPACE)
