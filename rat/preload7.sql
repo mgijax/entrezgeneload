@@ -16,7 +16,7 @@ go
 
 /* No-No-No Set */
 
-select m._Marker_key, m.symbol, name = substring(m.name,1,30)
+select m._Marker_key, symbol = substring(m.symbol,1,30), name = substring(m.name,1,30)
 into #nonoset
 from MRK_Marker m
 where m._Organism_key = ${RATSPECIESKEY}
@@ -37,7 +37,7 @@ go
 /* Get records that have a match to EG Symbols */
 
 select m.*, e.geneID, e.locusTag,
-egsymbol = e.symbol, egname = substring(e.name,1,30)
+egsymbol = substring(e.symbol,1,30), egname = substring(e.name,1,30)
 into #match
 from #nonoset m, ${RADARDB}..DP_EntrezGene_Info e
 where e.taxid = ${RATTAXID}
@@ -46,7 +46,7 @@ go
 
 /* Get Ref Seq IDs for any matched symbols that have them */
 
-select m.*, r.rnaSeqID
+select m.*, r.rna
 into #refSeq
 from #match m, ${RADARDB}..DP_EntrezGene_RefSeq r
 where m.geneID = r.geneID
@@ -63,7 +63,7 @@ select *
 into #final
 from #refSeq
 union
-select n.*, NULL, NULL, NULL, NULL, NULL, NULL
+select n.*, NULL, NULL, NULL, NULL, NULL
 from #nonoset n
 where not exists (select 1 from #refSeq m
 where n._Marker_key = m._Marker_key)
@@ -79,7 +79,7 @@ print ""
 
 
 select f.symbol "MGI Rat Symbol", f.name "MGI Rat Name", 
-f.egsymbol "EG Symbol", f.symType "Type", f.egname "EG Name", f.locusTag "EG RGD ID", f.geneID "EG ID",
+f.egsymbol "EG Symbol", f.egname "EG Name", f.locusTag "EG RGD ID", f.geneID "EG ID",
 f.rna "EG RefSeq ID",
 m.symbol "Mouse Symbol", 
 substring(m.name, 1, 30) "Mouse Name"
@@ -92,7 +92,7 @@ and h2._Homology_key = hm2._Homology_key
 and hm2._Marker_key = m._Marker_key
 and m._Organism_key = ${MOUSESPECIESKEY}
 union
-select f.symbol, f.name, f.egsymbol, f.symType, f.egname, f.locusTag, f.geneID, f.rna, NULL, NULL
+select f.symbol, f.name, f.egsymbol, f.egname, f.locusTag, f.geneID, f.rna, NULL, NULL
 from #final f
 where not exists (select 1 from
 HMD_Homology h1, HMD_Homology_Marker hm1, HMD_Homology h2, HMD_Homology_Marker hm2, MRK_Marker m
@@ -102,7 +102,7 @@ and h1._Homology_key = h2._Homology_key
 and h2._Homology_key = hm2._Homology_key
 and hm2._Marker_key = m._Marker_key
 and m._Organism_key = ${MOUSESPECIESKEY})
-order by symType desc, symbol
+order by symbol
 go
 
 quit
