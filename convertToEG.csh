@@ -9,7 +9,7 @@
 #	
 
 setenv DATADIR $1
-setenv ORGANSIM $2
+setenv ORGANISM $2
 
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}

@@ -281,8 +281,8 @@ def bucket11(fp):
 
     ''')
 
-    fp.write(string.ljust('EntrezGene ID', 10) + SPACE)
-    fp.write(string.ljust('EntrezGene Symbol', 20) + SPACE)
+    fp.write(string.ljust('EG ID', 10) + SPACE)
+    fp.write(string.ljust('EG Symbol', 20) + SPACE)
     fp.write(string.ljust('MGI Acc ID', 20) + SPACE)
     fp.write(string.ljust('J#', 50) + SPACE)
     fp.write(string.ljust('GenBank ID', 11) + CRT)
@@ -305,7 +305,7 @@ def bucket11(fp):
             'and e.rna != "-" ' + \
             'and e.rna not like "N%_%" ' + \
             'and e.rna not like "X%_%" ' + \
-            'and exists (select 1 from #markermatch m where e.geneID = m.geneID) ' + \
+            'and not exists (select 1 from #markermatch m where e.geneID = m.geneID) ' + \
             'and exists (select 1 from %s..DP_EntrezGene_PubMed c where e.geneID = c.geneID)' % (radar), None)
 
     #
@@ -421,8 +421,8 @@ def bucket12(fp):
 
     ''')
 
-    fp.write(string.ljust('EntrezGene ID', 10) + SPACE)
-    fp.write(string.ljust('EntrezGene Symbol', 20) + SPACE)
+    fp.write(string.ljust('EG ID', 10) + SPACE)
+    fp.write(string.ljust('EG Symbol', 20) + SPACE)
     fp.write(string.ljust('MGI Acc ID', 20) + SPACE)
     fp.write(string.ljust('PubMed ID', 20) + SPACE)
     fp.write(string.ljust('GenBank ID', 11) + CRT)

@@ -124,6 +124,52 @@ and b.geneID = r.geneID
 and r.rna like 'NM_%'
 go
 
+/***** RGD *****/
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${RATTAXID}, a._Object_key, ${LOGICALRGDKEY}, b.mgiID, e.locusTag, ${RGDPRIVATE}
+from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_Info e
+where b.idType = 'EG'
+and b.mgiID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALEGKEY}
+and b.geneID = e.geneID
+and e.locusTag like 'RGD%'
+go
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${RATTAXID}, m._Marker_key, ${LOGICALRGDKEY}, b.mgiID, e.locusTag, ${RGDPRIVATE}
+from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_Info e
+where b.idType = 'Symbol'
+and b.mgiID = m.symbol
+and m._Organism_key = ${RATSPECIESKEY}
+and b.geneID = e.geneID
+and e.locusTag like 'RGD%'
+go
+
+/***** RatMap *****/
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${RATTAXID}, a._Object_key, ${LOGICALRATMAPKEY}, b.mgiID, e.dbXRefID, ${RATMAPPRIVATE}
+from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_DBXRef e
+where b.idType = 'EG'
+and b.mgiID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALEGKEY}
+and b.geneID = e.geneID
+and e.dbXRefID like 'RATMAP%'
+go
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${RATTAXID}, m._Marker_key, ${LOGICALRATMAPKEY}, b.mgiID, e.dbXRefID, ${RATMAPPRIVATE}
+from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_DBXRef e
+where b.idType = 'Symbol'
+and b.mgiID = m.symbol
+and m._Organism_key = ${RATSPECIESKEY}
+and b.geneID = e.geneID
+and e.dbXRefID like 'RATMAP%'
+go
+
 /***** Nomen Bucket *****/
 
 insert into WRK_EntrezGene_Nomen
@@ -134,6 +180,7 @@ and e.geneID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
 and a._Object_key = m._Marker_key
+and e.symbol not like 'RGD%'
 and (e.symbol != m.symbol or e.name != m.name)
 go
 
