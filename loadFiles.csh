@@ -132,6 +132,12 @@ where taxID in (${HUMANTAXID}, ${RATTAXID})
 and chromosome = 'Un'
 go
 
+update DP_EntrezGene_Info
+set chromosome = 'XY'
+where taxID in (${MOUSETAXID}, ${HUMANTAXID}, ${RATTAXID})
+and chromosome = 'X|Y'
+go
+
 EOSQL
 
 date >> ${LOG}
