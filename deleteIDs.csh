@@ -105,6 +105,30 @@ from #todelete d, ACC_Accession a
 where d._Accession_key = a._Accession_key
 go
 
+drop table #todelete
+go
+
+/* remove synonyms by organism */
+
+select s._Synonym_key
+into #todelete
+from MGI_Synonym s, MGI_SynonymType st
+where s._SynonymType_key = st._SynonymType_key
+and st._SynonymType_key = ${EGSYNTYPEKEY}
+and st._Organism_key = ${ORGANISM}
+go
+
+create index idx1 on #todelete(_Synonym_key)
+go
+
+delete MGI_Synonym
+from #todelete d, MGI_Synonym a
+where d._Synonym_key = a._Synonym_key
+go
+
+drop table #todelete
+go
+
 quit
  
 EOSQL

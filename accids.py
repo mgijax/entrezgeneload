@@ -4,7 +4,7 @@
 #
 # Purpose:
 #
-#	Create bcp records for ACC taxIds for LocusLink load.
+#	Create bcp records for ACC taxIds for EntrezGene load.
 #  
 # Input:
 #

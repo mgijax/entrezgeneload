@@ -130,6 +130,7 @@ and b.geneID = r.geneID
 and r.rna != '-'
 and r.rna not like 'N%_%'
 and r.rna not like 'X%_%'
+and not exists (select 1 from WRK_EntrezGene_ExcludeB e where r.rna = e.seqID)
 and not exists (select 1 from ${DBNAME}..ACC_Accession ma 
 where a._Object_key = ma._Object_key
 and ma._MGIType_key = ${MARKERTYPEKEY}
