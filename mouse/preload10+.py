@@ -87,13 +87,14 @@ def createMatches():
     # select all EntrezGene records with a rna genbank id associated with a MGI Probe
     #
 
-    db.sql('select distinct e.geneID ' + \
+    db.sql('select distinct e.geneID, e.rna ' + \
 	'into #probematch ' + \
 	'from %s..DP_EntrezGene_Accession e, ACC_Accession a ' % (radar) + \
 	'where a._MGIType_key = %s ' % (probeTypeKey) + \
 	'and a._LogicalDB_key = %s ' % (logicalSeqKey) + \
 	'and a.accID = e.rna ', None)
     db.sql('create index idx1 on #probematch(geneID)', None)
+    db.sql('create index idx2 on #probematch(rna)', None)
 
 def bucket10(fp):
 
@@ -313,12 +314,12 @@ def bucket11(fp):
 
     db.sql('insert into #bucket11 ' + \
 	    'select distinct e.geneID, e.rna, category = "P" ' + \
-            'from %s..DP_EntrezGene_Accession e ' % (radar) + \
+            'from %s..DP_EntrezGene_Accession e, #probeMatch p ' % (radar) + \
             'where e.taxid = %s ' % (taxID) + \
             'and e.rna != "-" ' + \
             'and e.rna not like "N%_%" ' + \
             'and e.rna not like "X%_%" ' + \
-            'and exists (select 1 from #probematch m where e.geneID = m.geneID) ' + \
+	    'and e.geneID = m.geneID ' + \
             'and not exists (select 1 from #markermatch m where e.geneID = m.geneID) ' + \
             'and exists (select 1 from %s..DP_EntrezGene_PubMed c where e.geneID = c.geneID)' % (radar), None)
     db.sql('create index idx1 on #bucket11(geneID)', None)

@@ -23,13 +23,13 @@ setenv EGINPUTDATADIR           ${EGDATADIR}/input
 setenv EGLOGSDATADIR            ${EGDATADIR}/logs
 
 # mouse data directory
-setenv MOUSEEGDATADIR       	${EGDATADIR}/output/mouse
+setenv MOUSEDATADIR       	${EGDATADIR}/output/mouse
 
 # human data directory
-setenv HUMANEGDATADIR       	${EGDATADIR}/output/human
+setenv HUMANDATADIR       	${EGDATADIR}/output/human
 
 # rat data directory
-setenv RATEGDATADIR       	${EGDATADIR}/output/rat
+setenv RATDATADIR       	${EGDATADIR}/output/rat
 
 # archive directory
 setenv ARCHIVEDIR		${EGDATADIR}/archive
