@@ -26,7 +26,6 @@ deleteExistingEntries.csh
 createExclude.csh
 createSets.csh
 createBuckets.csh
-exit 0
 preload.csh
 accids.py -S${DBSERVER} -D${DBNAME} -U${DBUSER} -P${DBPASSWORDFILE} >> ${LOG}
 
@@ -35,9 +34,6 @@ cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_AccessionReference in ${MOUSEDATADIR}
 
 #${DBUTILITIESPATH}/bin/updateStatistics.csh ${DBSERVER} ${DBNAME} ACC_Accession
 #${DBUTILITIESPATH}/bin/updateStatistics.csh ${DBSERVER} ${DBNAME} ACC_AccessionReference
-
-# create MGC Nomen records and load into Nomen
-mgc.csh
 
 date >> ${LOG}
 echo "End: Mouse load" >> ${LOG}
