@@ -17,8 +17,15 @@ touch ${LOG}
 echo "Begin: creating mouse buckets..." | tee -a ${LOG}
 date | tee -a ${LOG}
 
-# truncate tables
-${RADARDBSCHEMADIR}/table/WRK_EntrezGene_Bucket0_truncate.object | tee -a ${LOG}
+cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
+ 
+use ${RADARDB}
+go
+
+delete from WRK_EntrezGene_Bucket0 where taxID = ${MOUSETAXID}
+go
+
+EOSQL
 
 # drop indexes
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_drop.object | tee -a ${LOG}
@@ -88,34 +95,11 @@ go
 /*** Bucketizing ***/
 /* for this algorithm, we are only interested in 1:1 */
 
-/* EntrezGene (?), MGI (N) */
-select geneID, mgiID
-into #s1N
-from #uniqmatches2
-group by geneID having count(*) > 1
-go
-
-create index idx1 on #s1N(geneID)
-create index idx2 on #s1N(mgiID)
-go
-
-/* EntrezGene (N), MGI (?) */
-select geneID, mgiID
-into #s2N
-from #uniqmatches2
-group by mgiID having count(*) > 1
-go
-
-create index idx1 on #s2N(geneID)
-create index idx2 on #s2N(mgiID)
-go
-
 /* EntrezGene (1), MGI (1) */
 select u.geneID, u.mgiID
 into #bucket0
 from #uniqmatches2 u
-where not exists (select 1 from #s1N s where u.geneID = s.geneID)
-and not exists (select 1 from #s2N s where u.mgiID = s.mgiID)
+group by geneID having count(*) = 1
 go
 
 create index idx1 on #bucket0(mgiID)
