@@ -41,18 +41,8 @@
 
 setenv DATADIR	$1
 setenv ARCHIVEDIR $2
-
-setenv LOG      ${DATADIR}/`basename $0`.log
-rm -rf $LOG
-touch $LOG
-
-echo "Begin: archive..." >> $LOG
-date >> $LOG
-
 setenv LOADDATE    `date '+%d-%m-%Y'`
 
 mkdir ${ARCHIVEDIR}/${LOADDATE}
 mv ${DATADIR}/* ${ARCHIVEDIR}/${LOADDATE}
 
-date >> $LOG
-echo "End: archive." >>$LOG

@@ -19,13 +19,14 @@
 
 cd `dirname $0` && source ../Configuration
 
+../archive.csh ${HUMANDATADIR} ${HUMANARCHIVEDIR}
+
 setenv LOG      ${HUMANDATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
 date >> ${LOG}
 
-../archive.csh ${HUMANDATADIR} ${HUMANARCHIVEDIR}
 ../deleteOrphans.csh ${HUMANDATADIR} ${HUMANSPECIESKEY}
 ../deleteIDs.csh ${HUMANDATADIR} ${HUMANSPECIESKEY} ${LOGICALREFSEQKEY} ${LOGICALHGNCKEY}
 ../createSets.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}

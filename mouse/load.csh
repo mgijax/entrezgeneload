@@ -10,13 +10,14 @@
 
 cd `dirname $0` && source ../Configuration
 
+../archive.csh ${MOUSEDATADIR} ${MOUSEARCHIVEDIR}
+
 setenv LOG      ${MOUSEDATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
 date >> ${LOG}
 
-../archive.csh ${MOUSEDATADIR} ${MOUSEARCHIVEDIR}
 ./deleteExistingEntries.csh
 ./createExclude.csh
 ./createSets.csh
