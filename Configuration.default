@@ -62,7 +62,7 @@ set path = ($DBUTILITIESPATH/bin $path $SYBASE/ASE-12_5/bin $SYBASE/OCS-12_5/bin
 
 # FTP Data Files
 setenv FTPDATA1			/data/downloads/ftp.ncbi.nih.gov/gene/DATA
-setenv FTPDATA2			/data/downloads/ftp.ncbi.nih.gov/pub/HomoloGene/build36
+setenv FTPDATA2			/data/downloads/ftp.ncbi.nih.gov/pub/HomoloGene/current
 
 # MGI Schema Product
 setenv MGIDBSCHEMADIR   	/usr/local/mgi/live/dbutils/mgd/mgddbschema
