@@ -150,8 +150,12 @@ and a._Object_key = m._Marker_key
 and (
 (e.chromosome != '-' and e.chromosome not like '%|%' and e.chromosome != m.chromosome)
 or 
-(e.mapPosition != '-' and e.mapPosition != m.cytogeneticOffset)
+(e.mapPosition != '-' and e.mapPosition not like '%|%' and e.mapPosition != m.cytogeneticOffset)
 )
+go
+
+update WRK_EntrezGene_Mapping
+set egMapPosition = null where egMapPosition = '-'
 go
 
 EOSQL

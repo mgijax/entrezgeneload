@@ -33,7 +33,6 @@
 import sys
 import os
 import string
-import getopt
 import accessionlib
 import db
 import mgi_utils
@@ -41,36 +40,22 @@ import loadlib
 
 #globals
 
+taxId = os.environ['TAXID']
+datadir = os.environ['DATADIR']
+radar = os.environ['RADARDB']
 referenceKey = os.environ['REFERENCEKEY']	# _Refs_key of Reference
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
 
-accFileName = None
-accrefFileName = None
-diagFileName = None
+accFileName = datadir +  '/ACC_Accession.bcp'
+accrefFileName = datadir +  '/ACC_AccessionReference.bcp'
+diagFileName = datadir + '/accids.diagnostics'
 diagFile = ''
 
 accKey = 0	# primary key for Accession Numbers
 userKey = 0	# primary key for DB User
-taxId = None
-datadir = None
 
 loaddate = loadlib.loaddate 	# Creation/Modification date for all records
-radar = os.environ['RADARDB']
 
-def showUsage():
-	'''
-	# requires:
-	#
-	# effects:
-	# Displays the correct usage of this program and exits
-	# with status of 1.
-	#
-	# returns:
-	'''
- 
-	usage = 'usage: %s -O dataDirectory -T taxid\n' % sys.argv[0]
-	exit(1, usage)
- 
 def exit(status, message = None):
 	'''
 	# requires: status, the numeric exit status (integer)
@@ -110,32 +95,11 @@ def init():
 	'''
  
 	global accFile, accrefFile, diagFile
-	global accKey, userKey, taxId, datadir
- 
-	try:
-		optlist, args = getopt.getopt(sys.argv[1:], 'O:T:')
-	except:
-		showUsage()
- 
-	taxId = None
-	datadir = None
- 
-	for opt in optlist:
-                if opt[0] == '-O':
-                        datadir = opt[1]
-                elif opt[0] == '-T':
-                        taxId = opt[1]
-                else:
-                        showUsage()
- 
-	# User must specify Server, Database, User and Password
-	if taxId is None or datadir is None:
-		showUsage()
+	global accKey, userKey
  
         # Log all SQL
         db.set_sqlLogFunction(db.sqlLogAll)
 
-        diagFileName = datadir + '/accids.diagnostics'
         try:
             diagFile = open(diagFileName, 'w')
         except:
@@ -143,14 +107,6 @@ def init():
       
         # Set Log File Descriptor
         db.set_sqlLogFD(diagFile)
-
-        diagFile.write('Start Date/Time: %s\n' % (mgi_utils.date()))
-        diagFile.write('Server: %s\n' % (server))
-        diagFile.write('Database: %s\n' % (database))
-        diagFile.write('User: %s\n' % (user))
-    
-        accFileName = datadir +  '/ACC_Accession.bcp'
-        accrefFileName = datadir +  '/ACC_AccessionReference.bcp'
 
 	try:
 		accFile = open(accFileName, 'w')
@@ -169,7 +125,7 @@ def init():
 	results = db.sql('select maxKey = max(_Accession_key) + 1 from ACC_Accession', 'auto')
 	accKey = results[0]['maxKey']
 
-	userKey = loadlib.verifyUser(user, 0, None)
+	userKey = loadlib.verifyUser(db.get_sqlUser(), 0, None)
 
 def writeAccBCP():
 	'''

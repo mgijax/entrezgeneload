@@ -31,9 +31,7 @@ date >> ${LOG}
 ./createSets.csh
 ./createBuckets.csh
 ../runreports.csh ${HUMANDATADIR} ${HUMANARCHIVEDIR}
-../accids.py -O${HUMANDATADIR} -T${HUMANTAXID}
-cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_Accession in ${HUMANDATADIR}/ACC_Accession.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >>& $LOG}
-cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_AccessionReference in ${HUMANDATADIR}/ACC_AccessionReference.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >>& $LOG}
+../acc.csh ${HUMANDATADIR} ${HUMANTAXID}
 ../updateNomen.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID}
 
