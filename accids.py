@@ -45,6 +45,8 @@ datadir = os.environ['DATADIR']
 radar = os.environ['RADARDB']
 referenceKey = os.environ['REFERENCEKEY']	# _Refs_key of Reference
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
+logicalDBbyRef = os.environ['LOGICALDBBYREF']
+logicalDB = os.environ['LOGICALDB']
 
 accFileName = datadir +  '/ACC_Accession.bcp'
 accrefFileName = datadir +  '/ACC_AccessionReference.bcp'
@@ -142,7 +144,9 @@ def writeAccBCP():
 	global accKey, userKey
 
 	results = db.sql('select _Object_key, _LogicalDB_key, accID, private ' + \
-		'from %s..WRK_EntrezGene_Bucket0 where taxID = %s' % (radar, taxId), 'auto')
+		'from %s..WRK_EntrezGene_Bucket0 ' % (radar) + \
+		'where taxID = %s ' % (taxId) + \
+		'and _LogicalDB_Key in (%s)' % (logicalDBbyRef), 'auto')
 
 	for r in results:
 
@@ -150,6 +154,18 @@ def writeAccBCP():
 		accFile.write('%d|%s|%s|%s|%d|%d|%s|%d|1|%s|%s|%s|%s\n'
 			% (accKey, r['accID'], mgi_utils.prvalue(prefixPart), mgi_utils.prvalue(numericPart), r['_LogicalDB_key'], r['_Object_key'], mgiTypeKey, r['private'], userKey, userKey, loaddate, loaddate))
 		accrefFile.write('%d|%s|%s|%s|%s|%s\n' % (accKey, referenceKey, userKey, userKey, loaddate, loaddate))
+		accKey = accKey + 1
+
+	results = db.sql('select _Object_key, _LogicalDB_key, accID, private ' + \
+		'from %s..WRK_EntrezGene_Bucket0 ' % (radar) + \
+		'where taxID = %s ' % (taxId) + \
+		'and _LogicalDB_Key in (%s)' % (logicalDB), 'auto')
+
+	for r in results:
+
+		prefixPart, numericPart = accessionlib.split_accnum(r['accID'])
+		accFile.write('%d|%s|%s|%s|%d|%d|%s|%d|1|%s|%s|%s|%s\n'
+			% (accKey, r['accID'], mgi_utils.prvalue(prefixPart), mgi_utils.prvalue(numericPart), r['_LogicalDB_key'], r['_Object_key'], mgiTypeKey, r['private'], userKey, userKey, loaddate, loaddate))
 		accKey = accKey + 1
 
 #

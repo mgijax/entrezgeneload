@@ -104,7 +104,7 @@ go
 /***** RefSeq ids *****/
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${HUMANTAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.mgiID, r.rna, ${REFSEQPRIVATE}
+select distinct ${HUMANTAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.mgiID, r.rna, ${HUMANREFSEQPRIVATE}
 from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_RefSeq r
 where b.idType = 'EG'
 and b.mgiID = a.accID
@@ -115,7 +115,7 @@ and r.rna like 'NM_%'
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${HUMANTAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.mgiID, r.rna, ${REFSEQPRIVATE}
+select distinct ${HUMANTAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.mgiID, r.rna, ${HUMANREFSEQPRIVATE}
 from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_RefSeq r
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol

@@ -314,7 +314,7 @@ def bucket11(fp):
 
     db.sql('insert into #bucket11 ' + \
 	    'select distinct e.geneID, e.rna, category = "P" ' + \
-            'from %s..DP_EntrezGene_Accession e, ' % (radar) + \
+            'from %s..DP_EntrezGene_Accession e ' % (radar) + \
             'where e.taxid = %s ' % (taxID) + \
             'and e.rna != "-" ' + \
             'and e.rna not like "N%_%" ' + \
@@ -354,10 +354,13 @@ def bucket11(fp):
     # select sequences
     #
 
-    results = db.sql('select distinct geneID, rna, category from #bucket11 b, #probematch p ' + \
+    results = db.sql('select distinct b.geneID, b.rna, b.category from #bucket11 b, #probematch p ' + \
 	'where exists (select 1 from #bucket11refs r where b.geneID = r.geneID) ' + \
 	'and b.geneID = p.geneID ' + \
 	'and b.rna = p.rna ' + \
+        'union ' + \
+	'select distinct b.geneID, b.rna, b.category from #bucket11 b ' + \
+	'where exists (select 1 from #bucket11refs r where b.geneID = r.geneID) ' + \
 	'order by geneID, rna, category desc', 'auto')
     seqs = {}
     for r in results:

@@ -5,13 +5,13 @@
 
 #
 # Program:
-#	deleteRefSeqs.csh
+#	deleteIDs.csh
 #
 # Original Author:
 #	Lori Corbani
 #
 # Purpose:
-#	Delete RefSeq/Marker associations for given Organism
+#	Delete Marker/ID associations for given Organism
 #
 # Requirements Satisfied by This Program:
 #
@@ -41,12 +41,14 @@
 
 setenv DATADIR $1
 setenv ORGANISM $2
+setenv LOGICALDBBYREF $3
+setenv LOGICALDB $4
 
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
-echo "Begin: deleting RefSeq/Markers associations..." >> ${LOG}
+echo "Begin: deleting Marker associations..." >> ${LOG}
 date >> ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
@@ -54,8 +56,7 @@ cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
 use ${DBNAME}
 go
 
-
-/* remove existing LL assocations */
+/* remove existing assocations by reference */
 
 select a._Accession_key
 into #todelete
@@ -63,9 +64,9 @@ from ACC_Accession a, ACC_AccessionReference r, MRK_Marker m
 where r._Refs_key = ${REFERENCEKEY}
 and r._Accession_key = a._Accession_key 
 and a._MGIType_key = ${MARKERTYPEKEY}
-and a._LogicalDB_key = ${LOGICALREFSEQKEY}
+and a._LogicalDB_key in (${LOGICALDBBYREF})
 and a._Object_key = m._Marker_key
-and m._Organism_key = ${ORGANISMKEY}
+and m._Organism_key = ${ORGANISM}
 go
 
 create index idx1 on #todelete(_Accession_key)
@@ -81,9 +82,29 @@ from #todelete d, ACC_Accession a
 where d._Accession_key = a._Accession_key
 go
 
+drop table #todelete
+go
+
+select a._Accession_key
+into #todelete
+from ACC_Accession a, MRK_Marker m 
+where a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key in (${LOGICALDB})
+and a._Object_key = m._Marker_key
+and m._Organism_key = ${ORGANISM}
+go
+
+create index idx1 on #todelete(_Accession_key)
+go
+
+delete ACC_Accession
+from #todelete d, ACC_Accession a
+where d._Accession_key = a._Accession_key
+go
+
 quit
  
 EOSQL
  
 date >> ${LOG}
-echo "End: deleting RefSeq/Markers associations." >> ${LOG}
+echo "End: deleting Marker associations." >> ${LOG}
