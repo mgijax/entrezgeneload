@@ -12,10 +12,9 @@ use ${DBNAME}
 go
 
 print ""
-print "Bucket 2: New EntrezGene IDs Added"
+print "Bucket 2: New EntrezGene IDs Processed"
 print ""
-print "     New EntrezGene IDs added to MGI Human symbol"
-print "     based on Symbol and Seq ID match"
+print "     New EntrezGene IDs added to MGI Human symbol based on Symbol and Seq ID match"
 print ""
 
 select e.accID, m.symbol

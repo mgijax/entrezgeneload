@@ -18,11 +18,12 @@ print "     MGI Human Chromosomes and/or Mapping positions that required"
 print "     updates based on a EG ID match between MGI and EG."
 print ""
 
-select distinct e.geneID "EG ID", e.egSymbol "Symbol", 
+select distinct e.geneID "EG ID", substring(m.symbol,1,25) "Symbol", 
        e.mgiChr "MGI chromosome", e.mgiMapPosition "MGI Map Position",
-       e.egChr "EG chromosome", e.egMapPosition "EG Map Position"
-from ${RADARDB}..WRK_EntrezGene_Mapping e
+       e.egChr "EG chromosome", substring(e.egMapPosition,1,20) "EG Map Position"
+from ${RADARDB}..WRK_EntrezGene_Mapping e, MRK_Marker m
 where e.taxID = ${HUMANTAXID}
+and e._Marker_key = m._Marker_key
 order by e.geneID
 go
 

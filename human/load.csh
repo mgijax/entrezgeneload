@@ -25,22 +25,16 @@ touch ${LOG}
 
 date >> ${LOG}
 
-deleteOrphans.csh
-deleteRefSeqs.csh
-convertToEG.csh
-createSets.csh
-createBuckets.csh
-
-# run reports
-preload.csh >>& ${LOG}
-
-# process accession ids
-../accids.py -O${HUMANDATADIR} -T${HUMANTAXID} >> $LOG}
-cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_Accession in ${HUMANDATADIR}/ACC_Accession.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >> $LOG}
-cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_AccessionReference in ${HUMANDATADIR}/ACC_AccessionReference.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >> $LOG}
-
-# update nomenclature
-../updateNomen.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY} >>& ${LOG}
-../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID} >>& ${LOG}
+./deleteOrphans.csh
+./deleteRefSeqs.csh
+./convertToEG.csh
+./createSets.csh
+./createBuckets.csh
+../runreports.csh ${HUMANDATADIR} ${HUMANARCHIVEDIR}
+../accids.py -O${HUMANDATADIR} -T${HUMANTAXID}
+cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_Accession in ${HUMANDATADIR}/ACC_Accession.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >>& $LOG}
+cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_AccessionReference in ${HUMANDATADIR}/ACC_AccessionReference.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >>& $LOG}
+../updateNomen.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
+../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID}
 
 date >> ${LOG}
