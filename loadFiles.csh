@@ -58,6 +58,7 @@ cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene_history.gz ${EGINPUTDIR}
+cp ${FTPDATA2}/homologene.data ${EGINPUTDIR}
 
 # uncompress the files
 cd ${EGINPUTDIR}
@@ -74,9 +75,11 @@ cd ${EGINSTALLDIR}
 
 # truncate existing tables
 ${RADARDBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
+${RADARDBSCHEMADIR}/table/DP_HomoloGene_truncate.object >>& ${LOG}
 
 # drop indexes
 ${RADARDBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
+${RADARDBSCHEMADIR}/index/DP_HomoloGene_drop.object >>& ${LOG}
 
 # bcp new data into tables
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Accession in ${EGINPUTDIR}/gene2accession.new -c -t\\t -U${DBUSER} >>& ${LOG}
@@ -86,9 +89,11 @@ cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_PubMed in ${EGINPUTDIR}/ge
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_RefSeq in ${EGINPUTDIR}/gene2refseq.new -c -t\\t -U${DBUSER} >>& ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Synonym in ${EGINPUTDIR}/gene_synonym.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_History in ${EGINPUTDIR}/gene_history -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_HomoloGene in ${EGINPUTDIR}/homologene.data -c -t\\t -U${DBUSER} >>& ${LOG}
 
 # create indexes
 ${RADARDBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
+${RADARDBSCHEMADIR}/index/DP_HomoloGene_create.object >>& ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
  
