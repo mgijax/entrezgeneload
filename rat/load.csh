@@ -21,7 +21,7 @@ date >> ${LOG}
 ../createSets.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
 ./createBuckets.csh
 ../runreports.csh ${RATDATADIR} ${RATARCHIVEDIR}
-../acc.csh ${RATDATADIR} ${RATTAXID} "${LOGICALREFSEQKEY}" "${LOGICALRGDKEY},${LOGICALRATMAPKEY}"
+../acc.csh ${RATDATADIR} ${RATTAXID}
 ../updateNomen.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
 ../updateMapping.csh ${RATDATADIR} ${RATTAXID}
 

@@ -45,8 +45,6 @@ datadir = os.environ['DATADIR']
 radar = os.environ['RADARDB']
 referenceKey = os.environ['REFERENCEKEY']	# _Refs_key of Reference
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
-logicalDBbyRef = os.environ['LOGICALDBBYREF']
-logicalDB = os.environ['LOGICALDB']
 
 accFileName = datadir +  '/ACC_Accession.bcp'
 accrefFileName = datadir +  '/ACC_AccessionReference.bcp'
@@ -143,10 +141,11 @@ def writeAccBCP():
 
 	global accKey, userKey
 
+	# records that require a reference
+
 	results = db.sql('select _Object_key, _LogicalDB_key, accID, private ' + \
 		'from %s..WRK_EntrezGene_Bucket0 ' % (radar) + \
-		'where taxID = %s ' % (taxId) + \
-		'and _LogicalDB_Key in (%s)' % (logicalDBbyRef), 'auto')
+		'where taxID = %s and refRequired = 1' % (taxId), 'auto')
 
 	for r in results:
 
@@ -156,10 +155,11 @@ def writeAccBCP():
 		accrefFile.write('%d|%s|%s|%s|%s|%s\n' % (accKey, referenceKey, userKey, userKey, loaddate, loaddate))
 		accKey = accKey + 1
 
+	# records that don't require a reference
+
 	results = db.sql('select _Object_key, _LogicalDB_key, accID, private ' + \
 		'from %s..WRK_EntrezGene_Bucket0 ' % (radar) + \
-		'where taxID = %s ' % (taxId) + \
-		'and _LogicalDB_Key in (%s)' % (logicalDB), 'auto')
+		'where taxID = %s and refRequired = 0' % (taxId), 'auto')
 
 	for r in results:
 

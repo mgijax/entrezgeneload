@@ -42,8 +42,6 @@
 
 setenv DATADIR $1
 setenv TAXID $2
-setenv LOGICALDBBYREF $3
-setenv LOGICALDB $4
 
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
