@@ -63,10 +63,29 @@ def splitSeqIdV(seqIdVersion):      # String - seqId.version
 # Main
 #
 
+accFile = open('gene2accession', 'r')
+newaccFile = open('gene2accession.new', 'w')
+for line in accFile.readlines():
+	[taxID, geneID, status, rna, rnaGI, protein, proteinGI, genomic, genomicGI, startPos, endPos, orient] = string.splitfields(line[:-1], TAB)
+	[newRNA, version] = splitSeqIdV(rna)
+	[newProtein, version] = splitSeqIdV(protein)
+	[newGenomic, version] = splitSeqIdV(genomic)
+	newaccFile.write(taxID + TAB + \
+			 geneID + TAB + \
+			 status + TAB + \
+			 newRNA + TAB + \
+			 rnaGI + TAB + \
+			 newProtein + TAB + \
+			 proteinGI + TAB + \
+			 newGenomic + TAB + \
+			 genomicGI + TAB + \
+			 startPos + TAB + \
+			 endPos + TAB + \
+			 orient + CRT)
+newaccFile.close()
+
 refFile = open('gene2refseq', 'r')
-
 newrefFile = open('gene2refseq.new', 'w')
-
 for line in refFile.readlines():
 	[taxID, geneID, status, rna, rnaGI, protein, proteinGI, genomic, genomicGI, startPos, endPos, orient] = string.splitfields(line[:-1], TAB)
 	[newRNA, version] = splitSeqIdV(rna)
@@ -84,6 +103,5 @@ for line in refFile.readlines():
 			 startPos + TAB + \
 			 endPos + TAB + \
 			 orient + CRT)
-
 newrefFile.close()
 

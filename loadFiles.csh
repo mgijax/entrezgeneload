@@ -44,7 +44,7 @@ ${RADARDBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
 ${RADARDBSCHEMADIR}/index/DP_HomoloGene_drop.object >>& ${LOG}
 
 # bcp new data into tables
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Accession in gene_accession.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Accession in gene2accession.new -c -t\\t -U${DBUSER} >>& ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Info in gene_info.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_DBXRef in gene_dbxref.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_PubMed in gene2pubmed -c -t\\t -U${DBUSER} >>& ${LOG}
