@@ -49,7 +49,7 @@ touch ${LOG}
 
 date >> ${LOG}
 
-./accids.py
+../accids.py
 cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_Accession in ${DATADIR}/ACC_Accession.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >>& $LOG}
 cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_AccessionReference in ${DATADIR}/ACC_AccessionReference.bcp -c -t\| -S${DBSERVER} -U${DBUSER}
 

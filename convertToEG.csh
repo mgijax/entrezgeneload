@@ -58,7 +58,7 @@ from ACC_Accession a, MRK_Marker m
 where a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = 24
 and a._Object_key = m._Marker_key
-and m._Organism_key = != ${MOUSESPECIESKEY}
+and m._Organism_key != ${MOUSESPECIESKEY}
 go
 
 create index idx1 on #toupdate(_Accession_key)

@@ -30,8 +30,8 @@ date >> ${LOG}
 ../createSets.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ./createBuckets.csh
 ../runreports.csh ${HUMANDATADIR} ${HUMANARCHIVEDIR}
-../acc.csh ${HUMANDATADIR} ${HUMANTAXID}
-../updateNomen.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
-../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID}
+#../acc.csh ${HUMANDATADIR} ${HUMANTAXID}
+#../updateNomen.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
+#../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID}
 
 date >> ${LOG}

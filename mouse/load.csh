@@ -21,8 +21,6 @@ date >> ${LOG}
 ./createSets.csh
 ./createBuckets.csh
 ../runreports.csh ${MOUSEDATADIR} ${MOUSEARCHIVEDIR}
-../accids.py -O${MOUSEDATADIR} -T${MOUSETAXID}
-#cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_Accession in ${MOUSEDATADIR}/ACC_Accession.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >>& $LOG}
-#cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_AccessionReference in ${MOUSEDATADIR}/ACC_AccessionReference.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >>& $LOG}
+../acc.csh ${MOUSEDATADIR} ${MOUSETAXID}
 
 date >> ${LOG}
