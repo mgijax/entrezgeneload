@@ -69,9 +69,9 @@ end
 # parse out mouse, human, rat only
 foreach i (gene2accession gene2pubmed gene2refseq gene_info gene_history)
 rm -rf $i.mgi
-grep ${MOUSETAXID} $i > $i.mgi
-grep ${HUMANTAXID} $i >> $i.mgi
-grep ${RATTAXID} $i >> $i.mgi
+grep "^${MOUSETAXID}" $i > $i.mgi
+grep "^${HUMANTAXID}" $i >> $i.mgi
+grep "^${RATTAXID}" $i >> $i.mgi
 end
 
 # split up gene_info.mgi into gene_info.bcp, gene_dbxref.bcp, gene_synonym.bcp
