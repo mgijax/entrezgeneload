@@ -43,18 +43,16 @@ and not exists (select 1 from WRK_EntrezGene_ExcludeA x where e.geneID = x.geneI
 and not exists (select 1 from WRK_EntrezGene_ExcludeC x where e.geneID = x.geneID)
 go
 
-/* RNA GenBank IDs (excluding XM) */
+/* RNA GenBank IDs */
 /* excludes GenBank IDs that exist in any of the "excluded" buckets */
 
 insert into WRK_EntrezGene_EGSet
-select e.geneID, a.rna, 'Gen'
-from DP_EntrezGene_Info e, DP_EntrezGene_Accession a
+select e.geneID, e.rna, 'Gen'
+from DP_EntrezGene_Accession e
 where e.taxID = ${MOUSETAXID}
-and e.geneID = a.geneID
-and a.rna != '-'
-and a.rna not like 'XM_%'
+and e.rna != '-'
 and not exists (select 1 from WRK_EntrezGene_ExcludeA x where e.geneID = x.geneID)
-and not exists (select 1 from WRK_EntrezGene_ExcludeB x where a.rna = x.seqID)
+and not exists (select 1 from WRK_EntrezGene_ExcludeB x where e.rna = x.seqID)
 and not exists (select 1 from WRK_EntrezGene_ExcludeC x where e.geneID = x.geneID)
 go
 
@@ -62,13 +60,12 @@ go
 /* excludes GenBank IDs that exist in any of the "excluded" buckets */
 
 insert into WRK_EntrezGene_EGSet
-select e.geneID, a.genomic, 'Gen'
-from DP_EntrezGene_Info e, DP_EntrezGene_Accession a
+select e.geneID, e.genomic, 'Gen'
+from DP_EntrezGene_Accession e
 where e.taxID = ${MOUSETAXID}
-and e.geneID = a.geneID
-and a.genomic != '-'
+and e.genomic != '-'
 and not exists (select 1 from WRK_EntrezGene_ExcludeA x where e.geneID = x.geneID)
-and not exists (select 1 from WRK_EntrezGene_ExcludeB x where a.genomic = x.seqID)
+and not exists (select 1 from WRK_EntrezGene_ExcludeB x where e.genomic = x.seqID)
 and not exists (select 1 from WRK_EntrezGene_ExcludeC x where e.geneID = x.geneID)
 go
 

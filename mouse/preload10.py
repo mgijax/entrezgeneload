@@ -92,6 +92,52 @@ fp.write(string.ljust('------------', 15) + SPACE)
 fp.write(string.ljust('----', 25) + SPACE)
 fp.write(string.ljust('------------', 50) + CRT)
 
+/* select unpublished... */
+/* select all EntrezGene records for which none of its non-genomic genbank ids can be found attached */
+/* to an MGI Marker or an MGI Probe */
+/* */
+
+select distinct e.geneID
+into #matchFound
+from ${RADARDB}..DP_EntrezGene_Accession e, ACC_Accession a
+where a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALSEQKEY}
+and a.accID = e.rna
+and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_ExcludeA x where x.geneID = e.geneID)
+go
+ 
+create nonclustered index index_locusID on #matchFound(locusID)
+go
+
+db.sql(
+select e.geneID
+from ${RADARDB}..DP_EntrezGene_Accession e
+where e.taxid = ${MOUSETAXID}
+and e.rna not like 'N%_%'
+and e.rna not like 'X%_%'
+and not exists (select 1 from
+
+select l.locusID, l.osymbol, l.isymbol, l.gsdbID, a.genbankID, printGB = a.genbankID
+from ${RADARDB}..DP_LL l, ${RADARDB}..DP_LLAcc a
+where l.taxid = ${MOUSETAXID}
+and l.locusID = a.locusID
+and a.genbankID not like "NM%"
+and a.genbankID not like "CAAA%"
+and a.seqType != "g"
+and not exists (select 1 from #matchFound m
+where l.locusID = m.locusID)
+and not exists (select 1 from ACC_Accession ma
+where ma._MGIType_key = ${MARKERTYPEKEY}
+and ma._LogicalDB_key = ${LOGICALSEQKEY}
+and ma.accID = a.genbankID)
+and not exists (select 1 from ACC_Accession ma
+where ma._MGIType_key = ${PROBETYPEKEY}
+and ma._LogicalDB_key = ${LOGICALSEQKEY}
+and ma.accID = a.genbankID)
+and not exists (select 1 from ${RADARDB}..DP_LLCit c
+where l.locusID = c.locusID)
+go
+
 cmds = []
 
 # list of unique geneids/genbank ids from Bucket 10

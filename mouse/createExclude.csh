@@ -157,34 +157,30 @@ go
 
 insert into ${RADARDB}..WRK_EntrezGene_ExcludeB
 select m.seqID, m.mgiID, e.geneID
-from #mgimult2 m, ${RADARDB}..DP_EntrezGene_Info e, ${RADARDB}..DP_EntrezGene_Accession ea
+from #mgimult2 m, ${RADARDB}..DP_EntrezGene_Accession e
 where e.taxID = ${MOUSETAXID}
-and e.geneID = ea.geneID
-and ea.rna = m.seqID
+and e.rna = m.seqID
 go
 
 insert into ${RADARDB}..WRK_EntrezGene_ExcludeB
 select m.seqID, m.mgiID, e.geneID
-from #mgimult2 m, ${RADARDB}..DP_EntrezGene_Info e, ${RADARDB}..DP_EntrezGene_Accession ea
+from #mgimult2 m, ${RADARDB}..DP_EntrezGene_Accession e
 where e.taxID = ${MOUSETAXID}
-and e.geneID = ea.geneID
-and ea.genomic = m.seqID
+and e.genomic = m.seqID
 go
 
 insert into ${RADARDB}..WRK_EntrezGene_ExcludeB
 select p.seqID, p.mgiID, e.geneID
-from #probes2 p, ${RADARDB}..DP_EntrezGene_Info e, ${RADARDB}..DP_EntrezGene_Accession ea
+from #probes2 p, ${RADARDB}..DP_EntrezGene_Accession e
 where e.taxID = ${MOUSETAXID}
-and e.geneID = ea.geneID
-and ea.rna = p.seqID
+and e.rna = p.seqID
 go
 
 insert into ${RADARDB}..WRK_EntrezGene_ExcludeB
 select p.seqID, p.mgiID, e.geneID
-from #probes2 p, ${RADARDB}..DP_EntrezGene_Info e, ${RADARDB}..DP_EntrezGene_Accession ea
+from #probes2 p, ${RADARDB}..DP_EntrezGene_Accession e
 where e.taxID = ${MOUSETAXID}
-and e.geneID = ea.geneID
-and ea.genomic = p.seqID
+and e.genomic = p.seqID
 go
 
 /***** Exclude C *****/
@@ -192,18 +188,16 @@ go
 
 select s.seqID, s.mgiID, e.geneID
 into #egToMGI1
-from #mgisingle2 s, ${RADARDB}..DP_EntrezGene_Info e, ${RADARDB}..DP_EntrezGene_Accession ea
+from #mgisingle2 s, ${RADARDB}..DP_EntrezGene_Accession e
 where e.taxID = ${MOUSETAXID}
-and e.geneID = ea.geneID
-and ea.rna = s.seqID
+and e.rna = s.seqID
 go
 
 insert into #egToMGI1
 select s.seqID, s.mgiID, e.geneID
-from #mgisingle2 s, ${RADARDB}..DP_EntrezGene_Info e, ${RADARDB}..DP_EntrezGene_Accession ea
+from #mgisingle2 s, ${RADARDB}..DP_EntrezGene_Accession e
 where e.taxID = ${MOUSETAXID}
-and e.geneID = ea.geneID
-and ea.genomic = s.seqID
+and e.genomic = s.seqID
 go
 
 create index idx1 on #egToMGI1(geneID)
