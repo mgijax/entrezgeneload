@@ -48,7 +48,6 @@ touch ${LOG}
 date >> ${LOG}
 
 loadFiles.csh >> ${LOG}
-convertToEG.csh >> ${LOG}
 updateIDs.csh >> ${LOG}
 mouse/load.csh >> ${LOG}
 human/load.csh >> ${LOG}
