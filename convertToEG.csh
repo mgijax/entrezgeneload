@@ -82,14 +82,14 @@ create index idx1 on #todelete(_Accession_key)
 go
 
 delete ACC_Accession
-from #delete d, ACC_Accession a
+from #todelete d, ACC_Accession a
 where d._Accession_key = a._Accession_key
 go
 
 delete from ACC_ActualDB where _LogicalDB_key = 2
 go
 
-delete from from ACC_LogicalDB where _LogicalDB_key = 2
+delete from ACC_LogicalDB where _LogicalDB_key = 2
 go
 
 quit
