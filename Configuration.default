@@ -8,40 +8,22 @@
 #
 
 # install directory
-setenv INSTALLDIR		/usr/local/mgi/live/dataload/locuslinkload
+setenv INSTALLDIR		/usr/local/mgi/live/dataload/entrezgeneload
 
 # system doc directory
-setenv SYSTEMDOCDIR	$INSTALLDIR/system_docs
+setenv SYSTEMDOCDIR		${INSTALLDIR}/system_docs
 
 # data directory
-setenv DATADIR		$INSTALLDIR/data
+setenv DATADIR			/data/loads/entrezgene/entrezgeneload
 
-# mouse data directory
-setenv MOUSEDATADIR       	$INSTALLDIR/data/mouse
+# input directory
+setenv INPUTDIR			${DATADIR}/input
 
-# human data directory
-setenv HUMANDATADIR       	$INSTALLDIR/data/human
-
-# rat data directory
-setenv RATDATADIR       	$INSTALLDIR/data/rat
+# logs directory
+setenv LOGSDIR			${DATADIR}/logs
 
 # archive directory
-setenv ARCHIVEDIR		$DATADIR/archive
-
-# archive directory
-setenv MOUSEARCHIVEDIR		$DATADIR/archive/mouse
-
-# archive directory
-setenv HUMANARCHIVEDIR		$DATADIR/archive/human
-
-# archive directory
-setenv RATARCHIVEDIR		$DATADIR/archive/rat
-
-# HUGO directory
-setenv HUGOFTPDIR               gondor:/export/gondor/ftp/private/hes
-
-# Nomen Load
-setenv NOMEN                /usr/local/mgi/live/dataload/nomenload/nomenload.py
+setenv ARCHIVEDIR		${DATADIR}/archive
 
 # SYBASE
 setenv SYBASE	/opt/sybase/12.5
@@ -68,97 +50,6 @@ setenv MGIDBSCHEMADIR   /usr/local/mgi/live/dbutils/mgd/mgddbschema
 # RADAR Schema Product
 setenv RADARDBSCHEMADIR /usr/local/mgi/live/dbutils/radar/radardbschema
 setenv RADARDBPERMSDIR  /usr/local/mgi/live/dbutils/radar/radardbperms
-
-
-# Species Key for Mouse
-setenv MOUSESPECIESKEY	1
-
-# Species Key for Human
-setenv HUMANSPECIESKEY	2
-
-# Species Key for Rat
-setenv RATSPECIESKEY	40
-
-# LL Taxinomic ID for Mouse
-setenv MOUSETAXID	10090
-
-# LL Taxinomic ID for Human
-setenv HUMANTAXID	9606
-
-# LL Taxinomic ID for Rat
-setenv RATTAXID	10116
-
-# MGI Type Key for Marker
-setenv MARKERTYPEKEY	2
-
-# MGI Type Key for Probe
-setenv PROBETYPEKEY     3
-
-# Logical Key for Sequence ID
-setenv LOGICALSEQKEY	9
-
-# Logical Key for LocusLink ID
-setenv LOGICALLLKEY	24
-
-# Logical Key for GDB
-setenv LOGICALGDBKEY	2
-
-# Logical Key for RGD
-setenv LOGICALRGDKEY	47
-
-# Logical Key for RatMap
-setenv LOGICALRATMAPKEY	4
-
-# Private flag for Mouse LocusLink ID (0 = no, 1 = yes)
-setenv MOUSELLPRIVATE	0
-
-# Private flag for Human LocusLink ID (0 = no, 1 = yes)
-setenv HUMANLLPRIVATE	0
-
-# Private flag for Human GDB ID (0 = no, 1 = yes)
-setenv HUMANGDBPRIVATE	0
-
-# Private flag for Rat LocusLink ID (0 = no, 1 = yes)
-setenv RATLLPRIVATE	0
-
-# Private flag for RGD ID (0 = no, 1 = yes)
-setenv RATMAPPRIVATE	0
-
-# Private flag for RatMap ID (0 = no, 1 = yes)
-setenv RGDPRIVATE	0
-
-# Logical Key for RefSeq ID
-setenv LOGICALREFSEQKEY	27
-
-# Logical Key for EntrezGene ID
-setenv LOGICALENTREZGENEKEY     55
-
-# Private flag for RefSeq ID (0 = no, 1 = yes)
-setenv REFSEQPRIVATE	0
-
-# Private flag for RefSeq ID (0 = no, 1 = yes)
-setenv HUMANREFSEQPRIVATE	1
-
-# Reference for Mouse Load J:63103
-setenv MOUSEREFERENCEKEY	64047
-
-# Reference for Human Load J:63103
-setenv HUMANREFERENCEKEY	64047
-
-# Report header/trailer scripts
-setenv REPORTHEADER     /mgi/software/customSQL/bin/header.sh
-setenv REPORTTRAILER    /mgi/software/customSQL/bin/trailer
-
-# MGC Configurations
-
-setenv MGCFILE                  $MOUSEDATADIR/MGC.in
-setenv MGCJNUM                  'J:77000'
-setenv MGCREFSKEY		78900
-setenv MGCSEQDB                 'Sequence DB'
-setenv MGCMARKERTYPE            'Gene'
-setenv MGCMARKERSTATUS          'Unreviewed'
-setenv MGCCHROMOSOME            'UN'
-setenv MGCSUBMITTER             'djr'
 
 # initialize RADAR DB value
 source ${RADARDBSCHEMADIR}/Configuration
