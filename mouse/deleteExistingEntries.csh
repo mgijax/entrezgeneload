@@ -22,16 +22,25 @@ cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
 use ${DBNAME}
 go
 
-/* remove existing LL assocations */
+select m._Marker_key
+into #markers
+from MRK_Marker m
+where m._Organism_key = ${MOUSESPECIESKEY}
+go
+
+create index idx1 on #markers(_Marker_key)
+go
+
+/* remove existing EntrezGene assocations */
 
 select a._Accession_key
 into #todelete
-from ACC_Accession a, ACC_AccessionReference r, MRK_Marker m 
-where r._Refs_key = ${REFERENCEKEY}
+from #markers m, ACC_Accession a, ACC_AccessionReference r
+where m._Marker_key = a._Object_key
+and r._Refs_key = ${REFERENCEKEY}
 and r._Accession_key = a._Accession_key 
 and a._MGIType_key = ${MARKERTYPEKEY}
 and a._Object_key = m._Marker_key
-and m._Organism_key = ${MOUSESPECIESKEY}
 go
 
 create index idx1 on #todelete(_Accession_key)
