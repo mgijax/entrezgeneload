@@ -360,16 +360,15 @@ def bucket11(fp):
     for r in results:
         key = r['geneID']
         value = r['rna']
-        pvalue = r['rna']
+        pvalue = r['rna'] + '*'
     
         if not seqs.has_key(key):
 	    seqs[key] = []
 
         if r['category'] == 'P':
-	    pvalue = value + '*'
 	    value = pvalue
 
-        if value not in seqs[key] and pvalue not in seqs[key]:
+        if value not in seqs[key]:
             seqs[key].append(value)
 
     #
@@ -465,16 +464,15 @@ def bucket12(fp):
     for r in results:
         key = r['geneID']
         value = r['rna']
-        pvalue = r['rna']
+        pvalue = r['rna'] + '*'
 
         if not seqs.has_key(key):
 	    seqs[key] = []
 
         if r['category'] == 'P':
-	    pvalue = value + '*'
 	    value = pvalue
 
-        if value not in seqs[key] and pvalue not in seqs[key]:
+        if value not in seqs[key]:
             seqs[key].append(value)
 
     rows = 0

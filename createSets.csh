@@ -54,7 +54,7 @@ and a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
 go
 
-/* set of rat symbols that do not have EG ids */
+/* set of symbols that do not have EG ids */
 
 select m.symbol, m._Marker_key
 into #noeg
@@ -74,7 +74,7 @@ select ${TAXID}, symbol, symbol, 'Symbol'
 from #noeg
 go
 
-/* curated GenBank IDs for rat symbols that do not have EG ids */
+/* curated GenBank IDs for symbols that do not have EG ids */
 
 insert into ${RADARDB}..WRK_EntrezGene_MGISet
 select ${TAXID}, n.symbol, a.accID, 'Gen'
@@ -95,12 +95,6 @@ insert into WRK_EntrezGene_EGSet
 select e.taxID, e.geneID, e.geneID, 'EG'
 from DP_EntrezGene_Info e
 where e.taxID = ${TAXID}
-union
-insert into WRK_EntrezGene_EGSet
-select e.taxID, e.geneID, e.oldgeneID, 'EG'
-from DP_EntrezGene_History e
-where e.taxID = ${TAXID}
-and e.geneID != '-'
 go
 
 /* EG symbols */
