@@ -12,7 +12,7 @@
 #
 # Assumes:
 #
-#	taxId ${RADARDB}..EntrezGeneBucket0 exists
+#	${RADARDB}..WRK_EntrezGene_Bucket0 exists
 #
 # Output:
 #
@@ -68,10 +68,7 @@ def showUsage():
 	# returns:
 	'''
  
-	usage = 'usage: %s -S server\n' % sys.argv[0] + \
-		'-D database\n' + \
-		'-U user\n' + \
-		'-P password file\n'
+	usage = 'usage: %s -O dataDirectory -T taxid\n' % sys.argv[0]
 	exit(1, usage)
  
 def exit(status, message = None):
@@ -97,7 +94,6 @@ def exit(status, message = None):
 	except:
 		pass
 
-	db.useOneConnection()
 	sys.exit(status)
  
 def init():
@@ -117,32 +113,15 @@ def init():
 	global accKey, userKey, taxId, datadir
  
 	try:
-		optlist, args = getopt.getopt(sys.argv[1:], 'S:D:U:P:T:O:')
+		optlist, args = getopt.getopt(sys.argv[1:], 'O:T:')
 	except:
 		showUsage()
  
-	#
-	# Set server, database, user, passwords depending on options
-	# specified by user.
-	#
- 
-	server = None
-	database = None
-	user = None
-	password = None
 	taxId = None
 	datadir = None
  
 	for opt in optlist:
-                if opt[0] == '-S':
-                        server = opt[1]
-                elif opt[0] == '-D':
-                        database = opt[1]
-                elif opt[0] == '-U':
-                        user = opt[1]
-                elif opt[0] == '-P':
-                        password = string.strip(open(opt[1], 'r').readline())
-                elif opt[0] == '-O':
+                if opt[0] == '-O':
                         datadir = opt[1]
                 elif opt[0] == '-T':
                         taxId = opt[1]
@@ -150,12 +129,8 @@ def init():
                         showUsage()
  
 	# User must specify Server, Database, User and Password
-	if server is None or database is None or user is None or password is None or taxId is None or datadir is None:
+	if taxId is None or datadir is None:
 		showUsage()
- 
-	# Initialize db.py DBMS parameters
-	db.set_sqlLogin(user, password, server, database)
-	db.useOneConnection(1)
  
         # Log all SQL
         db.set_sqlLogFunction(db.sqlLogAll)
