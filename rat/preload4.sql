@@ -12,7 +12,7 @@ use ${DBNAME}
 go
 
 print ""
-print "Duplicate Rat Symbols found in MGI"
+print "Bucket 4:  Duplicate Rat Symbols found in MGI"
 print ""
 
 select symbol

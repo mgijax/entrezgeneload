@@ -12,8 +12,8 @@
 #	Lori Corbani
 #
 # Purpose:
-#	Update all MGI EntrezGene ids to their "preferred" values
-#	using the EntrezGene history file.
+#	Update all MGI Human/Rat EntrezGene ids to their 
+#	"preferred" values using the EntrezGene history file.
 #
 # Requirements Satisfied by This Program:
 #
@@ -55,7 +55,7 @@ cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
 use ${DBNAME}
 go
 
-/* existing EntrezGene ids that are obsolete and need to be mapped to current ids */
+/* existing Human/Rat EntrezGene ids that are obsolete and need to be mapped to current ids */
 
 select a._Accession_key, e.geneID
 into #toupdate

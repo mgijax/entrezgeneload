@@ -139,6 +139,9 @@ setenv REFSEQPRIVATE	0
 # Private flag for RefSeq ID (0 = no, 1 = yes)
 setenv HUMANREFSEQPRIVATE	1
 
+# Private flag for RefSeq ID (0 = no, 1 = yes)
+setenv RATREFSEQPRIVATE	1
+
 # Reference for Load J:63103
 setenv REFERENCEKEY	64047
 

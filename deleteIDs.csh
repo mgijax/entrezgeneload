@@ -85,6 +85,9 @@ go
 drop table #todelete
 go
 
+/* remove existing associations by logical DB only */
+/* for example, RGD ids, RATMAP ids, etc. */
+
 select a._Accession_key
 into #todelete
 from ACC_Accession a, MRK_Marker m 
