@@ -33,6 +33,7 @@ date >> ${LOG}
 ./createBuckets.csh
 ../runreports.csh ${HUMANDATADIR}
 ../acc.csh ${HUMANDATADIR} ${HUMANTAXID}
+../syns.csh ${HUMANDATADIR} ${HUMANTAXID}
 ../updateNomen.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID}
 
