@@ -79,12 +79,12 @@ go
 insert into ${RADARDB}..WRK_EntrezGene_MGISet
 select a1.accID, a2.accID, 'MGI'
 from ACC_Accession a1, ACC_Accession a2
-where a1._MGIType_key = 2
+where a1._MGIType_key = ${MARKERTYPEKEY}
 and a1._LogicalDB_key = 1
 and a1.prefixPart = 'MGI:'
 and a1.preferred = 1
 and a1._Object_key = a2._Object_key
-and a2._MGIType_key = 2
+and a2._MGIType_key = ${MARKERTYPEKEY}
 and a2._LogicalDB_key = 1
 and a2.prefixPart = 'MGI:'
 and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_ExcludeA x where a1.accID = x.mgiID)
@@ -96,13 +96,13 @@ go
 insert into ${RADARDB}..WRK_EntrezGene_MGISet
 select a1.accID, a2.accID, 'Gen'
 from ACC_Accession a1, ACC_Accession a2
-where a1._MGIType_key = 2
+where a1._MGIType_key = ${MARKERTYPEKEY}
 and a1._LogicalDB_key = 1
 and a1.prefixPart = 'MGI:'
 and a1.preferred = 1
 and a1._Object_key = a2._Object_key
-and a2._MGIType_key = 2
-and a2._LogicalDB_key = 9
+and a2._MGIType_key = ${MARKERTYPEKEY}
+and a2._LogicalDB_key = ${LOGICALSEQKEY}
 and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_ExcludeA x where a1.accID = x.mgiID)
 and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_ExcludeB x where a2.accID = x.seqID)
 and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_ExcludeC x where a1.accID = x.mgiID)

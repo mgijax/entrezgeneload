@@ -19,11 +19,9 @@ date | tee -a ${LOG}
 
 # truncate tables
 ${RADARDBSCHEMADIR}/table/WRK_EntrezGene_Bucket0_truncate.object | tee -a ${LOG}
-${RADARDBSCHEMADIR}/table/WRK_EntrezGene_Bucket10_truncate.object | tee -a ${LOG}
 
 # drop indexes
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_drop.object | tee -a ${LOG}
-${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Bucket10_drop.object | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
  
@@ -84,7 +82,7 @@ create index idx2 on #uniqmatches2(mgiID)
 go
 
 /*** Bucketizing ***/
-/* for this algorithm, we are only interested in 1:1 and 1:N (aka Bucket 10) */
+/* for this algorithm, we are only interested in 1:1 */
 
 /* EntrezGene (?), MGI (N) */
 select geneID, mgiID
@@ -118,34 +116,6 @@ go
 
 create index idx1 on #bucket0(mgiID)
 create index idx2 on #bucket0(geneID)
-go
-
-/* EntrezGene (N), MGI (N) */
-select distinct eg1 = s1.geneID, mgi1 = s1.mgiID, eg2 = s2.geneID, mgi2 = s2.mgiID
-into #bucket5 
-from #s1N s1, #s2N s2 
-where s1.geneID = s2.geneID
-or s1.mgiID = s2.mgiID
-go
-
-create index idx1 on #bucket5(eg1)
-create index idx2 on #bucket5(mgi1)
-create index idx3 on #bucket5(eg2)
-create index idx4 on #bucket5(mgi2)
-go
-
-/* EntrezGene (1), MGI (N) */
-select distinct geneID, mgiID
-into #bucket10
-from #s1N s
-where not exists (select 1 from #bucket5 t where s.geneID = t.eg1)
-and not exists (select 1 from #bucket5 t where s.mgiID = t.mgi1)
-and not exists (select 1 from #bucket5 t where s.geneID = t.eg2)
-and not exists (select 1 from #bucket5 t where s.mgiID = t.mgi2)
-go
-
-create index idx1 on #bucket10(mgiID)
-create index idx2 on #bucket10(geneID)
 go
 
 /* EG ids */
@@ -186,17 +156,10 @@ and ma._LogicalDB_key = ${LOGICALSEQKEY}
 and r.rna = ma.accID)
 go
 
-/*insert into WRK_EntrezGene_Bucket10 */
-/*select distinct b.geneID, e.symbol, b.mgiID, b.uID */
-/*from #bucket10 b, DP_EntrezGene_Info e */
-/*where b.geneID = e.geneID */
-/*go */
-
 EOSQL
  
 # create indexes
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_create.object | tee -a ${LOG}
-${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Bucket10_create.object | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating mouse buckets." | tee -a ${LOG}

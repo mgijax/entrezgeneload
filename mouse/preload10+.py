@@ -434,7 +434,7 @@ def bucket12(fp):
     fp.write(string.ljust('-----------', 11) + CRT)
 
     #
-    # create bucket 12 from bucket 11; this time we're interested in thos records
+    # create bucket 12 from bucket 11; this time we're interested in those records
     # that don't have a reference in MGI
     #
 
@@ -444,7 +444,9 @@ def bucket12(fp):
 	'where not exists (select 1 from #bucket11refs r where b.geneID = r.geneID)', None)
     db.sql('create index idx1 on #bucket12(geneID)', None)
 
-    results = db.sql('select distinct geneID, pubMedID from #bucket11refs order by geneID', 'auto')
+    results = db.sql('select b.geneID, c.pubMedID ' + \
+	    'from #bucket12 b, %s..DP_EntrezGene_PubMed c ' % (radar) + \
+	    'where b.geneID = c.geneID ', 'auto')
     refs = {}
     for r in results:
         key = r['geneID']
