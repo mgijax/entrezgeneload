@@ -17,10 +17,10 @@ setenv SYSTEMDOCDIR		${EGINSTALLDIR}/system_docs
 setenv EGDATADIR		/data/loads/entrezgene/entrezgeneload
 
 # input directory
-setenv EGINPUTDATADIR           ${EGDATADIR}/input
+setenv EGINPUTDIR           	${EGDATADIR}/input
 
 # logs directory
-setenv EGLOGSDATADIR            ${EGDATADIR}/logs
+setenv EGLOGSDIR            	${EGDATADIR}/logs
 
 # mouse data directory
 setenv MOUSEDATADIR       	${EGDATADIR}/output/mouse
