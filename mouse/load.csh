@@ -19,12 +19,16 @@ setenv LOG      ${MOUSEDATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
-echo "Performing Mouse load..." >> ${LOG}
+echo "Begin: Mouse load..." >> ${LOG}
 date >> ${LOG}
 
-LLcreateTempTables.sh
-LLpreload.sh
-LLaccids.py -S${DBSERVER} -D${DBNAME} -U${DBUSER} -P${DBPASSWORDFILE} >> ${LOG}
+deleteExistingEntries.csh
+createExclude.csh
+createSets.csh
+createBuckets.csh
+exit 0
+preload.csh
+accids.py -S${DBSERVER} -D${DBNAME} -U${DBUSER} -P${DBPASSWORDFILE} >> ${LOG}
 
 cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_Accession in ${MOUSEDATADIR}/ACC_Accession.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >> ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_AccessionReference in ${MOUSEDATADIR}/ACC_AccessionReference.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >> ${LOG}
@@ -33,7 +37,7 @@ cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_AccessionReference in ${MOUSEDATADIR}
 #${DBUTILITIESPATH}/bin/updateStatistics.csh ${DBSERVER} ${DBNAME} ACC_AccessionReference
 
 # create MGC Nomen records and load into Nomen
-LLmgc.sh
+mgc.csh
 
 date >> ${LOG}
-echo "Finished Mouse load" >> ${LOG}
+echo "End: Mouse load" >> ${LOG}

@@ -16,14 +16,12 @@ go
 set nocount on
 go
 
-select distinct l.geneID, l.locusTag, l.symbol
+select distinct e.geneID, e.compareID, i.symbol
 into #nomatch
-from ${RADARDB}..DP_EntrezGene_Info l
-where l.taxID = ${MOUSETAXID}
-and l.locusTag is not null
-and not exists (select 1 from ACC_Accession a
-where l.locusTag = a.accID
-and a._MGIType_key = ${MARKERTYPEKEY})
+from ${RADARDB}..WRK_EntrezGene_EGSet e, ${RADARDB}..DP_EntrezGene_Info i
+where e.idType = 'MGI'
+and not exists (select 1 from ACC_Accession m where m._MGIType_key = ${MARKERTYPEKEY} and e.compareID = m.accID)
+and e.geneID = i.geneID
 go
 
 set nocount off
@@ -33,8 +31,8 @@ print ""
 print "Bucket 8 - EntrezGene records with no MGI Acc ID match"
 print ""
 
-select m.geneID "EntrezGene ID", m.locusTag "EntrezGene MGI Acc ID", m.symbol "EntrezGene Symbol", a.genbankID
-from #nomatch m, ${RADARDB}..DP_LLAcc a
+select m.geneID "EntrezGene ID", m.compareID "EntrezGene MGI Acc ID", m.symbol "EntrezGene Symbol", a.rna
+from #nomatch m, ${RADARDB}..DP_EntrezGene_Accession a
 where m.geneID *= a.geneID
 order by geneID
 go

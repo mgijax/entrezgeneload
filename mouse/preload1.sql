@@ -20,10 +20,10 @@ print "    These records are excluded from processing because they contain"
 print "    a MGI Acc ID which is not of marker type Gene or Pseudogene."
 print ""
 
-select e.geneID "EntrezGene ID", m.symbol "MGI Symbol", e.locusTag "MGI Acc ID", m.markerType "Type"
-from ${RADARDB}..WRK_LLExcludeNonGenes e, MRK_Marker_View m
+select e.geneID "EntrezGene ID", m.symbol "MGI Symbol", e.mgiID "MGI Acc ID", m.markerType "Type"
+from ${RADARDB}..WRK_EntrezGene_ExcludeA e, MRK_Marker_View m
 where e._Object_key = m._Marker_key
-order by m.markerType, e.geneID, e.locusTag
+order by m.markerType, e.geneID, e.mgiID
 go
 
 quit

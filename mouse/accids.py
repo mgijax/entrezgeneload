@@ -42,9 +42,7 @@ import loadlib
 #globals
 
 referenceKey = os.environ['MOUSEREFERENCEKEY']	# _Refs_key of Reference
-seqKey = os.environ['LOGICALSEQKEY']		# _LogicalDB_key of a Seq ID
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
-speciesKey = os.environ['MOUSESPECIESKEY']	# _Organism_key of Mouse
 
 accFileName = os.environ['MOUSEDATADIR'] +  '/ACC_Accession.bcp'
 accrefFileName = os.environ['MOUSEDATADIR'] +  '/ACC_AccessionReference.bcp'
@@ -186,28 +184,6 @@ def init():
 
 	userKey = loadlib.verifyUser(user, 0, None)
 
-def deleteExistingRecords():
-	'''
-	# requires:
-	#
-	# effects:
-	#	Deletes all Mouse Acc IDs associated with the EntrezGene Reference
-	#
-	# returns:
-	#	nothing
-	#
-	'''
-
-	db.sql('delete ACC_Accession ' + \
-		'from ACC_Accession a, ACC_AccessionReference r, MRK_Marker m ' + \
-		'where r._Refs_key = %s ' % (referenceKey) + \
-		'and r._Accession_key = a._Accession_key ' + \
-		'and a._MGIType_key = %s ' % (mgiTypeKey) + \
-		'and a._Object_key = m._Marker_key ' + \
-		'and m._Organism_key = %s' % (speciesKey), None)
-
-	db.sql('dump transaction %s with no_log' % (db.get_sqlDatabase()), None)
-
 def writeAccBCP():
 	'''
 	# requires:
@@ -222,33 +198,14 @@ def writeAccBCP():
 
 	global accKey, userKey
 
-	results = db.sql('select distinct _Object_key, llaccID, _LogicalDB_key, private ' + \
-		'from %s..WRK_LLBucket0' % (radar), 'auto')
+	results = db.sql('select _Object_key, _LogicalDB_key, accID, private ' + \
+		'from %s..WRK_EntrezGene_Bucket0' % (radar), 'auto')
 
 	for r in results:
 
-		prefixPart, numericPart = accessionlib.split_accnum(r['llaccID'])
+		prefixPart, numericPart = accessionlib.split_accnum(r['accID'])
 		accFile.write('%d|%s|%s|%s|%d|%d|%s|%d|1|%s|%s|%s|%s\n'
-			% (accKey, r['llaccID'], mgi_utils.prvalue(prefixPart), mgi_utils.prvalue(numericPart), r['_LogicalDB_key'], r['_Object_key'], mgiTypeKey, r['private'], userKey, userKey, loaddate, loaddate))
-		accrefFile.write('%d|%s|%s|%s|%s|%s\n' % (accKey, referenceKey, userKey, userKey, loaddate, loaddate))
-		accKey = accKey + 1
-
-	results = db.sql('select distinct l._Object_key, a.genbankID ' + \
-		'from %s..WRK_LLBucket0 l, %s..DP_LLAcc a ' % (radar, radar) + \
-		'where l.llaccID = a.geneID ' + \
-		'and a.genbankID not like "NM%" ' + \
-		'and a.seqType = "m" ' + \
-		'and not exists (select 1 from MRK_Acc_View ma ' + \
-		'where a.genbankID = ma.accID) ' + \
-		'and not exists (select 1 from %s..WRK_LLExcludeSeqIDs s ' % (radar) + \
-		'where a.genbankID = s.accID)', 'auto')
-
-	for r in results:
-
-		prefixPart, numericPart = accessionlib.split_accnum(r['genbankID'])
-		accFile.write('%d|%s|%s|%s|%s|%d|%s|0|1|%s|%s|%s|%s\n'
-			% (accKey, r['genbankID'], prefixPart, mgi_utils.prvalue(numericPart), seqKey, r['_Object_key'], mgiTypeKey, userKey, userKey, loaddate, loaddate))
-
+			% (accKey, r['accID'], mgi_utils.prvalue(prefixPart), mgi_utils.prvalue(numericPart), r['_LogicalDB_key'], r['_Object_key'], mgiTypeKey, r['private'], userKey, userKey, loaddate, loaddate))
 		accrefFile.write('%d|%s|%s|%s|%s|%s\n' % (accKey, referenceKey, userKey, userKey, loaddate, loaddate))
 		accKey = accKey + 1
 
@@ -257,7 +214,6 @@ def writeAccBCP():
 #
 
 init()
-deleteExistingRecords()
 writeAccBCP()
 exit(0)
 

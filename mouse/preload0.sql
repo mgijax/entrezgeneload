@@ -22,9 +22,10 @@ print "     3.  The EntrezGene record does not exist in Bucket 1 or 2."
 print "     4.  The EntrezGene/Seq ID record does not exist in Bucket 1 or 2."
 print ""
 
-select b.llaccID "EntrezGene Acc ID", k.symbol "MGI Symbol", b.accID "MGI Acc ID", k.markerType "Type"
-from ${RADARDB}..WRK_LLBucket0 b, MRK_Marker_View k
-where b._Object_key = k._Marker_key
+select b.accID "EntrezGene Acc ID", k.symbol "MGI Symbol", b.mgiID "MGI Acc ID", k.markerType "Type"
+from ${RADARDB}..WRK_EntrezGene_Bucket0 b, MRK_Marker_View k
+where b.accID not like '[A-Z]%'
+and b._Object_key = k._Marker_key
 order by k.symbol, b._LogicalDB_key
 go
 

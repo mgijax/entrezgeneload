@@ -13,7 +13,7 @@ go
 
 /* Bucket 9 - EntrezGene records from Bucket 0 with non-mRNA Seq IDs which are not associated with the */
 /* corresponding MGI Marker. That is, those Seq IDs that were not added as part of the */
-/* LocusLink load because they are of genomic or undefined sequence type. */
+/* EntrezGene load because they are of genomic or undefined sequence type. */
 
 print ""
 print "Bucket 9 - EntrezGene records from Bucket 0 with non-mRNA SeqIDs not in MGI"

@@ -22,26 +22,18 @@ print "     b) associated with a Probe which contains a Problem Note and "
 print "        is associated with > 1 Seq ID."
 print ""
 
-select e.accID "Seq ID", e.geneID "EntrezGene ID", m.symbol "MGI Symbol/Clone", a.accID "MGI Acc ID"
-from ${RADARDB}..WRK_LLExcludeSeqIDs e, MRK_Marker m, ACC_Accession a
-where e._MGIType_key = ${MARKERTYPEKEY}
-and e._Object_key = m._Marker_key
-and e._Object_key = a._Object_key
+select e.seqID "Seq ID", e.geneID "EntrezGene ID", m.symbol "MGI Symbol/Clone", e.mgiID "MGI Acc ID"
+from ${RADARDB}..WRK_EntrezGene_ExcludeB e, ACC_Accession a, MRK_Marker m
+where e.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
-and a.prefixPart = "MGI:"
-and a._LogicalDB_key = 1
-and a.preferred = 1
+and a._Object_key = m._Marker_key
 union
-select e.accID, e.geneID, p.name, a.accID
-from ${RADARDB}..WRK_LLExcludeSeqIDs e, PRB_Probe p, ACC_Accession a
-where e._MGIType_key = ${PROBETYPEKEY}
-and e._Object_key = p._Probe_key
-and e._Object_key = a._Object_key
+select e.seqID, e.geneID, substring(p.name,1,50), e.mgiID "MGI Acc ID"
+from ${RADARDB}..WRK_EntrezGene_ExcludeB e, ACC_Accession a, PRB_Probe p
+where e.mgiID = a.accID
 and a._MGIType_key = ${PROBETYPEKEY}
-and a.prefixPart = "MGI:"
-and a._LogicalDB_key = 1
-and a.preferred = 1
-order by e.accID, a.accID
+and a._Object_key = p._Probe_key
+order by e.seqID, e.mgiID
 go
 
 quit

@@ -17,26 +17,16 @@ print ""
 print "Bucket 6 - MGI Acc ID Match; EntrezGene has no SeqID; MGI has SeqID; not in Bucket 1,2,3"
 print ""
 
-select distinct l.geneID "EntrezGene ID", maa.accID "MGI Seq ID", m.symbol "MGI Symbol", ma.accID "MGI Acc ID"
-from ${RADARDB}..DP_EntrezGene_Info l, ACC_Accession ma, ACC_Accession maa, MRK_Marker m
-where l.taxID = ${MOUSETAXID}
-and l.locusTag = ma.accID
-and ma._MGIType_key = ${MARKERTYPEKEY}
-and ma.preferred = 1
-and ma._Object_key = m._Marker_key
-and ma._Object_key = maa._Object_key
-and maa._MGIType_key = ${MARKERTYPEKEY}
-and maa._LogicalDB_key = ${LOGICALSEQKEY}
-and not exists
-(select 1 from ${RADARDB}..DP_LLAcc la
-where l.geneID = la.geneID
-and la.genbankID not like 'NM%')
-and not exists (select 1 from ${RADARDB}..WRK_LLExcludeNonGenes e
-where l.geneID = e.geneID)
-and not exists (select 1 from ${RADARDB}..WRK_LLExcludeSeqIDs e
-where l.geneID = e.geneID)
-and not exists (select 1 from ${RADARDB}..WRK_LLExcludeLLIDs e
-where l.geneID = e.geneID)
+select distinct e1.geneID "EntrezGene ID", m.symbol "MGI Symbol", e1.compareID "MGI Acc ID"
+from ${RADARDB}..WRK_EntrezGene_EGSet e1, ACC_Accession a, MRK_Marker m
+where e1.idType = 'MGI'
+and exists (select 1 from ${RADARDB}..WRK_EntrezGene_MGISet e where e1.compareID = e.mgiID)
+and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_EGSet e where e1.geneID = e.geneID and e.idType = 'Gen'
+	and e.compareID not like 'NM%')
+and exists (select 1 from ${RADARDB}..WRK_EntrezGene_MGISet e where e1.compareID = e.mgiID and e.idType = 'Gen')
+and e1.compareID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._Object_key = m._Marker_key
 order by m.symbol
 go
 
