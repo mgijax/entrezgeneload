@@ -45,9 +45,6 @@ setenv RATARCHIVEDIR		${EGDATADIR}/archive/rat
 # HUGO directory
 setenv HUGOFTPDIR               gondor:/export/gondor/ftp/private/hes
 
-# Nomen Load
-setenv NOMEN                	/usr/local/mgi/live/dataload/nomenload/nomenload.py
-
 # SYBASE
 setenv SYBASE	/opt/sybase/12.5
 

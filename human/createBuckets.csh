@@ -188,11 +188,10 @@ go
 /****** Synonym Bucket ******/
 
 insert into WRK_EntrezGene_Synonym
-select e.taxID, a._Object_key, e.geneID, s.synonym
-from DP_EntrezGene_Info e, DP_EntrezGene_Synonym s, ${DBNAME}..ACC_Accession a
-where e.taxID = ${HUMANTAXID}
-and e.geneID = s.geneID
-and e.geneID = a.accID
+select s.taxID, a._Object_key, s.geneID, s.synonym
+from DP_EntrezGene_Synonym s, ${DBNAME}..ACC_Accession a
+where s.taxID = ${HUMANTAXID}
+and s.geneID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
 go

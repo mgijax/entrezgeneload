@@ -31,12 +31,16 @@ go
 delete from WRK_EntrezGene_Mapping where taxID = ${RATTAXID}
 go
 
+delete from WRK_EntrezGene_Synonym where taxID = ${RATTAXID}
+go
+
 EOSQL
 
 # drop indexes
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_drop.object | tee -a ${LOG}
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Nomen_drop.object | tee -a ${LOG}
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Mapping_drop.object | tee -a ${LOG}
+${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Synonym_drop.object | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
  
@@ -205,12 +209,24 @@ update WRK_EntrezGene_Mapping
 set egMapPosition = null where egMapPosition = '-'
 go
 
+/****** Synonym Bucket ******/
+
+insert into WRK_EntrezGene_Synonym
+select s.taxID, a._Object_key, s.geneID, s.synonym
+from DP_EntrezGene_Synonym s, ${DBNAME}..ACC_Accession a
+where s.taxID = ${RATTAXID}
+and s.geneID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALEGKEY}
+go
+
 EOSQL
  
 # create indexes
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_create.object | tee -a ${LOG}
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Nomen_create.object | tee -a ${LOG}
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Mapping_create.object | tee -a ${LOG}
+${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Synonym_create.object | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating rat buckets." | tee -a ${LOG}
