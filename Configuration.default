@@ -118,9 +118,6 @@ setenv MOUSEEGPRIVATE	0
 # Private flag for Human EntrezGeneID (0 = no, 1 = yes)
 setenv HUMANEGPRIVATE	0
 
-# Private flag for Human GDB ID (0 = no, 1 = yes)
-setenv HUMANGDBPRIVATE	0
-
 # Private flag for Rat EntrezGeneID (0 = no, 1 = yes)
 setenv RATLLPRIVATE	0
 

@@ -70,6 +70,28 @@ from #toupdate u, ACC_Accession a
 where u._Accession_key = a._Accession_key
 go
 
+/* remove GDB ids from MGI */
+
+select a._Accession_key
+into #todelete
+from ACC_Accession a
+where a._LogicalDB_key = 2
+go
+
+create index idx1 on #todelete(_Accession_key)
+go
+
+delete ACC_Accession
+from #delete d, ACC_Accession a
+where d._Accession_key = a._Accession_key
+go
+
+delete from ACC_ActualDB where _LogicalDB_key = 2
+go
+
+delete from from ACC_LogicalDB where _LogicalDB_key = 2
+go
+
 quit
  
 EOSQL

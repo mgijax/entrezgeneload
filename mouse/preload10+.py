@@ -78,9 +78,9 @@ def createMatches():
     db.sql('select distinct e.geneID ' + \
 	'into #markermatch ' + \
 	'from %s..DP_EntrezGene_Accession e, ACC_Accession a ' % (radar) + \
-	'where a._MGIType_key = %s ' % (markerTypeKey) + \
-	'and a._LogicalDB_key = %s ' % (logicalSeqKey) + \
-	'and a.accID = e.rna ', None)
+	'where e.rna = a.accID ' + \
+	'and a._MGIType_key = %s ' % (markerTypeKey) + \
+	'and a._LogicalDB_key = %s ' % (logicalSeqKey), None)
     db.sql('create index idx1 on #markermatch(geneID)', None)
 
     #
@@ -90,9 +90,9 @@ def createMatches():
     db.sql('select distinct e.geneID, e.rna ' + \
 	'into #probematch ' + \
 	'from %s..DP_EntrezGene_Accession e, ACC_Accession a ' % (radar) + \
-	'where a._MGIType_key = %s ' % (probeTypeKey) + \
-	'and a._LogicalDB_key = %s ' % (logicalSeqKey) + \
-	'and a.accID = e.rna ', None)
+	'where e.rna = a.accID ' + \
+	'and a._MGIType_key = %s ' % (probeTypeKey) + \
+	'and a._LogicalDB_key = %s ' % (logicalSeqKey), None)
     db.sql('create index idx1 on #probematch(geneID)', None)
     db.sql('create index idx2 on #probematch(rna)', None)
 
@@ -305,6 +305,7 @@ def bucket11(fp):
             'and e.rna not like "N%_%" ' + \
             'and e.rna not like "X%_%" ' + \
             'and not exists (select 1 from #markermatch m where e.geneID = m.geneID) ' + \
+            'and not exists (select 1 from #probematch m where e.geneID = m.geneID and e.rna = m.rna) ' + \
             'and exists (select 1 from %s..DP_EntrezGene_PubMed c where e.geneID = c.geneID)' % (radar), None)
 
     #
@@ -319,8 +320,8 @@ def bucket11(fp):
             'and e.rna != "-" ' + \
             'and e.rna not like "N%_%" ' + \
             'and e.rna not like "X%_%" ' + \
-            'and exists (select 1 from #probematch m where e.geneID = m.geneID) ' + \
             'and not exists (select 1 from #markermatch m where e.geneID = m.geneID) ' + \
+            'and exists (select 1 from #probematch m where e.geneID = m.geneID and e.rna = m.rna) ' + \
             'and exists (select 1 from %s..DP_EntrezGene_PubMed c where e.geneID = c.geneID)' % (radar), None)
     db.sql('create index idx1 on #bucket11(geneID)', None)
     db.sql('create index idx2 on #bucket11(rna)', None)
@@ -354,25 +355,19 @@ def bucket11(fp):
     # select sequences
     #
 
-    results = db.sql('select distinct b.geneID, b.rna, b.category from #bucket11 b, #probematch p ' + \
-	'where exists (select 1 from #bucket11refs r where b.geneID = r.geneID) ' + \
-	'and b.geneID = p.geneID ' + \
-	'and b.rna = p.rna ' + \
-        'union ' + \
-	'select distinct b.geneID, b.rna, b.category from #bucket11 b ' + \
+    results = db.sql('select distinct b.geneID, b.rna, b.category from #bucket11 b ' + \
 	'where exists (select 1 from #bucket11refs r where b.geneID = r.geneID) ' + \
 	'order by geneID, rna, category desc', 'auto')
     seqs = {}
     for r in results:
         key = r['geneID']
         value = r['rna']
-        pvalue = r['rna'] + '*'
     
         if not seqs.has_key(key):
 	    seqs[key] = []
 
         if r['category'] == 'P':
-	    value = pvalue
+	    value = value + '*'
 
         if value not in seqs[key]:
             seqs[key].append(value)
@@ -464,23 +459,19 @@ def bucket12(fp):
     # select sequences
     #
 
-    results = db.sql('select distinct geneID, rna, category from #bucket12 b, #probematch p ' + \
-	'where exists (select 1 from #bucket11refs r where b.geneID = r.geneID) ' + \
-	'and b.geneID = p.geneID ' + \
-	'and b.rna = p.rna ' + \
+    results = db.sql('select distinct b.geneID, b.rna, b.category from #bucket11 b ' + \
+	'where not exists (select 1 from #bucket11refs r where b.geneID = r.geneID) ' + \
 	'order by geneID, rna, category desc', 'auto')
-
     seqs = {}
     for r in results:
         key = r['geneID']
         value = r['rna']
-        pvalue = r['rna'] + '*'
 
         if not seqs.has_key(key):
 	    seqs[key] = []
 
         if r['category'] == 'P':
-	    value = pvalue
+            value = value + '*'
 
         if value not in seqs[key]:
             seqs[key].append(value)
