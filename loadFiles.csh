@@ -8,9 +8,9 @@
 
 cd `dirname $0` && source ./Configuration
 
-cd ${DATADIR}
+cd ${EGDATADIR}
 
-setenv LOG      ${DATADIR}/`basename $0`.log
+setenv LOG      ${EGLOGSDIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
@@ -18,42 +18,39 @@ date >> ${LOG}
 
 # grab latest files
 
-#cp ${FTPDATA1}/gene2accession.gz .
-#cp ${FTPDATA1}/gene2pubmed.gz .
-#cp ${FTPDATA1}/gene2refseq.gz .
-#cp ${FTPDATA1}/gene_info.gz .
-#cp ${FTPDATA2}/homologene.data .
+cp ${FTPDATA1}/gene2accession.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
 
-# uncompress
-#foreach i (*.gz)
-#/usr/local/bin/gunzip -f $i >>& ${LOG}
-#end
+# uncompress the files
+cd ${EGINPUTDIR}
+foreach i (*.gz)
+/usr/local/bin/gunzip -f $i >>& ${LOG}
+end
 
 # split up gene_info
-#../geneinfo.py >>& ${LOG}
+cd ${EGINSTALLDIR}
+./geneinfo.py >>& ${LOG}
 
 # strip version numbers out of gene2accession, gene2refseq
-#../stripversion.py >>& ${LOG}
+./stripversion.py >>& ${LOG}
 
 # truncate existing tables
 ${RADARDBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
-${RADARDBSCHEMADIR}/table/DP_HomoloGene_truncate.object >>& ${LOG}
 
 # drop indexes
 ${RADARDBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
-${RADARDBSCHEMADIR}/index/DP_HomoloGene_drop.object >>& ${LOG}
 
 # bcp new data into tables
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Accession in gene2accession.new -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Info in gene_info.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_DBXRef in gene_dbxref.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_PubMed in gene2pubmed -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_RefSeq in gene2refseq.new -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Synonym in gene_synonym.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_HomoloGene in homologene.data -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Accession in ${EGINPUTDIR}/gene2accession.new -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Info in ${EGINPUTDIR}/gene_info.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_DBXRef in ${EGINPUTDIR}/gene_dbxref.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_PubMed in ${EGINPUTDIR}/gene2pubmed -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_RefSeq in ${EGINPUTDIR}/gene2refseq.new -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Synonym in ${EGINPUTDIR}/gene_synonym.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
 
 # create indexes
 ${RADARDBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
-${RADARDBSCHEMADIR}/index/DP_HomoloGene_create.object >>& ${LOG}
 
 date >> ${LOG}

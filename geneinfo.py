@@ -44,10 +44,12 @@ CRT = '\n'
 # Main
 #
 
-infoFile = open('gene_info', 'r')
-infoOutFile = open('gene_info.bcp', 'w')
-synOutFile = open('gene_synonym.bcp', 'w')
-dbxOutFile = open('gene_dbxref.bcp', 'w')
+inputDir = os.environ['EGINPUTDIR']
+
+infoFile = open(inputDir + '/gene_info', 'r')
+infoOutFile = open(inputDir + '/gene_info.bcp', 'w')
+synOutFile = open(inputDir + '/gene_synonym.bcp', 'w')
+dbxOutFile = open(inputDir + '/gene_dbxref.bcp', 'w')
 
 for line in infoFile.readlines():
 	[taxID, geneID, symbol, locusTag, synonyms, dbxRefs, chr, mp, name, geneType] = string.splitfields(line[:-1], TAB)
@@ -63,4 +65,8 @@ for line in infoFile.readlines():
 			dbxOutFile.write(geneID + TAB + s + CRT)
 
 infoFile.close()
+infoOutFile.close()
+synOutFile.close()
+dbxOutFile.close()
+
 

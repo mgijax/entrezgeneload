@@ -25,7 +25,8 @@ print ""
 
 select e.accID "EntrezGene ID", ea.genomic "EntrezGene Seq ID"
 from ${RADARDB}..WRK_EntrezGene_Bucket0 e, ${RADARDB}..DP_EntrezGene_Accession ea, ACC_Accession a
-where e._LogicalDB_key = ${LOGICALEGKEY}
+where e.taxID = ${MOUSETAXID}
+and e._LogicalDB_key = ${LOGICALEGKEY}
 and e.accID = ea.geneID
 and ea.genomic != '-'
 and e.mgiID = a.accID

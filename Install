@@ -10,3 +10,7 @@
 # 5. edit Configuration file
 #
 
+source ./Configuration
+
+cd ${INSTALLDIR}
+sed "s/MOUSEDATADIR/$MOUSEDATADIR/" index.html.default > index.html.1

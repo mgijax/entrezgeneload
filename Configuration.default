@@ -8,40 +8,40 @@
 #
 
 # install directory
-setenv INSTALLDIR		/usr/local/mgi/live/dataload/locuslinkload
+setenv INSTALLDIR		/usr/local/mgi/live/dataload/entrezgeneload
 
 # system doc directory
-setenv SYSTEMDOCDIR	$INSTALLDIR/system_docs
+setenv SYSTEMDOCDIR		${INSTALLDIR}/system_docs
 
 # data directory
-setenv DATADIR		$INSTALLDIR/data
+setenv DATADIR			/data/loads/entrezgene/entrezgeneload
 
 # mouse data directory
-setenv MOUSEDATADIR       	$INSTALLDIR/data/mouse
+setenv MOUSEDATADIR       	${DATADIR}/output/mouse
 
 # human data directory
-setenv HUMANDATADIR       	$INSTALLDIR/data/human
+setenv HUMANDATADIR       	${DATADIR}/output/human
 
 # rat data directory
-setenv RATDATADIR       	$INSTALLDIR/data/rat
+setenv RATDATADIR       	${DATADIR}/output/rat
 
 # archive directory
-setenv ARCHIVEDIR		$DATADIR/archive
+setenv ARCHIVEDIR		${DATADIR}/archive
 
 # archive directory
-setenv MOUSEARCHIVEDIR		$DATADIR/archive/mouse
+setenv MOUSEARCHIVEDIR		${DATADIR}/archive/mouse
 
 # archive directory
-setenv HUMANARCHIVEDIR		$DATADIR/archive/human
+setenv HUMANARCHIVEDIR		${DATADIR}/archive/human
 
 # archive directory
-setenv RATARCHIVEDIR		$DATADIR/archive/rat
+setenv RATARCHIVEDIR		${DATADIR}/archive/rat
 
 # HUGO directory
 setenv HUGOFTPDIR               gondor:/export/gondor/ftp/private/hes
 
 # Nomen Load
-setenv NOMEN                /usr/local/mgi/live/dataload/nomenload/nomenload.py
+setenv NOMEN                	/usr/local/mgi/live/dataload/nomenload/nomenload.py
 
 # SYBASE
 setenv SYBASE	/opt/sybase/12.5
@@ -50,24 +50,24 @@ setenv SYBASE	/opt/sybase/12.5
 setenv LD_LIBRARY_PATH         $SYBASE/OCS-12_5/lib
 
 # PYTHON
-setenv PYTHONPATH         /usr/local/mgi/live/lib/python
+setenv PYTHONPATH         	/usr/local/mgi/live/lib/python
 
 # DB UTILITIES
-setenv DBUTILITIESPATH	/usr/local/mgi/live/dbutils/mgidbutilities
+setenv DBUTILITIESPATH		/usr/local/mgi/live/dbutils/mgidbutilities
 
 # PATH
 set path = ($DBUTILITIESPATH/bin $path $SYBASE/ASE-12_5/bin $SYBASE/OCS-12_5/bin)
 
 # FTP Data Files
-setenv FTPDATA1		/data/downloads/ftp.ncbi.nih.gov/refseq/LocusLink
-setenv FTPDATA2		/data/downloads/ftp.ncbi.nih.gov/pub/HomoloGene/build36
+setenv FTPDATA1			/data/downloads/ftp.ncbi.nih.gov/refseq/LocusLink
+setenv FTPDATA2			/data/downloads/ftp.ncbi.nih.gov/pub/HomoloGene/build36
 
 # MGI Schema Product
-setenv MGIDBSCHEMADIR   /usr/local/mgi/live/dbutils/mgd/mgddbschema
+setenv MGIDBSCHEMADIR   	/usr/local/mgi/live/dbutils/mgd/mgddbschema
 
 # RADAR Schema Product
-setenv RADARDBSCHEMADIR /usr/local/mgi/live/dbutils/radar/radardbschema
-setenv RADARDBPERMSDIR  /usr/local/mgi/live/dbutils/radar/radardbperms
+setenv RADARDBSCHEMADIR 	/usr/local/mgi/live/dbutils/radar/radardbschema
+setenv RADARDBPERMSDIR  	/usr/local/mgi/live/dbutils/radar/radardbperms
 
 
 # Species Key for Mouse
@@ -79,13 +79,13 @@ setenv HUMANSPECIESKEY	2
 # Species Key for Rat
 setenv RATSPECIESKEY	40
 
-# LL Taxinomic ID for Mouse
+# Taxinomic ID for Mouse
 setenv MOUSETAXID	10090
 
-# LL Taxinomic ID for Human
+# Taxinomic ID for Human
 setenv HUMANTAXID	9606
 
-# LL Taxinomic ID for Rat
+# Taxinomic ID for Rat
 setenv RATTAXID	10116
 
 # MGI Type Key for Marker
@@ -97,11 +97,8 @@ setenv PROBETYPEKEY     3
 # Logical Key for Sequence ID
 setenv LOGICALSEQKEY	9
 
-# Logical Key for LocusLink ID
-setenv LOGICALLLKEY	24
-
-# Logical Key for GDB
-setenv LOGICALGDBKEY	2
+# Logical Key for EntrezGene ID
+setenv LOGICALEGKEY     55
 
 # Logical Key for RGD
 setenv LOGICALRGDKEY	47
@@ -109,16 +106,16 @@ setenv LOGICALRGDKEY	47
 # Logical Key for RatMap
 setenv LOGICALRATMAPKEY	4
 
-# Private flag for Mouse LocusLink ID (0 = no, 1 = yes)
-setenv MOUSELLPRIVATE	0
+# Private flag for Mouse EntrezGeneID (0 = no, 1 = yes)
+setenv MOUSEEGPRIVATE	0
 
-# Private flag for Human LocusLink ID (0 = no, 1 = yes)
-setenv HUMANLLPRIVATE	0
+# Private flag for Human EntrezGeneID (0 = no, 1 = yes)
+setenv HUMANEGPRIVATE	0
 
 # Private flag for Human GDB ID (0 = no, 1 = yes)
 setenv HUMANGDBPRIVATE	0
 
-# Private flag for Rat LocusLink ID (0 = no, 1 = yes)
+# Private flag for Rat EntrezGeneID (0 = no, 1 = yes)
 setenv RATLLPRIVATE	0
 
 # Private flag for RGD ID (0 = no, 1 = yes)
@@ -130,20 +127,14 @@ setenv RGDPRIVATE	0
 # Logical Key for RefSeq ID
 setenv LOGICALREFSEQKEY	27
 
-# Logical Key for EntrezGene ID
-setenv LOGICALENTREZGENEKEY     55
-
 # Private flag for RefSeq ID (0 = no, 1 = yes)
 setenv REFSEQPRIVATE	0
 
 # Private flag for RefSeq ID (0 = no, 1 = yes)
 setenv HUMANREFSEQPRIVATE	1
 
-# Reference for Mouse Load J:63103
-setenv MOUSEREFERENCEKEY	64047
-
-# Reference for Human Load J:63103
-setenv HUMANREFERENCEKEY	64047
+# Reference for Load J:63103
+setenv REFERENCEKEY	64047
 
 # Report header/trailer scripts
 setenv REPORTHEADER     /mgi/software/customSQL/bin/header.sh

@@ -34,7 +34,8 @@ and exists (select 1 from ${RADARDB}..WRK_EntrezGene_MGISet e
 	and e.taxID = ${MOUSETAXID}
 	and e.idType = 'Gen')
 and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_Bucket0 e 
-	where e1.geneID = e.accID)
+	where e1.geneID = e.accID
+	and e.taxID = ${MOUSETAXID})
 and e1.compareID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
 and a._Object_key = m._Marker_key

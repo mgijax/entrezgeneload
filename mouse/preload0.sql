@@ -24,7 +24,8 @@ print ""
 
 select b.accID "EntrezGene Acc ID", m.symbol "MGI Symbol", b.mgiID "MGI Acc ID", mt.name "Type"
 from ${RADARDB}..WRK_EntrezGene_Bucket0 b, MRK_Marker m, MRK_Types mt
-where b.accID not like '[A-Z]%'
+where b.taxID = ${MOUSETAXID}
+and b.accID not like '[A-Z]%'
 and b._Object_key = m._Marker_key
 and m._Marker_Type_key = mt._Marker_Type_key
 order by m.symbol, b._LogicalDB_key
