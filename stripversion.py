@@ -4,16 +4,19 @@
 #
 # Purpose:
 #
+#	Convert accession.version in gene2accession to accession
 #	Convert accession.version in gene2refseq to accession
 #  
 # Input:
 #
+#	gene2accession
 #	gene2refseq
 #
 # Assumes:
 #
 # Output:
 #
+#	gene2accession.new
 #	gene2refseq.new
 #
 # Processing:
