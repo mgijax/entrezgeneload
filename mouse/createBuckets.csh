@@ -34,9 +34,11 @@ go
 select s1.geneID, s2.mgiID
 into #matches1
 from WRK_EntrezGene_EGSet s1, WRK_EntrezGene_MGISet s2
-where s1.idType = 'MGI'
+where s1.taxID = ${MOUSETAXID}
+and s1.idType = 'MGI'
 and s1.compareID = s2.compareID
 and s1.idType = s2.idType
+and s2.taxID = ${MOUSETAXID}
 go
 
 create index idx1 on #matches1(geneID)
@@ -60,10 +62,12 @@ select s1.geneID, s2.mgiID
 into #matches2
 from #uniqmatches1 u1, WRK_EntrezGene_EGSet s1, WRK_EntrezGene_MGISet s2
 where u1.geneID = s1.geneID
+and s1.taxID = ${MOUSETAXID}
 and u1.mgiID = s2.mgiID
 and s1.idType = 'Gen'
 and s1.compareID = s2.compareID
 and s1.idType = s2.idType
+and s2.taxID = ${MOUSETAXID}
 go
 
 create index idx1 on #matches2(geneID)

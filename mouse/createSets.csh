@@ -35,7 +35,7 @@ go
 /* set of all EG MGI IDs... */
 
 insert into WRK_EntrezGene_EGSet
-select e.geneID, e.locusTag, 'MGI'
+select e.taxID, e.geneID, e.locusTag, 'MGI'
 from DP_EntrezGene_Info e
 where e.taxID = ${MOUSETAXID}
 and e.locusTag != '-'
@@ -47,7 +47,7 @@ go
 /* excludes GenBank IDs that exist in any of the "excluded" buckets */
 
 insert into WRK_EntrezGene_EGSet
-select e.geneID, e.rna, 'Gen'
+select e.taxID, e.geneID, e.rna, 'Gen'
 from DP_EntrezGene_Accession e
 where e.taxID = ${MOUSETAXID}
 and e.rna != '-'
@@ -60,7 +60,7 @@ go
 /* excludes GenBank IDs that exist in any of the "excluded" buckets */
 
 insert into WRK_EntrezGene_EGSet
-select e.geneID, e.genomic, 'Gen'
+select e.taxID, e.geneID, e.genomic, 'Gen'
 from DP_EntrezGene_Accession e
 where e.taxID = ${MOUSETAXID}
 and e.genomic != '-'
@@ -77,7 +77,7 @@ go
 /* set of all MGI IDs (for mouse markers)... */
 
 insert into ${RADARDB}..WRK_EntrezGene_MGISet
-select a1.accID, a2.accID, 'MGI'
+select ${MOUSETAXID}, a1.accID, a2.accID, 'MGI'
 from ACC_Accession a1, ACC_Accession a2
 where a1._MGIType_key = ${MARKERTYPEKEY}
 and a1._LogicalDB_key = 1
@@ -94,7 +94,7 @@ go
 /* curated GenBank IDs... */
 
 insert into ${RADARDB}..WRK_EntrezGene_MGISet
-select a1.accID, a2.accID, 'Gen'
+select ${MOUSETAXID}, a1.accID, a2.accID, 'Gen'
 from ACC_Accession a1, ACC_Accession a2
 where a1._MGIType_key = ${MARKERTYPEKEY}
 and a1._LogicalDB_key = 1
