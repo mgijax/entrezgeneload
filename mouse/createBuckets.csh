@@ -33,7 +33,7 @@ go
 /* set of matches by id and idType */
 /* must match on 2 id types, MGI and Gen */
 
-select s1.geneID, s2.mgiID, s1.compareID
+select s1.geneID, s2.mgiID
 into #matches1
 from WRK_EntrezGene_EGSet s1, WRK_EntrezGene_MGISet s2
 where s1.idType = 'MGI'
@@ -43,7 +43,6 @@ go
 
 create index idx1 on #matches1(geneID)
 create index idx2 on #matches1(mgiID)
-create index idx3 on #matches1(compareID)
 go
 
 /* unique matches by id and idType */
@@ -59,7 +58,7 @@ go
 
 /* must match on Gen too */
 
-select s1.geneID, s2.mgiID, s1.compareID
+select s1.geneID, s2.mgiID
 into #matches2
 from #uniqmatches1 u1, WRK_EntrezGene_EGSet s1, WRK_EntrezGene_MGISet s2
 where u1.geneID = s1.geneID
@@ -71,7 +70,6 @@ go
 
 create index idx1 on #matches2(geneID)
 create index idx2 on #matches2(mgiID)
-create index idx3 on #matches2(compareID)
 go
 
 /* unique matches by id and idType */

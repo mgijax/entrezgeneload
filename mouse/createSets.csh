@@ -40,6 +40,7 @@ from DP_EntrezGene_Info e
 where e.taxID = ${MOUSETAXID}
 and e.locusTag != '-'
 and not exists (select 1 from WRK_EntrezGene_ExcludeA x where e.geneID = x.geneID)
+and not exists (select 1 from WRK_EntrezGene_ExcludeC x where e.geneID = x.geneID)
 go
 
 /* RNA GenBank IDs (excluding XM) */
@@ -54,6 +55,7 @@ and a.rna != '-'
 and a.rna not like 'XM_%'
 and not exists (select 1 from WRK_EntrezGene_ExcludeA x where e.geneID = x.geneID)
 and not exists (select 1 from WRK_EntrezGene_ExcludeB x where a.rna = x.seqID)
+and not exists (select 1 from WRK_EntrezGene_ExcludeC x where e.geneID = x.geneID)
 go
 
 /* DNA GenBank IDs... */
@@ -67,6 +69,7 @@ and e.geneID = a.geneID
 and a.genomic != '-'
 and not exists (select 1 from WRK_EntrezGene_ExcludeA x where e.geneID = x.geneID)
 and not exists (select 1 from WRK_EntrezGene_ExcludeB x where a.genomic = x.seqID)
+and not exists (select 1 from WRK_EntrezGene_ExcludeC x where e.geneID = x.geneID)
 go
 
 /***** MGI *****/
@@ -88,6 +91,7 @@ and a2._MGIType_key = 2
 and a2._LogicalDB_key = 1
 and a2.prefixPart = 'MGI:'
 and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_ExcludeA x where a1.accID = x.mgiID)
+and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_ExcludeC x where a1.accID = x.mgiID)
 go
 
 /* curated GenBank IDs... */
@@ -104,6 +108,7 @@ and a2._MGIType_key = 2
 and a2._LogicalDB_key = 9
 and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_ExcludeA x where a1.accID = x.mgiID)
 and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_ExcludeB x where a2.accID = x.seqID)
+and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_ExcludeC x where a1.accID = x.mgiID)
 go
 
 EOSQL

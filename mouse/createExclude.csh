@@ -20,10 +20,12 @@ date | tee -a ${LOG}
 # truncate tables
 ${RADARDBSCHEMADIR}/table/WRK_EntrezGene_ExcludeA_truncate.object | tee -a ${LOG}
 ${RADARDBSCHEMADIR}/table/WRK_EntrezGene_ExcludeB_truncate.object | tee -a ${LOG}
+${RADARDBSCHEMADIR}/table/WRK_EntrezGene_ExcludeC_truncate.object | tee -a ${LOG}
 
 # drop indexes
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_ExcludeA_drop.object | tee -a ${LOG}
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_ExcludeB_drop.object | tee -a ${LOG}
+${RADARDBSCHEMADIR}/index/WRK_EntrezGene_ExcludeC_drop.object | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
  
@@ -43,6 +45,37 @@ create index idx1 on #mgi1(_Sequence_key)
 create index idx2 on #mgi1(_Marker_key)
 go
 
+/* GenBank sequences in MGI associated w/ 1 mouse marker */
+
+select _Sequence_key, _Marker_key
+into #mgisingle1
+from #mgi1
+group by _Sequence_key having count(*) = 1
+go
+
+create index idx1 on #mgisingle1(_Sequence_key)
+create index idx2 on #mgisingle1(_Marker_key)
+go
+
+/* Resolve Sequence ID, Marker ID for single markers */
+
+select seqID = a1.accID, mgiID = a2.accID
+into #mgisingle2
+from #mgisingle1 s, ACC_Accession a1, ACC_Accession a2
+where s._Sequence_key = a1._Object_key
+and a1._MGIType_key = 19
+and a1.preferred = 1
+and s._Marker_key = a2._Object_key
+and a2._MGIType_key = ${MARKERTYPEKEY}
+and a2._LogicalDB_key = 1
+and a2.prefixPart = "MGI:"
+and a2.preferred = 1
+go
+
+create index idx1 on #mgisingle2(seqID)
+create index idx2 on #mgisingle2(mgiID)
+go
+
 /* GenBank sequences in MGI associated w/ multiple mouse markers */
 
 select _Sequence_key, _Marker_key
@@ -55,7 +88,7 @@ create index idx1 on #mgimult1(_Sequence_key)
 create index idx2 on #mgimult1(_Marker_key)
 go
 
-/* Resolve Sequence ID, Marker ID */
+/* Resolve Sequence ID, Marker ID for multiple markers */
 
 select seqID = a1.accID, mgiID = a2.accID
 into #mgimult2
@@ -107,7 +140,7 @@ go
 /* EntrezGene IDs which map to Markers which are not Genes or Pseudogenes */
 
 insert into ${RADARDB}..WRK_EntrezGene_ExcludeA
-select distinct a._Object_key, m._Marker_Type_key, e.geneID, e.locusTag
+select distinct e.locusTag, e.geneID
 from ${RADARDB}..DP_EntrezGene_Info e, ACC_Accession a, MRK_Marker m
 where e.taxID = ${MOUSETAXID}
 and e.locusTag = a.accID
@@ -154,6 +187,40 @@ and e.geneID = ea.geneID
 and ea.genomic = p.seqID
 go
 
+/***** Exclude C *****/
+/* EntrezGene records that resolve to > 1 MGI Marker */
+
+select s.seqID, s.mgiID, e.geneID
+into #egToMGI1
+from #mgisingle2 s, ${RADARDB}..DP_EntrezGene_Info e, ${RADARDB}..DP_EntrezGene_Accession ea
+where e.taxID = ${MOUSETAXID}
+and e.geneID = ea.geneID
+and ea.rna = s.seqID
+go
+
+insert into #egToMGI1
+select s.seqID, s.mgiID, e.geneID
+from #mgisingle2 s, ${RADARDB}..DP_EntrezGene_Info e, ${RADARDB}..DP_EntrezGene_Accession ea
+where e.taxID = ${MOUSETAXID}
+and e.geneID = ea.geneID
+and ea.genomic = s.seqID
+go
+
+create index idx1 on #egToMGI1(geneID)
+go
+
+select distinct mgiID, geneID into #egToMGI2 from #egToMGI1
+go
+
+create index idx1 on #egToMGI2(geneID)
+go
+
+insert into ${RADARDB}..WRK_EntrezGene_ExcludeC
+select mgiID, geneID
+from #egToMGI2
+group by geneID having count(*) > 1
+go
+
 quit
  
 EOSQL
@@ -161,6 +228,7 @@ EOSQL
 # create indexes
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_ExcludeA_create.object | tee -a ${LOG}
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_ExcludeB_create.object | tee -a ${LOG}
+${RADARDBSCHEMADIR}/index/WRK_EntrezGene_ExcludeC_create.object | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating mouse exclude buckets." | tee -a ${LOG}
