@@ -30,6 +30,7 @@ mv ${MOUSEDATADIR}/$i.*.rpt ${MOUSEARCHIVEDIR}
 $i ${MOUSEDATADIR}/$i.${PRELOADDATE}
 ln -s ${MOUSEDATADIR}/$i.${PRELOADDATE}.rpt ${MOUSEDATADIR}/$i.rpt
 end
+exit 0
 
 foreach i (preload*.py)
 set r=`basename $i .py`

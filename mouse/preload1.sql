@@ -21,10 +21,12 @@ print "    a MGI Acc ID which is not of marker type Gene or Pseudogene."
 print ""
 
 select e.geneID "EntrezGene ID", m.symbol "MGI Symbol", e.mgiID "MGI Acc ID", mt.name "Type"
-from ${RADARDB}..WRK_EntrezGene_ExcludeA e, MRK_Marker m, MRK_Types mt
-where e._Object_key = m._Marker_key
+from ${RADARDB}..WRK_EntrezGene_ExcludeA e, ACC_Accession a, MRK_Marker m, MRK_Types mt
+where e.mgiID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._Object_key = m._Marker_key
 and m._Marker_Type_key = mt._Marker_Type_key
-order by m.markerType, e.geneID, e.mgiID
+order by mt.name, e.geneID, e.mgiID
 go
 
 quit

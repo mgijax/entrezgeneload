@@ -31,6 +31,18 @@ and a2._MGIType_key = ${MARKERTYPEKEY}
 and a2._LogicalDB_key = ${LOGICALSEQKEY}
 and a1._Object_key = a2._Object_key
 and a1._Object_key = m._Marker_key
+union
+select e.geneID "EntrezGene ID", ea.genomic "Seq ID", m.symbol "MGI Symbol", e.mgiID "MGI Acc ID"
+from ${RADARDB}..WRK_EntrezGene_ExcludeC e, ${RADARDB}..DP_EntrezGene_Accession ea, 
+ACC_Accession a1, ACC_Accession a2, MRK_Marker m
+where e.geneID = ea.geneID
+and e.mgiID = a1.accID
+and a1._MGIType_key = ${MARKERTYPEKEY}
+and ea.genomic = a2.accID
+and a2._MGIType_key = ${MARKERTYPEKEY}
+and a2._LogicalDB_key = ${LOGICALSEQKEY}
+and a1._Object_key = a2._Object_key
+and a1._Object_key = m._Marker_key
 order by e.geneID, m.symbol
 go
 

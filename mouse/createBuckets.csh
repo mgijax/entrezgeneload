@@ -165,7 +165,7 @@ from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_RefSeq r
 where b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
 and b.geneID = r.geneID
-and r.rna like 'XM_%'
+and r.rna like 'NM_%'
 go
 
 /* Additional mRNA GenBank IDs */
@@ -177,7 +177,8 @@ where b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
 and b.geneID = r.geneID
 and r.rna != '-'
-and r.rna not like 'NM_%'
+and r.rna not like 'N%_%'
+and r.rna not like 'X%_%'
 and not exists (select 1 from ${DBNAME}..ACC_Accession ma 
 where a._Object_key = ma._Object_key
 and ma._MGIType_key = ${MARKERTYPEKEY}

@@ -20,19 +20,21 @@ print "Bucket 9 - EntrezGene records from Bucket 0 with non-mRNA SeqIDs not in M
 print ""
 print "     EntrezGene records from Bucket 0 with non-mRNA Seq IDs which are not"
 print "     associated with the corresponding MGI Marker. That is, those "
-print "     Seq IDs that were not added as part of the load because they are "
-print "     of genomic or undefined sequence type."
+print "     Seq IDs that were not added as part of the load because they are genomic."
 print ""
 
-select distinct l.llaccID "EntrezGene ID", a.genbankID "EntrezGene Seq ID", a.seqType
-from ${RADARDB}..WRK_LLBucket0 l, ${RADARDB}..DP_LLAcc a
-where l.llaccID = a.geneID
-and a.genbankID not like 'NM%'
-and a.seqType != 'm'
+select e.accID "EntrezGene ID", ea.genomic "EntrezGene Seq ID"
+from ${RADARDB}..WRK_EntrezGene_Bucket0 e, ${RADARDB}..DP_EntrezGene_Accession ea, ACC_Accession a
+where e._LogicalDB_key = ${LOGICALEGKEY}
+and e.accID = ea.geneID
+and ea.genomic != '-'
+and e.mgiID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
 and not exists (select 1 from ACC_Accession ma
-where a.genbankID = ma.accID
-and ma._MGIType_key = ${MARKERTYPEKEY})
-order by l.llaccID
+where ea.genomic = ma.accID
+and ma._MGIType_key = ${MARKERTYPEKEY}
+and a._Object_key = ma._Object_key)
+order by e.accID
 go
 
 quit
