@@ -1,20 +1,22 @@
 #!/bin/csh -fx
 
 #
-# Create Sets for Human Processing
+# Create Sets for Processing
 #
 # Usage:  createSets.sh
 #
 # History
 #
 
-cd `dirname $0` && source ../Configuration
+setenv DATADIR $1
+setenv TAXID $2
+setenv ORGANISM $3
 
-setenv LOG      ${HUMANDATADIR}/`basename $0`.log
+setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
-echo "Begin: creating human sets..." | tee -a ${LOG}
+echo "Begin: creating sets..." | tee -a ${LOG}
 date | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
@@ -22,10 +24,10 @@ cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
 use ${RADARDB}
 go
 
-delete from WRK_EntrezGene_EGSet where taxID = ${HUMANTAXID}
+delete from WRK_EntrezGene_EGSet where taxID = ${TAXID}
 go
 
-delete from WRK_EntrezGene_MGISet where taxID = ${HUMANTAXID}
+delete from WRK_EntrezGene_MGISet where taxID = ${TAXID}
 go
 
 EOSQL
@@ -41,23 +43,23 @@ cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
 use ${DBNAME}
 go
 
-/* set of all EG IDs (for human markers)... */
+/* set of all EG IDs (for markers)... */
 
 insert into ${RADARDB}..WRK_EntrezGene_MGISet
-select ${HUMANTAXID}, a.accID, a.accID, 'EG'
+select ${TAXID}, a.accID, a.accID, 'EG'
 from MRK_Marker m, ACC_Accession a
-where m._Organism_key = ${HUMANSPECIESKEY}
+where m._Organism_key = ${ORGANISM}
 and m._Marker_key = a._Object_key
 and a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
 go
 
-/* set of human symbols that do not have EG ids */
+/* set of rat symbols that do not have EG ids */
 
 select m.symbol, m._Marker_key
 into #noeg
 from MRK_Marker m
-where m._Organism_key = ${HUMANSPECIESKEY}
+where m._Organism_key = ${ORGANISM}
 and not exists (select 1 from ACC_Accession a
 where m._Marker_key = a._Object_key
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -68,14 +70,14 @@ create index idx1 on #noeg(_Marker_key)
 go
 
 insert into ${RADARDB}..WRK_EntrezGene_MGISet
-select ${HUMANTAXID}, symbol, symbol, 'Symbol'
+select ${TAXID}, symbol, symbol, 'Symbol'
 from #noeg
 go
 
-/* curated GenBank IDs for human symbols that do not have EG ids */
+/* curated GenBank IDs for rat symbols that do not have EG ids */
 
 insert into ${RADARDB}..WRK_EntrezGene_MGISet
-select ${HUMANTAXID}, n.symbol, a.accID, 'Gen'
+select ${TAXID}, n.symbol, a.accID, 'Gen'
 from #noeg n, ACC_Accession a
 where n._Marker_key = a._Object_key
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -92,12 +94,13 @@ go
 insert into WRK_EntrezGene_EGSet
 select e.taxID, e.geneID, e.geneID, 'EG'
 from DP_EntrezGene_Info e
-where e.taxID = ${HUMANTAXID}
+where e.taxID = ${TAXID}
 union
 insert into WRK_EntrezGene_EGSet
-select e.taxID, e.geneID, e.geneID, 'EG'
+select e.taxID, e.geneID, e.oldgeneID, 'EG'
 from DP_EntrezGene_History e
-where e.taxID = ${HUMANTAXID}
+where e.taxID = ${TAXID}
+and e.geneID != '-'
 go
 
 /* EG symbols */
@@ -105,7 +108,7 @@ go
 insert into WRK_EntrezGene_EGSet
 select e.taxID, e.geneID, e.symbol, 'Symbol'
 from DP_EntrezGene_Info e
-where e.taxID = ${HUMANTAXID}
+where e.taxID = ${TAXID}
 go
 
 /* RNA GenBank IDs */
@@ -113,7 +116,7 @@ go
 insert into WRK_EntrezGene_EGSet
 select e.taxID, e.geneID, e.rna, 'Gen'
 from DP_EntrezGene_Accession e
-where e.taxID = ${HUMANTAXID}
+where e.taxID = ${TAXID}
 and e.rna != '-'
 go
 
@@ -122,7 +125,7 @@ go
 insert into WRK_EntrezGene_EGSet
 select e.taxID, e.geneID, e.genomic, 'Gen'
 from DP_EntrezGene_Accession e
-where e.taxID = ${HUMANTAXID}
+where e.taxID = ${TAXID}
 and e.genomic != '-'
 go
 
@@ -133,4 +136,4 @@ ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_EGSet_create.object | tee -a ${LOG}
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_MGISet_create.object | tee -a ${LOG}
 
 date | tee -a ${LOG}
-echo "End: creating human sets." | tee -a ${LOG}
+echo "End: creating sets." | tee -a ${LOG}

@@ -28,7 +28,7 @@ date >> ${LOG}
 ../deleteOrphans.csh ${HUMANDATADIR} ${HUMANSPECIESKEY}
 ../deleteRefSeqs.csh ${HUMANDATADIR} ${HUMANSPECIESKEY}
 ../convertToEG.csh ${HUMANDATADIR} ${HUMANSPECIESKEY}
-./createSets.csh
+../createSets.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ./createBuckets.csh
 ../runreports.csh ${HUMANDATADIR} ${HUMANARCHIVEDIR}
 ../acc.csh ${HUMANDATADIR} ${HUMANTAXID}
