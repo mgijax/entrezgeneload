@@ -18,16 +18,16 @@ date >> ${LOG}
 
 # grab latest files
 
-cp ${FTPDATA1}/gene2accession.gz ${EGINPUTDIR}
-cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
-cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
-cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
+#cp ${FTPDATA1}/gene2accession.gz ${EGINPUTDIR}
+#cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
+#cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
+#cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
 
 # uncompress the files
-cd ${EGINPUTDIR}
-foreach i (*.gz)
-/usr/local/bin/gunzip -f $i >>& ${LOG}
-end
+#cd ${EGINPUTDIR}
+#foreach i (*.gz)
+#/usr/local/bin/gunzip -f $i >>& ${LOG}
+#end
 
 # split up gene_info
 cd ${EGINSTALLDIR}
@@ -52,44 +52,5 @@ cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Synonym in ${EGINPUTDIR}/g
 
 # create indexes
 ${RADARDBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
-
-cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
- 
-use ${RADARDB}
-go
-
-/* convert the EG mapPosition values to MGI format (remove the leading chromosome value) */
-
-update DP_EntrezGene_Info
-set mapPosition = substring(mapPosition, 3, 100)
-where taxID in (${HUMANTAXID}, ${RATTAXID})
-and mapPosition like '[12][0-9]%'
-go
-
-update DP_EntrezGene_Info
-set mapPosition = substring(mapPosition, 2, 100)
-where taxID in (${HUMANTAXID}, ${RATTAXID})
-and mapPosition like '[1-9]%'
-go
-
-update DP_EntrezGene_Info
-set mapPosition = substring(mapPosition, 2, 100)
-where taxID in (${HUMANTAXID}, ${RATTAXID})
-and mapPosition like '[XY]%'
-go
-
-update DP_EntrezGene_Info
-set chromosome = 'MT'
-where taxID in (${HUMANTAXID}, ${RATTAXID})
-and chromosome = 'mitochondrion'
-go
-
-update DP_EntrezGene_Info
-set chromosome = 'UN'
-where taxID in (${HUMANTAXID}, ${RATTAXID})
-and chromosome = 'Un'
-go
-
-EOSQL
 
 date >> ${LOG}
