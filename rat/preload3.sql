@@ -12,7 +12,7 @@ use ${DBNAME}
 go
 
 print ""
-print "Bucket 3: MGI Rat Symbols with an obsolete EntrezGene ID"
+print "Bucket 3: MGI Rat Symbols with an invalid EntrezGene ID"
 print ""
 
 select m.symbol, a.accID

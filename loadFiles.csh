@@ -8,7 +8,7 @@
 
 cd `dirname $0` && source ./Configuration
 
-cd ${EGDATADIR}
+cd ${INPUTDATADIR}
 
 setenv LOG      ${EGLOGSDIR}/`basename $0`.log
 rm -rf ${LOG}
@@ -18,19 +18,20 @@ date >> ${LOG}
 
 # grab latest files
 
-cp ${FTPDATA1}/gene2accession.gz ${EGINPUTDIR}
-cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
-cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
-cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene2accession.gz ${INPUTDATADIR}
+cp ${FTPDATA1}/gene2pubmed.gz ${INPUTDATADIR}
+cp ${FTPDATA1}/gene2refseq.gz ${INPUTDATADIR}
+cp ${FTPDATA1}/gene_info.gz ${INPUTDATADIR}
+cp ${FTPDATA1}/gene_history.gz ${INPUTDATADIR}
 
 # uncompress the files
-cd ${EGINPUTDIR}
+cd ${INPUTDATADIR}
 foreach i (*.gz)
 /usr/local/bin/gunzip -f $i >>& ${LOG}
 end
 
 # split up gene_info
-cd ${EGINSTALLDIR}
+cd ${INSTALLDIR}
 ./geneinfo.py >>& ${LOG}
 
 # strip version numbers out of gene2accession, gene2refseq
@@ -43,12 +44,12 @@ ${RADARDBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
 ${RADARDBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
 
 # bcp new data into tables
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Accession in ${EGINPUTDIR}/gene2accession.new -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Info in ${EGINPUTDIR}/gene_info.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_DBXRef in ${EGINPUTDIR}/gene_dbxref.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_PubMed in ${EGINPUTDIR}/gene2pubmed -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_RefSeq in ${EGINPUTDIR}/gene2refseq.new -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Synonym in ${EGINPUTDIR}/gene_synonym.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Accession in ${INPUTDATADIR}/gene2accession.new -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Info in ${INPUTDATADIR}/gene_info.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_DBXRef in ${INPUTDATADIR}/gene_dbxref.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_PubMed in ${INPUTDATADIR}/gene2pubmed -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_RefSeq in ${INPUTDATADIR}/gene2refseq.new -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Synonym in ${INPUTDATADIR}/gene_synonym.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
 
 # create indexes
 ${RADARDBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}

@@ -8,34 +8,37 @@
 #
 
 # install directory
-setenv INSTALLDIR		/usr/local/mgi/live/dataload/entrezgeneload
+setenv EGINSTALLDIR		/usr/local/mgi/live/dataload/entrezgeneload
 
 # system doc directory
-setenv SYSTEMDOCDIR		${INSTALLDIR}/system_docs
+setenv SYSTEMDOCDIR		${EGINSTALLDIR}/system_docs
 
 # data directory
-setenv DATADIR			/data/loads/entrezgene/entrezgeneload
+setenv EGDATADIR		/data/loads/entrezgene/entrezgeneload
+
+# input data directory
+setenv INPUTEGDATADIR             ${EGDATADIR}/input
 
 # mouse data directory
-setenv MOUSEDATADIR       	${DATADIR}/output/mouse
+setenv MOUSEEGDATADIR       	${EGDATADIR}/output/mouse
 
 # human data directory
-setenv HUMANDATADIR       	${DATADIR}/output/human
+setenv HUMANEGDATADIR       	${EGDATADIR}/output/human
 
 # rat data directory
-setenv RATDATADIR       	${DATADIR}/output/rat
+setenv RATEGDATADIR       	${EGDATADIR}/output/rat
 
 # archive directory
-setenv ARCHIVEDIR		${DATADIR}/archive
+setenv ARCHIVEDIR		${EGDATADIR}/archive
 
 # archive directory
-setenv MOUSEARCHIVEDIR		${DATADIR}/archive/mouse
+setenv MOUSEARCHIVEDIR		${EGDATADIR}/archive/mouse
 
 # archive directory
-setenv HUMANARCHIVEDIR		${DATADIR}/archive/human
+setenv HUMANARCHIVEDIR		${EGDATADIR}/archive/human
 
 # archive directory
-setenv RATARCHIVEDIR		${DATADIR}/archive/rat
+setenv RATARCHIVEDIR		${EGDATADIR}/archive/rat
 
 # HUGO directory
 setenv HUGOFTPDIR               gondor:/export/gondor/ftp/private/hes
@@ -139,17 +142,6 @@ setenv REFERENCEKEY	64047
 # Report header/trailer scripts
 setenv REPORTHEADER     /mgi/software/customSQL/bin/header.sh
 setenv REPORTTRAILER    /mgi/software/customSQL/bin/trailer
-
-# MGC Configurations
-
-setenv MGCFILE                  $MOUSEDATADIR/MGC.in
-setenv MGCJNUM                  'J:77000'
-setenv MGCREFSKEY		78900
-setenv MGCSEQDB                 'Sequence DB'
-setenv MGCMARKERTYPE            'Gene'
-setenv MGCMARKERSTATUS          'Unreviewed'
-setenv MGCCHROMOSOME            'UN'
-setenv MGCSUBMITTER             'djr'
 
 # initialize RADAR DB value
 source ${RADARDBSCHEMADIR}/Configuration
