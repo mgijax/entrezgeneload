@@ -136,8 +136,8 @@ go
 
 update DP_EntrezGene_Info
 set chromosome = 'UN'
-where taxID in (${HUMANTAXID}, ${RATTAXID})
-and chromosome = 'Un'
+where taxID in (${MOUSETAXID}, ${HUMANTAXID}, ${RATTAXID})
+and chromosome in ('Un', 'unknown', '-')
 go
 
 update DP_EntrezGene_Info
