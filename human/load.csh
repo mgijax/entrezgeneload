@@ -34,7 +34,7 @@ createBuckets.csh
 preload.csh >>& ${LOG}
 
 # process accession ids
-../accids.py -S${DBSERVER} -D${DBNAME} -U${DBUSER} -P${DBPASSWORDFILE} -O${HUMANDATADIR} -T${HUMANBUCKETZERO} >> $LOG}
+../accids.py -S${DBSERVER} -D${DBNAME} -U${DBUSER} -P${DBPASSWORDFILE} -O${HUMANDATADIR} -T${HUMANTAXID} >> $LOG}
 cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_Accession in ${HUMANDATADIR}/ACC_Accession.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >> $LOG}
 cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_AccessionReference in ${HUMANDATADIR}/ACC_AccessionReference.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >> $LOG}
 
