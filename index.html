@@ -1,0 +1,62 @@
+<TITLE>
+EntrezGene Load: Data and QC Reports
+</TITLE>
+<H1>EntrezGene Load: Data and QC Reports</H1>
+<UL>
+
+<H4>Data</H4>
+<UL>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/gene_info">Gene File</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/loc2acc">Accession File</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/gene2pubmed">Citation File</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/gene2refseq">RefSeq File</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/homologene.data">Homology File</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/MGC.in">MGC Genes Loaded</A>
+</UL>
+
+<H4>Mouse Reports</H4>
+<UL>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/preload0.sql.rpt">Bucket 0 - MGI Acc ID Match; Seq ID Match - Good to Load</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/preload1.sql.rpt">Bucket 1 - EntrezGene IDs which map to non Gene/Pseudogene MGI Markers</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/preload2.sql.rpt">Bucket 2 - Seq IDs which map to > 1 MGI Marker + Problem Clones</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/preload3.sql.rpt">Bucket 3 - EntrezGene IDs with different Seq IDs which map to different MGI Markers</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/preload4.sql.rpt">Bucket 4 - MGI Acc ID Match; EntrezGene has no SeqID; MGD has no SeqID</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/preload5.sql.rpt">Bucket 5 - MGI Acc ID Match; EntrezGene has SeqID; MGD has no SeqID</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/preload6.sql.rpt">Bucket 6 - MGI Acc ID Match; EntrezGene has no SeqID; MGD has SeqID</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/preload7.sql.rpt">Bucket 7 - MGI Acc ID Match; EntrezGene has SeqID; MGD has SeqID; not in Bucket 0,1,2</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/preload8.sql.rpt">Bucket 8 - EntrezGene records with no MGD Acc ID match</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/preload9.sql.rpt">Bucket 9 - EntrezGene records from Bucket 0 with non-mRNA SeqIDs not in MGD</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/preload10.rpt">Bucket 10 - EntrezGene Mouse Symbols w/ Unpublished GenBank ID; GenBank ID Not Attached to MGD Marker</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/preload11.rpt">Bucket 11 - EntrezGene Mouse Symbols w/ Published GenBank ID; GenBank ID Not Attached to MGD Marker; Reference in MGD</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/mouse/preload12.rpt">Bucket 12 - EntrezGene Mouse Symbols w/ Published GenBank ID; GenBank ID Not Attached to MGD Marker; Reference not in MGD</A>
+</UL>
+
+<H4>Human Reports</H4>
+<UL>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/human/preload0.sql.rpt">Bucket 0: Nomenclature Updates Processed and New EntrezGene IDs Attached</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/human/preload1.sql.rpt">Bucket 1: MGD Human Symbols with neither a EntrezGene ID nor GDB ID (the No-No set)</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/human/preload2.sql.rpt">Bucket 2: MGD Human Symbols without a EntrezGene ID but with a GDB ID (the No-Yes set)</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/human/preload3.sql.rpt">Bucket 3: Duplicates found in EntrezGene file</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/human/preload4.sql.rpt">Bucket 4: Duplicate Human Symbols found in MGD</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/human/preload5.sql.rpt">Bucket 5: MGD Human Symbol Mapping Updates</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/human/preload6.sql.rpt">Bucket 6: MGD Human Symbols with an obsolete EntrezGene ID</A>
+</UL>
+
+<H4>Rat Reports</H4>
+<UL>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/rat/preload0.sql.rpt">Bucket 0: Nomenclature Updates Processed and New EntrezGene IDs Attached</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/rat/preload1.sql.rpt">Bucket 1: MGD Rat Symbols with neither a EntrezGene ID nor RGD ID (the No-No set)</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/rat/preload2.sql.rpt">Bucket 2: MGD Rat Symbols without a EntrezGene ID but with a RGD ID (the No-Yes set)</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/rat/preload3.sql.rpt">Bucket 3: Duplicates found in EntrezGene file</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/rat/preload4.sql.rpt">Bucket 4: Duplicate Rat Symbols found in MGD</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/rat/preload5.sql.rpt">Bucket 5: MGD Rat Symbol Mapping Updates</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/rat/preload6.sql.rpt">Bucket 6: MGD Rat Symbols with an obsolete EntrezGene ID</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/rat/preload7.sql.rpt">Bucket 7: MGD Rat Symbols with no EntrezGene ID, no RGD ID, no RatMap ID (the No-No-No set)</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/rat/preload8.sql.rpt">Bucket 8: MGD Rat Symbols with no EntrezGene ID, no RGD ID, but with a RatMap ID (the No-No-Yes set)</A>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/data/rat/preload9.sql.rpt">Bucket 9: MGD Rat Symbols with a EntrezGene ID, no RGD ID, no RatMap ID (the Yes-No-No set)</A>
+</UL>
+
+<H4>Documentation</H4>
+<OL>
+<LI><A HREF="/usrlocalmgi/live/dataload/entrezgeneload/system_docs/entrezgeneload.pdf">Requirements/Design</A>
+</OL>

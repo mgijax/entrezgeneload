@@ -1,0 +1,12 @@
+#!/bin/csh
+
+#
+# To install this product in the appropriate directory
+#
+# 1. cd to the parent of the installation directory (i.e. /usr/local/mgi/live/dataload)
+# 2. cvs export -r entrezgeneload-#-# entrezgeneload
+# 3. cd to the installation directory
+# 4. cp Configuration.default Configuration
+# 5. edit Configuration file
+#
+
