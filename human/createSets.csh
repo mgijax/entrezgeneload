@@ -93,6 +93,11 @@ insert into WRK_EntrezGene_EGSet
 select e.taxID, e.geneID, e.geneID, 'EG'
 from DP_EntrezGene_Info e
 where e.taxID = ${HUMANTAXID}
+union
+insert into WRK_EntrezGene_EGSet
+select e.taxID, e.geneID, e.geneID, 'EG'
+from DP_EntrezGene_History e
+where e.taxID = ${HUMANTAXID}
 go
 
 /* EG symbols */
