@@ -17,18 +17,9 @@ touch ${LOG}
 echo "Begin: creating mouse sets..." | tee -a ${LOG}
 date | tee -a ${LOG}
 
-cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
- 
-use ${RADARDB}
-go
-
-delete from WRK_EntrezGene_EGSet where taxID = ${MOUSETAXID}
-go
-
-delete from WRK_EntrezGene_MGISet where taxID = ${MOUSETAXID}
-go
-
-EOSQL
+# truncate tables
+${RADARDBSCHEMADIR}/table/WRK_EntrezGene_EGSet_truncate.object | tee -a ${LOG}
+${RADARDBSCHEMADIR}/table/WRK_EntrezGene_MGISet_truncate.object | tee -a ${LOG}
 
 # drop indexes
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_EGSet_drop.object | tee -a ${LOG}
