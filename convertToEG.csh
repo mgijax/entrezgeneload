@@ -1,16 +1,17 @@
 #!/bin/csh -fx
 
 #
-# Change Logical DB from LL to EG for Human
+# Change Logical DB from LL to EG for Rat
 #
 # Usage:  convertToEG.csh
 #
 # History
 #	
 
-cd `dirname $0` && source ../Configuration
+setenv DATADIR $1
+setenv ORGANSIM $2
 
-setenv LOG      ${HUMANDATADIR}/`basename $0`.log
+setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
@@ -28,7 +29,7 @@ from ACC_Accession a, MRK_Marker m
 where a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = 24
 and a._Object_key = m._Marker_key
-and m._Organism_key = ${HUMANSPECIESKEY}
+and m._Organism_key = ${ORGANISM}
 go
 
 create index idx1 on #toupdate(_Accession_key)

@@ -25,9 +25,9 @@ touch ${LOG}
 
 date >> ${LOG}
 
-./deleteOrphans.csh
-./deleteRefSeqs.csh
-./convertToEG.csh
+../deleteOrphans.csh ${HUMANDATADIR} ${HUMANSPECIESKEY}
+../deleteRefSeqs.csh ${HUMANDATADIR} ${HUMANSPECIESKEY}
+../convertToEG.csh ${HUMANDATADIR} ${HUMANSPECIESKEY}
 ./createSets.csh
 ./createBuckets.csh
 ../runreports.csh ${HUMANDATADIR} ${HUMANARCHIVEDIR}

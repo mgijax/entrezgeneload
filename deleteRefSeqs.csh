@@ -1,20 +1,21 @@
 #!/bin/csh -fx
 
 #
-# Delete RefSeq/Human Marker associations
+# Delete RefSeq/Marker associations
 #
 # Usage:  deleteRefSeqs.csh
 #
 # History
 #	
 
-cd `dirname $0` && source ../Configuration
+setenv DATADIR $1
+setenv ORGANISM $2
 
-setenv LOG      ${HUMANDATADIR}/`basename $0`.log
+setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
-echo "Begin: deleting RefSeq/Human markers associations..." >> ${LOG}
+echo "Begin: deleting RefSeq/Markers associations..." >> ${LOG}
 date >> ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
@@ -33,7 +34,7 @@ and r._Accession_key = a._Accession_key
 and a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALREFSEQKEY}
 and a._Object_key = m._Marker_key
-and m._Organism_key = ${HUMANSPECIESKEY}
+and m._Organism_key = ${ORGANISMKEY}
 go
 
 create index idx1 on #todelete(_Accession_key)
@@ -54,4 +55,4 @@ quit
 EOSQL
  
 date >> ${LOG}
-echo "End: deleting RefSeq/Human markers associations." >> ${LOG}
+echo "End: deleting RefSeq/Markers associations." >> ${LOG}

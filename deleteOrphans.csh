@@ -1,20 +1,21 @@
 #!/bin/csh -fx
 
 #
-# Delete orphan Human Marker entries
+# Delete Orphan Marker entries
 #
 # Usage:  deleteOrphans.csh
 #
 # History
 #	
 
-cd `dirname $0` && source ../Configuration
+setenv DATADIR $1
+setenv ORGANISM $2
 
-setenv LOG      ${HUMANDATADIR}/`basename $0`.log
+setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
-echo "Begin: deleting orphan Human markers..." >> ${LOG}
+echo "Begin: deleting orphan markers..." >> ${LOG}
 date >> ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
@@ -25,7 +26,7 @@ go
 declare mrk_cursor cursor for
 select _Marker_key
 from MRK_Marker m
-where m._Organism_key = ${HUMANSPECIESKEY}
+where m._Organism_key = ${ORGANISM}
 and not exists (select h.* from HMD_Homology_Marker h where m._Marker_key = h._Marker_key)
 for read only
 go
@@ -50,4 +51,4 @@ quit
 EOSQL
  
 date >> ${LOG}
-echo "End: deleting orphan Human markers." >> ${LOG}
+echo "End: deleting orphan markers." >> ${LOG}

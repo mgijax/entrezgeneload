@@ -8,10 +8,8 @@
 # History
 #
 
-source ../Configuration
-
 setenv DATADIR	$1
-setenv ARCHIVEDIR	$2
+setenv ARCHIVEDIR $2
 
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf $LOG
