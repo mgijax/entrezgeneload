@@ -3,7 +3,7 @@
 #
 # Process Human Updates
 #
-# Usage:  LLload.sh
+# Usage:  load.csh
 #
 # History
 #
@@ -25,22 +25,20 @@ touch ${LOG}
 
 date >> ${LOG}
 
-# create temp tables
-LLcreateTempTables.sh >>& ${LOG}
+deleteOrphans.csh
+deleteRefSeqs.csh
+createSets.csh
+createBuckets.csh
 
-# run pre-load reports
-LLpreload.sh >>& ${LOG}
+# run reports
+preload.csh >>& ${LOG}
 
 # process accession ids
-LLaccids.py -S${DBSERVER} -D${DBNAME} -U${DBUSER} -P${DBPASSWORDFILE} >> $LOG}
+../accids.py -S${DBSERVER} -D${DBNAME} -U${DBUSER} -P${DBPASSWORDFILE} -O${HUMANDATADIR} -T${HUMANBUCKETZERO} >> $LOG}
 cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_Accession in ${HUMANDATADIR}/ACC_Accession.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >> $LOG}
 cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_AccessionReference in ${HUMANDATADIR}/ACC_AccessionReference.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >> $LOG}
 
 # update nomenclature
-LLupdate.sh >>& ${LOG}
-
-# update statistics
-#${DBUTILITIESPATH}/bin/updateStatistics.csh ${DBSERVER} ${DBNAME} ACC_Accession
-#${DBUTILITIESPATH}/bin/updateStatistics.csh ${DBSERVER} ${DBNAME} ACC_AccessionReference
+update.csh >>& ${LOG}
 
 date >> ${LOG}
