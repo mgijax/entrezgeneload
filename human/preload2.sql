@@ -12,45 +12,18 @@ use ${DBNAME}
 go
 
 print ""
-print "Bucket 2: MGD Human Symbols without a LL ID but with a GDB ID (the No-Yes set)"
+print "Bucket 2: New EntrezGene IDs Added"
 print ""
-print "     Records which are in the duplicates file are ignored during processing."
+print "     New EntrezGene IDs added to MGI Human symbol"
+print "     based on Symbol and Seq ID match"
 print ""
 
-select m.symbol, gdbID = ma.accID, in_duplicates_file = "yes"
-from MRK_Marker m, ACC_Accession ma
-where m._Organism_key = 2
-and not exists (select 1 from ${RADARDB}..WRK_LLHumanLLIDsToAdd l
-where m._Marker_key = l._Marker_key)
-and not exists (select 1 from ACC_Accession ma
-where m._Marker_key = ma._Object_key
-and ma._MGIType_key = ${MARKERTYPEKEY}
-and ma._LogicalDB_key = ${LOGICALLLKEY})
-and m._Marker_key = ma._Object_key
-and ma._MGIType_key = ${MARKERTYPEKEY}
-and ma._LogicalDB_key = ${LOGICALGDBKEY}
-and exists (select 1 from ${RADARDB}..WRK_LLHumanDuplicates l
-where ma.accID = l.gsdbID)
-union
-select m.symbol, gdbID = ma.accID, in_duplicates_file = "no"
-from MRK_Marker m, ACC_Accession ma
-where m._Organism_key = 2
-and not exists (select 1 from ${RADARDB}..WRK_LLHumanLLIDsToAdd l
-where m._Marker_key = l._Marker_key)
-and not exists (select 1 from ACC_Accession ma
-where m._Marker_key = ma._Object_key
-and ma._MGIType_key = ${MARKERTYPEKEY}
-and ma._LogicalDB_key = ${LOGICALLLKEY})
-and m._Marker_key = ma._Object_key
-and ma._MGIType_key = ${MARKERTYPEKEY}
-and ma._LogicalDB_key = ${LOGICALGDBKEY}
-and not exists (select 1 from ${RADARDB}..WRK_LLHumanDuplicates l
-where ma.accID = l.gsdbID)
-union
-select m.symbol, gdbID = l.gsdbID, in_duplicates_file = "no"
-from MRK_Marker m, ${RADARDB}..WRK_LLHumanGDBIDsToAdd l
-where m._Marker_key = l._Marker_key
-order by in_duplicates_file desc, symbol
+select e.accID, m.symbol
+from ${RADARDB}..WRK_EntrezGene_Bucket0 e, MRK_Marker m
+where e.taxID = ${HUMANTAXID}
+and e._LogicalDB_key = ${LOGICALEGKEY}
+and e._Object_key = m._Marker_key
+order by e.accID
 go
 
 quit

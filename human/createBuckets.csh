@@ -94,15 +94,6 @@ create index idx2 on #bucket0(idType)
 go
 
 insert into WRK_EntrezGene_Bucket0
-select ${HUMANTAXID}, a._Object_key, ${LOGICALEGKEY}, b.mgiID, b.geneID, ${HUMANEGPRIVATE}
-from #bucket0 b, ${DBNAME}..ACC_Accession a
-where b.idType = 'EG'
-and b.mgiID = a.accID
-and a._MGIType_key = ${MARKERTYPEKEY}
-and a._LogicalDB_key = ${LOGICALEGKEY}
-go
-
-insert into WRK_EntrezGene_Bucket0
 select ${HUMANTAXID}, m._Marker_key, ${LOGICALEGKEY}, b.mgiID, b.geneID, ${HUMANEGPRIVATE}
 from #bucket0 b, ${DBNAME}..MRK_Marker m
 where b.idType = 'Symbol'

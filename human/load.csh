@@ -40,6 +40,7 @@ cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_Accession in ${HUMANDATADIR}/ACC_Acce
 cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_AccessionReference in ${HUMANDATADIR}/ACC_AccessionReference.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >> $LOG}
 
 # update nomenclature
-update.csh >>& ${LOG}
+../updateNomen.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY} >>& ${LOG}
+../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID} >>& ${LOG}
 
 date >> ${LOG}
