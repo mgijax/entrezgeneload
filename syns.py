@@ -43,7 +43,7 @@ datadir = os.environ['DATADIR']
 radar = os.environ['RADARDB']
 referenceKey = os.environ['REFERENCEKEY']	# _Refs_key of Reference
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
-synTypeKey = os.environ['EGSYNTYPEKEY']		# _SynonymType_key
+synTypeKey = os.environ['SYNTYPEKEY']		# _SynonymType_key
 
 synFileName = datadir +  '/MGI_Synonym.bcp'
 diagFileName = datadir + '/syns.diagnostics'

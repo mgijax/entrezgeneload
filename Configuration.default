@@ -141,8 +141,11 @@ setenv HUMANHGNCPRIVATE	0
 # Private flag for RefSeq ID (0 = no, 1 = yes)
 setenv RATREFSEQPRIVATE	1
 
-# EntrezGene Synonym Type
-setenv EGSYNTYPEKEY	1012
+# EntrezGene Human Synonym Type
+setenv HUMSYNTYPEKEY    1012
+
+# EntrezGene Rat Synonym Type
+setenv RATSYNTYPEKEY    1014
 
 # Reference for Load J:63103
 setenv REFERENCEKEY	64047

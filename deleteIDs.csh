@@ -43,6 +43,7 @@ setenv DATADIR $1
 setenv ORGANISM $2
 setenv LOGICALDBBYREF $3
 setenv LOGICALDB $4
+setenv SYNTYPEKEY $5
 
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
@@ -114,7 +115,7 @@ select s._Synonym_key
 into #todelete
 from MGI_Synonym s, MGI_SynonymType st
 where s._SynonymType_key = st._SynonymType_key
-and st._SynonymType_key = ${EGSYNTYPEKEY}
+and st._SynonymType_key = ${SYNTYPEKEY}
 and st._Organism_key = ${ORGANISM}
 go
 
