@@ -58,11 +58,11 @@ for line in infoFile.readlines():
 
 	for s in string.split(synonyms, '|'):
 		if s != '-':
-			synOutFile.write(geneID + TAB + s + CRT)
+			synOutFile.write(taxID + TAB + geneID + TAB + s + CRT)
 
 	for s in string.split(dbxRefs, '|'):
 		if s != '-':
-			dbxOutFile.write(geneID + TAB + s + CRT)
+			dbxOutFile.write(taxID + TAB + geneID + TAB + s + CRT)
 
 infoFile.close()
 infoOutFile.close()

@@ -31,12 +31,16 @@ go
 delete from WRK_EntrezGene_Mapping where taxID = ${HUMANTAXID}
 go
 
+delete from WRK_EntrezGene_Synonym where taxID = ${HUMANTAXID}
+go
+
 EOSQL
 
 # drop indexes
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_drop.object | tee -a ${LOG}
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Nomen_drop.object | tee -a ${LOG}
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Mapping_drop.object | tee -a ${LOG}
+${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Synonym_drop.object | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
  
@@ -181,12 +185,25 @@ update WRK_EntrezGene_Mapping
 set egMapPosition = null where egMapPosition = '-'
 go
 
+/****** Synonym Bucket ******/
+
+insert into WRK_EntrezGene_Synonym
+select e.taxID, a._Object_key, e.geneID, s.synonym
+from DP_EntrezGene_Info e, DP_EntrezGene_Synonym s, ${DBNAME}..ACC_Accession a
+where e.taxID = ${HUMANTAXID}
+and e.geneID = s.geneID
+and e.geneID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALEGKEY}
+go
+
 EOSQL
  
 # create indexes
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_create.object | tee -a ${LOG}
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Nomen_create.object | tee -a ${LOG}
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Mapping_create.object | tee -a ${LOG}
+${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Synonym_create.object | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating human buckets." | tee -a ${LOG}
