@@ -96,11 +96,17 @@ setenv MARKERTYPEKEY	2
 # MGI Type Key for Probe
 setenv PROBETYPEKEY     3
 
+# MGI Type Key for Sequence
+setenv SEQUENCETYPEKEY     19
+
 # Logical Key for Sequence ID
 setenv LOGICALSEQKEY	9
 
 # Logical Key for EntrezGene ID
 setenv LOGICALEGKEY     55
+
+# Logical Key for EntrezGene Coordinates
+setenv LOGICALEGCOORDKEY     59
 
 # Logical Key for RGD
 setenv LOGICALRGDKEY	47

@@ -108,6 +108,18 @@ where b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
 go
 
+/* EG ids (coordinates) */
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${MOUSETAXID}, a._Object_key, ${LOGICALEGCOORDKEY}, b.mgiID, b.geneID, ${MOUSEEGPRIVATE}, 1
+from #bucket0 b, ${DBNAME}..ACC_Accession a, ${DBNAME}..ACC_Accession a2
+where b.mgiID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and b.geneID = a2.accID
+and a2._MGIType_key = ${SEQUENCETYPEKEY}
+and a2._LogicalDB_key = ${LOGICALEGCOORDKEY}
+go
+
 /* RefSeq ids */
 
 insert into WRK_EntrezGene_Bucket0
