@@ -48,7 +48,7 @@ setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
-echo "Begin: deleting Marker associations..." >> ${LOG}
+echo "Begin: deleting Marker/ID associations..." >> ${LOG}
 date >> ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
@@ -110,4 +110,4 @@ quit
 EOSQL
  
 date >> ${LOG}
-echo "End: deleting Marker associations." >> ${LOG}
+echo "End: deleting Marker/ID associations." >> ${LOG}

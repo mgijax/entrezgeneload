@@ -119,7 +119,7 @@ setenv MOUSEEGPRIVATE	0
 setenv HUMANEGPRIVATE	0
 
 # Private flag for Rat EntrezGeneID (0 = no, 1 = yes)
-setenv RATLLPRIVATE	0
+setenv RATEGPRIVATE	0
 
 # Private flag for RGD ID (0 = no, 1 = yes)
 setenv RATMAPPRIVATE	0
@@ -130,11 +130,17 @@ setenv RGDPRIVATE	0
 # Logical Key for RefSeq ID
 setenv LOGICALREFSEQKEY	27
 
+# Logical Key for HGNC ID
+setenv LOGICALHGNCKEY	64
+
 # Private flag for RefSeq ID (0 = no, 1 = yes)
 setenv REFSEQPRIVATE	0
 
 # Private flag for RefSeq ID (0 = no, 1 = yes)
 setenv HUMANREFSEQPRIVATE	1
+
+# Private flag for HGNC ID (0 = no, 1 = yes)
+setenv HUMANHGNCPRIVATE	0
 
 # Private flag for RefSeq ID (0 = no, 1 = yes)
 setenv RATREFSEQPRIVATE	1
