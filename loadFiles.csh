@@ -18,22 +18,22 @@ date >> ${LOG}
 
 # grab latest files
 
-cp ${FTPDATA1}/gene2accession.gz .
-cp ${FTPDATA1}/gene2pubmed.gz .
-cp ${FTPDATA1}/gene2refseq.gz .
-cp ${FTPDATA1}/gene_info.gz .
-cp ${FTPDATA2}/homologene.data .
+#cp ${FTPDATA1}/gene2accession.gz .
+#cp ${FTPDATA1}/gene2pubmed.gz .
+#cp ${FTPDATA1}/gene2refseq.gz .
+#cp ${FTPDATA1}/gene_info.gz .
+#cp ${FTPDATA2}/homologene.data .
 
 # uncompress
-foreach i (*.gz)
-/usr/local/bin/gunzip -f $i >>& ${LOG}
-end
+#foreach i (*.gz)
+#/usr/local/bin/gunzip -f $i >>& ${LOG}
+#end
 
 # split up gene_info
-../geneinfo.py >>& ${LOG}
+#../geneinfo.py >>& ${LOG}
 
 # strip version numbers out of gene2accession, gene2refseq
-../stripversion.py >>& ${LOG}
+#../stripversion.py >>& ${LOG}
 
 # truncate existing tables
 ${RADARDBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
