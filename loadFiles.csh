@@ -73,6 +73,12 @@ and mapPosition like '[1-9]%'
 go
 
 update DP_EntrezGene_Info
+set mapPosition = substring(mapPosition, 2, 100)
+where taxID in (${HUMANTAXID}, ${RATTAXID})
+and mapPosition like '[XY]%'
+go
+
+update DP_EntrezGene_Info
 set chromosome = 'MT'
 where taxID in (${HUMANTAXID}, ${RATTAXID})
 and chromosome = 'mitochondrion'
