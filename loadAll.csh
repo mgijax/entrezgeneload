@@ -18,9 +18,9 @@ touch ${LOG}
 
 date >> ${LOG}
 
-loadFiles.sh >> ${LOG}
-mouse/load.sh >> ${LOG}
-human/load.sh >> ${LOG}
-rat/load.sh >> ${LOG}
+loadFiles.csh >> ${LOG}
+mouse/load.csh >> ${LOG}
+human/load.csh >> ${LOG}
+rat/load.csh >> ${LOG}
 
 date >> ${LOG}
