@@ -33,6 +33,9 @@ and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_MGISet e
 	where e1.compareID = e.mgiID 
 	and e.taxID = ${MOUSETAXID}
 	and e.idType = 'Gen')
+and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_ExcludeA e where e1.compareID = e.mgiID)
+and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_ExcludeB e where e1.compareID = e.mgiID)
+and not exists (select 1 from ${RADARDB}..WRK_EntrezGene_ExcludeC e where e1.compareID = e.mgiID)
 and e1.compareID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
 and a._Object_key = m._Marker_key
