@@ -28,7 +28,7 @@ and e.mgiID = a1.accID
 and a1._MGIType_key = ${MARKERTYPEKEY}
 and ea.rna = a2.accID
 and a2._MGIType_key = ${MARKERTYPEKEY}
-and a2._LogicalDB_key = ${LOGICALSEQKEY}
+and a2._LogicalDB_key in (${LOGICALSEQKEY}, ${LOGICALREFSEQKEY})
 and a1._Object_key = a2._Object_key
 and a1._Object_key = m._Marker_key
 union
@@ -40,7 +40,7 @@ and e.mgiID = a1.accID
 and a1._MGIType_key = ${MARKERTYPEKEY}
 and ea.genomic = a2.accID
 and a2._MGIType_key = ${MARKERTYPEKEY}
-and a2._LogicalDB_key = ${LOGICALSEQKEY}
+and a2._LogicalDB_key in (${LOGICALSEQKEY}, ${LOGICALREFSEQKEY})
 and a1._Object_key = a2._Object_key
 and a1._Object_key = m._Marker_key
 order by e.geneID, m.symbol
