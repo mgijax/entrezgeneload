@@ -37,7 +37,7 @@
 #
 # Modification History:
 #
-# 01/03/2004 - lec
+# 01/03/2005 - lec
 #	- TR 5939/LocusLink->EntrezGene conversion
 #
 

@@ -5,13 +5,13 @@
 
 #
 # Program:
-#	runreports.csh
+#	archive.csh
 #
 # Original Author:
 #	Lori Corbani
 #
 # Purpose:
-#	Run reports in directory from which this program is callled
+#	Archive previous load files
 #
 # Requirements Satisfied by This Program:
 #
@@ -35,26 +35,24 @@
 #
 # Modification History:
 #
-# 01/03/2005 - lec
+# 01/05/2005 - lec
 #	- TR 5939/LocusLink->EntrezGene conversion
 #
 
 setenv DATADIR	$1
+setenv ARCHIVEDIR $2
 
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf $LOG
 touch $LOG
 
-echo "Generating Reports..." >> $LOG
+echo "Begin: archive..." >> $LOG
 date >> $LOG
 
-foreach i (preload*.sql)
-$i ${DATADIR}/$i
-end
+setenv LOADDATE    `date '+%d-%m-%Y'`
 
-foreach i (preload*.py)
-$i
-end
+mkdir ${ARCHIVEDIR}/${LOADDATE}
+mv ${DATADIR}/* ${ARCHIVEDIR}/${LOADDATE}
 
 date >> $LOG
-echo "Reports Generated." >>$LOG
+echo "End: archive." >>$LOG

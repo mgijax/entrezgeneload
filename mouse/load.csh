@@ -16,11 +16,12 @@ touch ${LOG}
 
 date >> ${LOG}
 
+../archive.csh ${MOUSEDATADIR} ${MOUSEARCHIVEDIR}
 ./deleteExistingEntries.csh
 ./createExclude.csh
 ./createSets.csh
 ./createBuckets.csh
-../runreports.csh ${MOUSEDATADIR} ${MOUSEARCHIVEDIR}
+../runreports.csh ${MOUSEDATADIR}
 ../acc.csh ${MOUSEDATADIR} ${MOUSETAXID}
 
 date >> ${LOG}

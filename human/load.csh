@@ -25,11 +25,12 @@ touch ${LOG}
 
 date >> ${LOG}
 
+../archive.csh ${HUMANDATADIR} ${HUMANARCHIVEDIR}
 ../deleteOrphans.csh ${HUMANDATADIR} ${HUMANSPECIESKEY}
 ../deleteIDs.csh ${HUMANDATADIR} ${HUMANSPECIESKEY} ${LOGICALREFSEQKEY} ${LOGICALHGNCKEY}
 ../createSets.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ./createBuckets.csh
-../runreports.csh ${HUMANDATADIR} ${HUMANARCHIVEDIR}
+../runreports.csh ${HUMANDATADIR}
 ../acc.csh ${HUMANDATADIR} ${HUMANTAXID}
 ../updateNomen.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID}

@@ -16,11 +16,12 @@ touch ${LOG}
 
 date >> ${LOG}
 
+../archive.csh ${RATDATADIR} ${RATARCHIVEDIR}
 ../deleteOrphans.csh ${RATDATADIR} ${RATSPECIESKEY}
 ../deleteIDs.csh ${RATDATADIR} ${RATSPECIESKEY} "${LOGICALREFSEQKEY}" "${LOGICALRGDKEY},${LOGICALRATMAPKEY}"
 ../createSets.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
 ./createBuckets.csh
-../runreports.csh ${RATDATADIR} ${RATARCHIVEDIR}
+../runreports.csh ${RATDATADIR}
 ../acc.csh ${RATDATADIR} ${RATTAXID}
 ../updateNomen.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
 ../updateMapping.csh ${RATDATADIR} ${RATTAXID}
