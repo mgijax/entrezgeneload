@@ -112,12 +112,21 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${MOUSETAXID}, a._Object_key, ${LOGICALEGCOORDKEY}, b.mgiID, b.geneID, ${MOUSEEGPRIVATE}, 1
-from #bucket0 b, ${DBNAME}..ACC_Accession a, ${DBNAME}..ACC_Accession a2
+from #bucket0 b, ${DBNAME}..ACC_Accession a, ${DBNAME}..ACC_Accession a2,
+${DBNAME}..MAP_Coord_Feature mf, ${DBNAME}..MAP_Coordinate mc, 
+${DBNAME}..MRK_Chromosome c, ${DBNAME}..MRK_Marker m
 where b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
 and b.geneID = a2.accID
 and a2._MGIType_key = ${SEQUENCETYPEKEY}
 and a2._LogicalDB_key = ${LOGICALEGCOORDKEY}
+and a._Object_key = m._Marker_key
+and m.chromosome != "UN"
+and a2._Object_key = mf._Object_key
+and mf._MGIType_key = ${SEQUENCETYPEKEY}
+and mf._Map_key = mc._Map_key
+and mc._Object_key = c._Chromosome_key
+and c.chromosome = m.chromosome
 go
 
 /* RefSeq ids */
