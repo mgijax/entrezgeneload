@@ -25,10 +25,18 @@ go
 delete from WRK_EntrezGene_Bucket0 where taxID = ${HUMANTAXID}
 go
 
+delete from WRK_EntrezGene_Nomen where taxID = ${HUMANTAXID}
+go
+
+delete from WRK_EntrezGene_Mapping where taxID = ${HUMANTAXID}
+go
+
 EOSQL
 
 # drop indexes
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_drop.object | tee -a ${LOG}
+${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Nomen_drop.object | tee -a ${LOG}
+${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Mapping_drop.object | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
  
@@ -125,10 +133,42 @@ and b.geneID = r.geneID
 and r.rna like 'NM_%'
 go
 
+/***** Nomen Bucket *****/
+
+insert into WRK_EntrezGene_Nomen
+select e.taxID, m._Marker_key, e.geneID, m.symbol, m.name, e.symbol, e.name
+from DP_EntrezGene_Info e, ${DBNAME}..ACC_Accession a, ${DBNAME}..MRK_Marker m
+where e.taxID = ${HUMANTAXID}
+and e.geneID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALEGKEY}
+and a._Object_key = m._Marker_key
+and (e.symbol != m.symbol or e.name != m.name)
+go
+
+/***** Mapping Bucket *****/
+
+insert into WRK_EntrezGene_Mapping
+select e.taxID, m._Marker_key, e.geneID, m.chromosome, m.cytogeneticOffset, e.chromosome, e.mapPosition
+from DP_EntrezGene_Info e, ${DBNAME}..ACC_Accession a, ${DBNAME}..MRK_Marker m
+where e.taxID = ${HUMANTAXID}
+and e.geneID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALEGKEY}
+and a._Object_key = m._Marker_key
+and (
+(e.chromosome != '-' and e.chromosome not like '%|%' and e.chromosome != m.chromosome)
+or 
+(e.mapPosition != '-' and e.mapPosition != m.cytogeneticOffset)
+)
+go
+
 EOSQL
  
 # create indexes
 ${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_create.object | tee -a ${LOG}
+${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Nomen_create.object | tee -a ${LOG}
+${RADARDBSCHEMADIR}/index/WRK_EntrezGene_Mapping_create.object | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating human buckets." | tee -a ${LOG}
