@@ -66,11 +66,19 @@ foreach i (*.gz)
 /usr/local/bin/gunzip -f $i >>& ${LOG}
 end
 
-# split up gene_info
+# parse out mouse, human, rat only
+foreach i (gene2accession gene2pubmed gene2refseq gene_info gene_history)
+rm -rf $i.mgi
+grep ${MOUSETAXID} $i > $i.mgi
+grep ${HUMANTAXID} $i >> $i.mgi
+grep ${RATTAXID} $i >> $i.mgi
+end
+
+# split up gene_info.mgi into gene_info.bcp, gene_dbxref.bcp, gene_synonym.bcp
 cd ${EGINSTALLDIR}
 ./geneinfo.py >>& ${LOG}
 
-# strip version numbers out of gene2accession, gene2refseq
+# strip version numbers out of gene2accession.mgi, gene2refseq.mgi
 ./stripversion.py >>& ${LOG}
 
 # truncate existing tables
@@ -85,10 +93,10 @@ ${RADARDBSCHEMADIR}/index/DP_HomoloGene_drop.object >>& ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Accession in ${EGINPUTDIR}/gene2accession.new -c -t\\t -U${DBUSER} >>& ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Info in ${EGINPUTDIR}/gene_info.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_DBXRef in ${EGINPUTDIR}/gene_dbxref.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_PubMed in ${EGINPUTDIR}/gene2pubmed -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_PubMed in ${EGINPUTDIR}/gene2pubmed.mgi -c -t\\t -U${DBUSER} >>& ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_RefSeq in ${EGINPUTDIR}/gene2refseq.new -c -t\\t -U${DBUSER} >>& ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Synonym in ${EGINPUTDIR}/gene_synonym.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_History in ${EGINPUTDIR}/gene_history -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_History in ${EGINPUTDIR}/gene_history.mgi -c -t\\t -U${DBUSER} >>& ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_HomoloGene in ${EGINPUTDIR}/homologene.data -c -t\\t -U${DBUSER} >>& ${LOG}
 
 # create indexes

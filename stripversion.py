@@ -68,7 +68,7 @@ def splitSeqIdV(seqIdVersion):      # String - seqId.version
 
 inputDir = os.environ['EGINPUTDIR']
 
-accFile = open(inputDir + '/gene2accession', 'r')
+accFile = open(inputDir + '/gene2accession.mgi', 'r')
 newaccFile = open(inputDir + '/gene2accession.new', 'w')
 
 for line in accFile.readlines():
@@ -91,7 +91,7 @@ for line in accFile.readlines():
 accFile.close()
 newaccFile.close()
 
-refFile = open(inputDir + '/gene2refseq', 'r')
+refFile = open(inputDir + '/gene2refseq.mgi', 'r')
 newrefFile = open(inputDir + '/gene2refseq.new', 'w')
 
 for line in refFile.readlines():

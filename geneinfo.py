@@ -46,7 +46,7 @@ CRT = '\n'
 
 inputDir = os.environ['EGINPUTDIR']
 
-infoFile = open(inputDir + '/gene_info', 'r')
+infoFile = open(inputDir + '/gene_info.mgi', 'r')
 infoOutFile = open(inputDir + '/gene_info.bcp', 'w')
 synOutFile = open(inputDir + '/gene_synonym.bcp', 'w')
 dbxOutFile = open(inputDir + '/gene_dbxref.bcp', 'w')
