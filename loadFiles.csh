@@ -1,14 +1,49 @@
 #!/bin/csh -fx
 
+# $Header$
+# $Name$
+
 #
-# Loads EntrezGene files into ${RADARDB}
+# Program:
+#	loadFiles.csh
 #
-# Usage:  loadFiles.sh
+# Original Author:
+#	Lori Corbani
+#
+# Purpose:
+#	To copy and load into RADAR the EntrezGene files
+#	that were downloaded via mirror_ftp.
+#	Also does some minor tweaking of the input.
+#
+# Requirements Satisfied by This Program:
+#
+# Usage:
+#
+# Envvars:
+#
+# Inputs:
+#
+# Outputs:
+#
+# Exit Codes:
+#
+# Assumes:
+#
+# Bugs:
+#
+# Implementation:
+#
+#    Modules:
+#
+# Modification History:
+#
+# 01/03/2004 - lec
+#	- TR 5939/LocusLink->EntrezGene conversion
 #
 
 cd `dirname $0` && source ./Configuration
 
-cd ${INPUTEGDATADIR}
+cd ${EGINPUTDIR}
 
 setenv LOG      ${EGLOGSDIR}/`basename $0`.log
 rm -rf ${LOG}
@@ -18,20 +53,20 @@ date >> ${LOG}
 
 # grab latest files
 
-cp ${FTPDATA1}/gene2accession.gz ${INPUTEGDATADIR}
-cp ${FTPDATA1}/gene2pubmed.gz ${INPUTEGDATADIR}
-cp ${FTPDATA1}/gene2refseq.gz ${INPUTEGDATADIR}
-cp ${FTPDATA1}/gene_info.gz ${INPUTEGDATADIR}
-cp ${FTPDATA1}/gene_history.gz ${INPUTEGDATADIR}
+cp ${FTPDATA1}/gene2accession.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene_history.gz ${EGINPUTDIR}
 
 # uncompress the files
-cd ${INPUTEGDATADIR}
+cd ${EGINPUTDIR}
 foreach i (*.gz)
 /usr/local/bin/gunzip -f $i >>& ${LOG}
 end
 
 # split up gene_info
-cd ${INSTALLDIR}
+cd ${EGINSTALLDIR}
 ./geneinfo.py >>& ${LOG}
 
 # strip version numbers out of gene2accession, gene2refseq
@@ -44,13 +79,13 @@ ${RADARDBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
 ${RADARDBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
 
 # bcp new data into tables
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Accession in ${INPUTEGDATADIR}/gene2accession.new -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Info in ${INPUTEGDATADIR}/gene_info.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_DBXRef in ${INPUTEGDATADIR}/gene_dbxref.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_PubMed in ${INPUTEGDATADIR}/gene2pubmed -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_RefSeq in ${INPUTEGDATADIR}/gene2refseq.new -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Synonym in ${INPUTEGDATADIR}/gene_synonym.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_History in ${INPUTEGDATADIR}/gene_history -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Accession in ${EGINPUTDIR}/gene2accession.new -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Info in ${EGINPUTDIR}/gene_info.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_DBXRef in ${EGINPUTDIR}/gene_dbxref.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_PubMed in ${EGINPUTDIR}/gene2pubmed -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_RefSeq in ${EGINPUTDIR}/gene2refseq.new -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Synonym in ${EGINPUTDIR}/gene_synonym.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_History in ${EGINPUTDIR}/gene_history -c -t\\t -U${DBUSER} >>& ${LOG}
 
 # create indexes
 ${RADARDBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
@@ -95,3 +130,4 @@ go
 EOSQL
 
 date >> ${LOG}
+

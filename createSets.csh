@@ -1,11 +1,43 @@
 #!/bin/csh -fx
 
+# $Header$
+# $Name$
+
 #
-# Create Sets for Processing
+# Program:
+#	createSets.csh
 #
-# Usage:  createSets.sh
+# Original Author:
+#	Lori Corbani
 #
-# History
+# Purpose:
+#	Create EG and MGI sets for given taxonimical ID
+#	that will be used for "bucketizing".
+#
+# Requirements Satisfied by This Program:
+#
+# Usage:
+#
+# Envvars:
+#
+# Inputs:
+#
+# Outputs:
+#
+# Exit Codes:
+#
+# Assumes:
+#
+# Bugs:
+#
+# Implementation:
+#
+#    Modules:
+#
+# Modification History:
+#
+# 01/03/2004 - lec
+#	- TR 5939/LocusLink->EntrezGene conversion
 #
 
 setenv DATADIR $1

@@ -1,12 +1,42 @@
 #!/bin/csh -fx
 
+# $Header$
+# $Name$
+
 #
-# Change Logical DB from LL to EG for Rat
+# Program:
+#	convertToEG.csh
 #
-# Usage:  convertToEG.csh
+# Original Author:
+#	Lori Corbani
 #
-# History
-#	
+# Purpose:
+#	Convert LocusLink logical DB keys to EntrezGene
+#
+# Requirements Satisfied by This Program:
+#
+# Usage:
+#
+# Envvars:
+#
+# Inputs:
+#
+# Outputs:
+#
+# Exit Codes:
+#
+# Assumes:
+#
+# Bugs:
+#
+# Implementation:
+#
+#    Modules:
+#
+# Modification History:
+#
+# 01/03/2004 - lec
+#
 
 setenv DATADIR $1
 setenv ORGANISM $2

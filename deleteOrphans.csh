@@ -1,12 +1,44 @@
 #!/bin/csh -fx
 
+# $Header$
+# $Name$
+
 #
-# Delete Orphan Marker entries
+# Program:
+#	deleteOrphans.csh
 #
-# Usage:  deleteOrphans.csh
+# Original Author:
+#	Lori Corbani
 #
-# History
-#	
+# Purpose:
+#	To delete orphans (those markers not involved
+#	in any orthology) for given Organism
+#
+# Requirements Satisfied by This Program:
+#
+# Usage:
+#
+# Envvars:
+#
+# Inputs:
+#
+# Outputs:
+#
+# Exit Codes:
+#
+# Assumes:
+#
+# Bugs:
+#
+# Implementation:
+#
+#    Modules:
+#
+# Modification History:
+#
+# 01/03/2004 - lec
+#	- TR 5939/LocusLink->EntrezGene conversion
+#
 
 setenv DATADIR $1
 setenv ORGANISM $2

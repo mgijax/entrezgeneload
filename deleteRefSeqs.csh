@@ -1,12 +1,43 @@
 #!/bin/csh -fx
 
+# $Header$
+# $Name$
+
 #
-# Delete RefSeq/Marker associations
+# Program:
+#	deleteRefSeqs.csh
 #
-# Usage:  deleteRefSeqs.csh
+# Original Author:
+#	Lori Corbani
 #
-# History
-#	
+# Purpose:
+#	Delete RefSeq/Marker associations for given Organism
+#
+# Requirements Satisfied by This Program:
+#
+# Usage:
+#
+# Envvars:
+#
+# Inputs:
+#
+# Outputs:
+#
+# Exit Codes:
+#
+# Assumes:
+#
+# Bugs:
+#
+# Implementation:
+#
+#    Modules:
+#
+# Modification History:
+#
+# 01/03/2004 - lec
+#	- TR 5939/LocusLink->EntrezGene conversion
+#
 
 setenv DATADIR $1
 setenv ORGANISM $2

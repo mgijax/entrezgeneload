@@ -1,11 +1,42 @@
 #!/bin/csh -fx
 
+# $Header$
+# $Name$
+
 #
-# Reports
+# Program:
+#	runreports.csh
 #
-# Usage:  runreports.csh
+# Original Author:
+#	Lori Corbani
 #
-# History
+# Purpose:
+#	Run reports in directory from which this program is callled
+#
+# Requirements Satisfied by This Program:
+#
+# Usage:
+#
+# Envvars:
+#
+# Inputs:
+#
+# Outputs:
+#
+# Exit Codes:
+#
+# Assumes:
+#
+# Bugs:
+#
+# Implementation:
+#
+#    Modules:
+#
+# Modification History:
+#
+# 01/03/2004 - lec
+#	- TR 5939/LocusLink->EntrezGene conversion
 #
 
 setenv DATADIR	$1

@@ -1,13 +1,42 @@
 #!/bin/csh -fx
 
+# $Header$
+# $Name$
+
 #
-# Process all loads
+# Program:
+#	loadAll.csh
 #
-# Usage:  loadAll.sh
+# Original Author:
+#	Lori Corbani
 #
-# History
-#	12/07/2000 lec
-#	- TR 1992
+# Purpose:
+#	Wrapper to execute all EntrezGene loads (mouse, human, rat)
+#
+# Requirements Satisfied by This Program:
+#
+# Usage:
+#
+# Envvars:
+#
+# Inputs:
+#
+# Outputs:
+#
+# Exit Codes:
+#
+# Assumes:
+#
+# Bugs:
+#
+# Implementation:
+#
+#    Modules:
+#
+# Modification History:
+#
+# 01/03/2004 - lec
+#	- TR 5939/LocusLink->EntrezGene conversion
 #
 
 cd `dirname $0` && source ./Configuration
