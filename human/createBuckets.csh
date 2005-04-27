@@ -91,6 +91,21 @@ and s1.idType = s2.idType
 and s2.taxID = ${HUMANTAXID}
 go
 
+/***** 1:0 by EG id *****/
+/* these records need to be added to MGI */
+
+insert into #bucket0
+select distinct s1.geneID, "MGI:0", s1.idType
+from WRK_EntrezGene_EGSet s1
+where s1.taxID = ${HUMANTAXID}
+and s1.idType = 'EG'
+and not exists (select 1 from #symatches s where s1.geneID = s.geneID)
+and not exists (select 1 from WRK_EntrezGene_MGISet s2
+	where s1.compareID = s2.compareID
+	and s1.idType = s2.idType
+	and s2.taxID = ${HUMANTAXID})
+go
+
 /***** Bucket 0 */
 
 create index idx1 on #bucket0(mgiID)
@@ -149,6 +164,29 @@ and b.mgiID = m.symbol
 and m._Organism_key = ${HUMANSPECIESKEY}
 and b.geneID = e.geneID
 and e.locusTag like 'HGNC:%'
+go
+
+/***** MIM ids *****/
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${HUMANTAXID}, a._Object_key, ${LOGICALMIMKEY}, b.mgiID, substring(e.dbXrefID,5,50), ${HUMANMIMPRIVATE}, 0
+from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_DBXRef e
+where b.idType = 'EG'
+and b.mgiID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALEGKEY}
+and b.geneID = e.geneID
+and e.dbXrefID like 'MIM:%'
+go
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${HUMANTAXID}, m._Marker_key, ${LOGICALMIMKEY}, b.mgiID, substring(e.dbXrefID,5,50), ${HUMANMIMPRIVATE}, 0
+from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_DBXRef e
+where b.idType = 'Symbol'
+and b.mgiID = m.symbol
+and m._Organism_key = ${HUMANSPECIESKEY}
+and b.geneID = e.geneID
+and e.dbXrefID like 'MIM:%'
 go
 
 /***** Nomen Bucket *****/
