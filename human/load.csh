@@ -15,7 +15,8 @@
 #	6.  Load Synonyms.
 #	7.  Update Nomenclature information (symbol, name).
 #	8.  Update Mapping information (chromosome, map position).
-#	9.  Delete obsolete Marker records.
+#	9.  Load Human/OMIM Disease Annotations
+#	10. Delete obsolete Marker records.
 #
 # History
 #
@@ -50,6 +51,7 @@ date >> ${LOG}
 ../syns.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMSYNTYPEKEY}
 ../updateNomen.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID}
+./annotations.csh ${HUMANDATADIR}
 ../deleteObsolete.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 
 date >> ${LOG}
