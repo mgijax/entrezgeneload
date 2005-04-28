@@ -38,6 +38,7 @@
 #	- TR 3853, OMIM
 #
 
+cd `dirname $0` && source ../Configuration
 
 setenv DATADIR $1
 
@@ -51,6 +52,7 @@ touch ${LOG}
 date >> ${LOG}
 
 ./annotations.py >>& ${LOG}
+cd ${DATADIR}
 ${ANNOTLOAD}/annotload.py -S${DBSERVER} -D${DBNAME} -U${DBUSER} -P${DBPASSWORDFILE} -M${ANNOTMODE} -I${ANNOTATIONFILE} -A"${ANNOTATIONTYPENAME}" -R${ANNOTREFERENCE}
 
 date >> ${LOG}

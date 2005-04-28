@@ -7,15 +7,15 @@
 #
 # Processing
 #
-#	1.  Delete all human RefSeq, HGNC and OMIM annotations, and synonyms
+#	1.  Delete all human RefSeq, HGNC and OMIM gene annotations, and synonyms
 #	2.  Create EG and MGI Sets in RADAR.
-#	3.  Create Buckets
-#	4.  Run reports
-#	5.  Load Accession and Marker records.
+#	3.  Create Buckets.
+#	4.  Run reports.
+#	5.  Load Marker and Accession records.
 #	6.  Load Synonyms.
 #	7.  Update Nomenclature information (symbol, name).
 #	8.  Update Mapping information (chromosome, map position).
-#	9.  Load Human/OMIM Disease Annotations
+#	9.  Re-load Human/OMIM Disease Annotations
 #	10. Delete obsolete Marker records.
 #
 # History

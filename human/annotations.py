@@ -41,6 +41,7 @@ radar = os.environ['RADARDB']
 editor = os.environ['ANNOTEDITOR']
 reference = os.environ['ANNOTREFERENCE']
 evidenceCode = 'TAS'
+logicalDB = 'Entrez Gene'
 
 annotFileName = os.environ['ANNOTATIONFILE']
 diagFileName = datadir + '/annotation.diagnostics'
@@ -131,7 +132,7 @@ def writeAnnotations():
 		'order by geneID', 'auto')
 
 	for r in results:
-	    annotFile.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\n' % (r['mimID'], r['geneID'], reference, evidenceCode, editor, loaddate))
+	    annotFile.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' % (r['mimID'], r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB))
 
 #
 # Main
