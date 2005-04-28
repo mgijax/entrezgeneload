@@ -5,7 +5,22 @@
 #
 # Usage:  load.csh
 #
+# Processing
+#
+#	1.  Delete all human RefSeq, HGNC and OMIM annotations, and synonyms
+#	2.  Create EG and MGI Sets in RADAR.
+#	3.  Create Buckets
+#	4.  Run reports
+#	5.  Load Accession and Marker records.
+#	6.  Load Synonyms.
+#	7.  Update Nomenclature information (symbol, name).
+#	8.  Update Mapping information (chromosome, map position).
+#	9.  Delete obsolete Marker records.
+#
 # History
+#
+#	04/28/2005 lec
+#	- TR 3853, OMIM
 #
 #	12/15/2003 lec
 #	- TR 5382; human refseqs
@@ -27,7 +42,7 @@ touch ${LOG}
 
 date >> ${LOG}
 
-../deleteIDs.csh ${HUMANDATADIR} ${HUMANSPECIESKEY} ${LOGICALREFSEQKEY} ${LOGICALHGNCKEY} ${HUMSYNTYPEKEY}
+../deleteIDs.csh ${HUMANDATADIR} ${HUMANSPECIESKEY} ${LOGICALREFSEQKEY} "${LOGICALHGNCKEY},${LOGICALOMIMKEY}" ${HUMSYNTYPEKEY}
 ../createSets.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ./createBuckets.csh
 ../runreports.csh ${HUMANDATADIR}
