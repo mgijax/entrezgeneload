@@ -27,7 +27,6 @@ touch ${LOG}
 
 date >> ${LOG}
 
-../deleteOrphans.csh ${HUMANDATADIR} ${HUMANSPECIESKEY}
 ../deleteIDs.csh ${HUMANDATADIR} ${HUMANSPECIESKEY} ${LOGICALREFSEQKEY} ${LOGICALHGNCKEY} ${HUMSYNTYPEKEY}
 ../createSets.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ./createBuckets.csh
@@ -36,5 +35,6 @@ date >> ${LOG}
 ../syns.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMSYNTYPEKEY}
 ../updateNomen.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID}
+../deleteObsolete.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 
 date >> ${LOG}

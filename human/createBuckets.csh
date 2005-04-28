@@ -113,7 +113,7 @@ create index idx2 on #bucket0(idType)
 go
 
 insert into WRK_EntrezGene_Bucket0
-select ${HUMANTAXID}, m._Marker_key, ${LOGICALEGKEY}, b.geneID, b.mgiID, b.geneID, ${HUMANEGPRIVATE}, 0
+select distinct ${HUMANTAXID}, m._Marker_key, ${LOGICALEGKEY}, b.geneID, b.mgiID, b.geneID, ${HUMANEGPRIVATE}, 0
 from #bucket0 b, ${DBNAME}..MRK_Marker m
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
@@ -121,7 +121,7 @@ and m._Organism_key = ${HUMANSPECIESKEY}
 go
 
 insert into WRK_EntrezGene_Bucket0
-select ${HUMANTAXID}, -1, ${LOGICALEGKEY}, b.geneID, b.mgiID, b.geneID, ${HUMANEGPRIVATE}, 0
+select distinct ${HUMANTAXID}, -1, ${LOGICALEGKEY}, b.geneID, b.mgiID, b.geneID, ${HUMANEGPRIVATE}, 0
 from #bucket0 b
 where b.mgiID = 'none'
 go
@@ -150,7 +150,7 @@ and r.rna like 'NM_%'
 go
 
 insert into WRK_EntrezGene_Bucket0
-select ${HUMANTAXID}, -1, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${HUMANREFSEQPRIVATE}, 1
+select distinct ${HUMANTAXID}, -1, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${HUMANREFSEQPRIVATE}, 1
 from #bucket0 b, DP_EntrezGene_RefSeq r
 where b.mgiID = 'none'
 and b.geneID = r.geneID
@@ -186,6 +186,37 @@ from #bucket0 b, DP_EntrezGene_Info e
 where b.mgiID = 'none'
 and b.geneID = e.geneID
 and e.locusTag like 'HGNC:%'
+go
+
+/***** OMIM Gene ids *****/
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${HUMANTAXID}, a._Object_key, ${LOGICALOMIMKEY}, b.geneID, b.mgiID, substring(e.dbXrefID,5,50), ${HUMANOMIMPRIVATE}, 0
+from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_DBXRef e
+where b.idType = 'EG'
+and b.mgiID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALEGKEY}
+and b.geneID = e.geneID
+and e.dbXrefID like 'MIM:%'
+go
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${HUMANTAXID}, m._Marker_key, ${LOGICALOMIMKEY}, b.geneID, b.mgiID, substring(e.dbXrefID,5,50), ${HUMANOMIMPRIVATE}, 0
+from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_DBXRef e
+where b.idType = 'Symbol'
+and b.mgiID = m.symbol
+and m._Organism_key = ${HUMANSPECIESKEY}
+and b.geneID = e.geneID
+and e.dbXrefID like 'MIM:%'
+go
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${HUMANTAXID}, -1, ${LOGICALOMIMKEY}, b.geneID, b.mgiID, substring(e.dbXrefID,5,50), ${HUMANOMIMPRIVATE}, 0
+from #bucket0 b, DP_EntrezGene_DBXRef e
+where b.mgiID = 'none'
+and b.geneID = e.geneID
+and e.dbXrefID like 'MIM:%'
 go
 
 /***** Nomen Bucket *****/
