@@ -102,7 +102,7 @@ go
 /* EG ids */
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${MOUSETAXID}, a._Object_key, ${LOGICALEGKEY}, b.mgiID, b.geneID, ${MOUSEEGPRIVATE}, 1
+select distinct ${MOUSETAXID}, a._Object_key, ${LOGICALEGKEY}, b.geneID, b.mgiID, b.geneID, ${MOUSEEGPRIVATE}, 1
 from #bucket0 b, ${DBNAME}..ACC_Accession a
 where b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -111,7 +111,7 @@ go
 /* EG ids (coordinates) */
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${MOUSETAXID}, a._Object_key, ${LOGICALEGCOORDKEY}, b.mgiID, b.geneID, ${MOUSEEGPRIVATE}, 1
+select distinct ${MOUSETAXID}, a._Object_key, ${LOGICALEGCOORDKEY}, b.geneID, b.mgiID, b.geneID, ${MOUSEEGPRIVATE}, 1
 from #bucket0 b, ${DBNAME}..ACC_Accession a, ${DBNAME}..ACC_Accession a2,
 ${DBNAME}..MAP_Coord_Feature mf, ${DBNAME}..MAP_Coordinate mc, 
 ${DBNAME}..MRK_Chromosome c, ${DBNAME}..MRK_Marker m
@@ -132,7 +132,7 @@ go
 /* RefSeq ids */
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${MOUSETAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.mgiID, r.rna, ${REFSEQPRIVATE}, 1
+select distinct ${MOUSETAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${REFSEQPRIVATE}, 1
 from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_RefSeq r
 where b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -143,7 +143,7 @@ go
 /* Additional mRNA GenBank IDs */
 
 insert into WRK_EntrezGene_Bucket0
-select ${MOUSETAXID}, a._Object_key, ${LOGICALSEQKEY}, b.mgiID, r.rna, ${MOUSEEGPRIVATE}, 1
+select ${MOUSETAXID}, a._Object_key, ${LOGICALSEQKEY}, b.geneID, b.mgiID, r.rna, ${MOUSEEGPRIVATE}, 1
 from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_Accession r
 where b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}

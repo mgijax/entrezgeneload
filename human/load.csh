@@ -32,7 +32,7 @@ date >> ${LOG}
 ../createSets.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ./createBuckets.csh
 ../runreports.csh ${HUMANDATADIR}
-../acc.csh ${HUMANDATADIR} ${HUMANTAXID}
+../acc.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ../syns.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMSYNTYPEKEY}
 ../updateNomen.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID}

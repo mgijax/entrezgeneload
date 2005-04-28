@@ -109,7 +109,7 @@ go
 /* curated GenBank IDs for symbols that do not have EG ids */
 
 insert into ${RADARDB}..WRK_EntrezGene_MGISet
-select ${TAXID}, n.symbol, a.accID, 'Gen'
+select distinct ${TAXID}, n.symbol, a.accID, 'Gen'
 from #noeg n, ACC_Accession a
 where n._Marker_key = a._Object_key
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -140,7 +140,7 @@ go
 /* RNA GenBank IDs */
 
 insert into WRK_EntrezGene_EGSet
-select e.taxID, e.geneID, e.rna, 'Gen'
+select distinct e.taxID, e.geneID, e.rna, 'Gen'
 from DP_EntrezGene_Accession e
 where e.taxID = ${TAXID}
 and e.rna != '-'
@@ -149,7 +149,7 @@ go
 /* DNA GenBank IDs... */
 
 insert into WRK_EntrezGene_EGSet
-select e.taxID, e.geneID, e.genomic, 'Gen'
+select distinct e.taxID, e.geneID, e.genomic, 'Gen'
 from DP_EntrezGene_Accession e
 where e.taxID = ${TAXID}
 and e.genomic != '-'

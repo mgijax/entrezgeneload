@@ -20,6 +20,7 @@
 #
 #	ACC_Accession.bcp		Accession records
 #	ACC_AccessionReference.bcp	Accession/Reference records
+#	MRK_Marker.bcp			new Marker records
 #
 # Processing:
 #
@@ -45,14 +46,28 @@ datadir = os.environ['DATADIR']
 radar = os.environ['RADARDB']
 referenceKey = os.environ['REFERENCEKEY']	# _Refs_key of Reference
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
+egKey = os.environ['LOGICALEGKEY']		# _LogicalDB_key of EntrezGene
+organism = os.environ['ORGANISM']
 
 accFileName = datadir +  '/ACC_Accession.bcp'
 accrefFileName = datadir +  '/ACC_AccessionReference.bcp'
+markerFileName = datadir + '/MRK_Marker.bcp'
 diagFileName = datadir + '/accids.diagnostics'
-diagFile = ''
+
+accFile = None
+accrefFile = None
+markerFile = None
+diagFile = None
 
 accKey = 0	# primary key for Accession Numbers
+markerKey = 0   # primary key for Markers
 userKey = 0	# primary key for DB User
+
+markerStatusKey = 1
+markerTypeKey = 1
+curationStateKey = 166894
+
+geneIDtoMarkerKey = {}
 
 loaddate = loadlib.loaddate 	# Creation/Modification date for all records
 
@@ -94,8 +109,8 @@ def init():
 	#
 	'''
  
-	global accFile, accrefFile, diagFile
-	global accKey, userKey
+	global accFile, accrefFile, markerFile, diagFile
+	global accKey, userKey, markerKey
  
         # Log all SQL
         db.set_sqlLogFunction(db.sqlLogAll)
@@ -118,12 +133,20 @@ def init():
 	except:
 		exit(1, 'Could not open file %s\n' % accrefFileName)
 		
+	try:
+		markerFile = open(markerFileName, 'w')
+	except:
+		exit(1, 'Could not open file %s\n' % markerFileName)
+
 	#
 	# Get next available primary key
 	#
 
 	results = db.sql('select maxKey = max(_Accession_key) + 1 from ACC_Accession', 'auto')
 	accKey = results[0]['maxKey']
+
+	results = db.sql('select maxKey = max(_Marker_key) + 1 from MRK_Marker', 'auto')
+	markerKey = results[0]['maxKey']
 
 	userKey = loadlib.verifyUser(db.get_sqlUser(), 0, None)
 
@@ -143,36 +166,80 @@ def writeAccBCP():
 
 	# records that require a reference
 
-	results = db.sql('select _Object_key, _LogicalDB_key, accID, private ' + \
+	results = db.sql('select _Object_key, _LogicalDB_key, accID, private, geneID ' + \
 		'from %s..WRK_EntrezGene_Bucket0 ' % (radar) + \
-		'where taxID = %s and refRequired = 1' % (taxId), 'auto')
+		'where taxID = %s and refRequired = 1 ' % (taxId), 'auto')
 
 	for r in results:
 
+		if r['_Object_key'] == -1:
+		    objectKey = geneIDtoMarkerKey[r['geneID']]
+                else:
+		    objectKey = r['_Object_key']
+
 		prefixPart, numericPart = accessionlib.split_accnum(r['accID'])
-		accFile.write('%d|%s|%s|%s|%d|%d|%s|%d|1|%s|%s|%s|%s\n'
-			% (accKey, r['accID'], mgi_utils.prvalue(prefixPart), mgi_utils.prvalue(numericPart), r['_LogicalDB_key'], r['_Object_key'], mgiTypeKey, r['private'], userKey, userKey, loaddate, loaddate))
-		accrefFile.write('%d|%s|%s|%s|%s|%s\n' % (accKey, referenceKey, userKey, userKey, loaddate, loaddate))
+		accFile.write('%d\t%s\t%s\t%s\t%d\t%d\t%s\t%d\t1\t%s\t%s\t%s\t%s\n'
+			% (accKey, r['accID'], mgi_utils.prvalue(prefixPart), mgi_utils.prvalue(numericPart), r['_LogicalDB_key'], objectKey, mgiTypeKey, r['private'], userKey, userKey, loaddate, loaddate))
+		accrefFile.write('%d\t%s\t%s\t%s\t%s\t%s\n' % (accKey, referenceKey, userKey, userKey, loaddate, loaddate))
 		accKey = accKey + 1
 
 	# records that don't require a reference
 
-	results = db.sql('select _Object_key, _LogicalDB_key, accID, private ' + \
+	results = db.sql('select _Object_key, _LogicalDB_key, accID, private, geneID ' + \
 		'from %s..WRK_EntrezGene_Bucket0 ' % (radar) + \
 		'where taxID = %s and refRequired = 0' % (taxId), 'auto')
 
 	for r in results:
 
+		if r['_Object_key'] == -1:
+		    objectKey = geneIDtoMarkerKey[r['geneID']]
+                else:
+		    objectKey = r['_Object_key']
+
 		prefixPart, numericPart = accessionlib.split_accnum(r['accID'])
-		accFile.write('%d|%s|%s|%s|%d|%d|%s|%d|1|%s|%s|%s|%s\n'
-			% (accKey, r['accID'], mgi_utils.prvalue(prefixPart), mgi_utils.prvalue(numericPart), r['_LogicalDB_key'], r['_Object_key'], mgiTypeKey, r['private'], userKey, userKey, loaddate, loaddate))
+		accFile.write('%d\t%s\t%s\t%s\t%d\t%d\t%s\t%d\t1\t%s\t%s\t%s\t%s\n'
+			% (accKey, r['accID'], mgi_utils.prvalue(prefixPart), mgi_utils.prvalue(numericPart), r['_LogicalDB_key'], objectKey, mgiTypeKey, r['private'], userKey, userKey, loaddate, loaddate))
 		accKey = accKey + 1
+
+def writeMarkerBCP():
+	'''
+	# requires:
+	#
+	# effects:
+	#	Creates approrpriate BCP records
+	#
+	# returns:
+	#	nothing
+	#
+	'''
+
+	global markerKey, geneIDtoMarkerKey
+
+	# new Marker records
+
+	results = db.sql('select b.accID, b.private,  e.symbol, e.name, e.chromosome, e.mapPosition ' + \
+		'from %s..WRK_EntrezGene_Bucket0 b, %s..DP_EntrezGene_Info e ' % (radar, radar) + \
+		'where b.taxID = %s and b._Object_key = -1 and b._LogicalDB_key = %s and b.accID = e.geneID' % (taxId, egKey), 'auto')
+
+	for r in results:
+
+	    if r['mapPosition'] == '-':
+		mapPosition = ''
+	    else:
+		mapPosition = r['mapPosition']
+
+	    markerFile.write('%d\t%s\t%d\t%d\t%d\t%s\t%s\t%s\t%s\t%d\t%d\t%s\t%s\n'
+		% (markerKey, organism, markerStatusKey, markerTypeKey, curationStateKey, r['symbol'], r['name'], r['chromosome'], mapPosition, userKey, userKey, loaddate, loaddate))
+
+	    geneIDtoMarkerKey[r['accID']] = markerKey
+	    markerKey = markerKey + 1
 
 #
 # Main
 #
 
 init()
+writeMarkerBCP()
 writeAccBCP()
 exit(0)
 

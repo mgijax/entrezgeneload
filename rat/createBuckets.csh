@@ -98,7 +98,7 @@ create index idx2 on #bucket0(idType)
 go
 
 insert into WRK_EntrezGene_Bucket0
-select ${RATTAXID}, m._Marker_key, ${LOGICALEGKEY}, b.mgiID, b.geneID, ${RATEGPRIVATE}, 0
+select ${RATTAXID}, m._Marker_key, ${LOGICALEGKEY}, b.geneID, b.mgiID, b.geneID, ${RATEGPRIVATE}, 0
 from #bucket0 b, ${DBNAME}..MRK_Marker m
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
@@ -108,7 +108,7 @@ go
 /***** RefSeq ids *****/
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${RATTAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.mgiID, r.rna, ${RATREFSEQPRIVATE}, 1
+select distinct ${RATTAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${RATREFSEQPRIVATE}, 1
 from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_RefSeq r
 where b.idType = 'EG'
 and b.mgiID = a.accID
@@ -119,7 +119,7 @@ and r.rna like 'NM_%'
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${RATTAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.mgiID, r.rna, ${RATREFSEQPRIVATE}, 1
+select distinct ${RATTAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${RATREFSEQPRIVATE}, 1
 from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_RefSeq r
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
@@ -131,7 +131,7 @@ go
 /***** RGD *****/
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${RATTAXID}, a._Object_key, ${LOGICALRGDKEY}, b.mgiID, e.locusTag, ${RGDPRIVATE}, 0
+select distinct ${RATTAXID}, a._Object_key, ${LOGICALRGDKEY}, b.geneID, b.mgiID, e.locusTag, ${RGDPRIVATE}, 0
 from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_Info e
 where b.idType = 'EG'
 and b.mgiID = a.accID
@@ -142,7 +142,7 @@ and e.locusTag like 'RGD%'
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${RATTAXID}, m._Marker_key, ${LOGICALRGDKEY}, b.mgiID, e.locusTag, ${RGDPRIVATE}, 0
+select distinct ${RATTAXID}, m._Marker_key, ${LOGICALRGDKEY}, b.geneID, b.mgiID, e.locusTag, ${RGDPRIVATE}, 0
 from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_Info e
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
@@ -154,7 +154,7 @@ go
 /***** RatMap *****/
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${RATTAXID}, a._Object_key, ${LOGICALRATMAPKEY}, b.mgiID, substring(e.dbXrefID,8,50), ${RATMAPPRIVATE}, 0
+select distinct ${RATTAXID}, a._Object_key, ${LOGICALRATMAPKEY}, b.geneID, b.mgiID, substring(e.dbXrefID,8,50), ${RATMAPPRIVATE}, 0
 from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_DBXRef e
 where b.idType = 'EG'
 and b.mgiID = a.accID
@@ -165,7 +165,7 @@ and e.dbXrefID like 'RATMAP%'
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${RATTAXID}, m._Marker_key, ${LOGICALRATMAPKEY}, b.mgiID, substring(e.dbXrefID,8,50), ${RATMAPPRIVATE}, 0
+select distinct ${RATTAXID}, m._Marker_key, ${LOGICALRATMAPKEY}, b.geneID, b.mgiID, substring(e.dbXrefID,8,50), ${RATMAPPRIVATE}, 0
 from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_DBXRef e
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
