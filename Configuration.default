@@ -166,6 +166,13 @@ setenv REFERENCEKEY	64047
 setenv REPORTHEADER     /mgi/software/customSQL/bin/header.sh
 setenv REPORTTRAILER    /mgi/software/customSQL/bin/trailer
 
+# Annotation load config variables
+
+setenv ANNOTLOAD		/usr/local/mgi/live/dataload/annotload
+setenv ANNOTMODE		new
+setenv ANNOTREFERENCE     	"J:63103"
+setenv ANNOTEDITOR		"mgd_dbo"
+
 # initialize RADAR DB value
 source ${RADARDBSCHEMADIR}/Configuration
 setenv RADARDB ${DBNAME}

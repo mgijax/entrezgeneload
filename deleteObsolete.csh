@@ -12,6 +12,9 @@
 # Purpose:
 #	To delete orphan Marker records for given Organism
 #
+#	Delete Markers that have no Orthology AND
+#	that have no counterpart in the EG info table (by EG id).
+#
 # Requirements Satisfied by This Program:
 #
 # Usage:
@@ -55,11 +58,11 @@ use ${DBNAME}
 go
 
 declare mrk_cursor cursor for
-select _Marker_key
+select m._Marker_key
 from MRK_Marker m
 where m._Organism_key = ${ORGANISM}
 and not exists (select h.* from HMD_Homology_Marker h where m._Marker_key = h._Marker_key)
-and not exists (select e.* from ${RADARDB}..DP_EntrezGeneInfo e, ACC_Accession a
+and not exists (select e.* from ${RADARDB}..DP_EntrezGene_Info e, ACC_Accession a
 	where e.taxID = ${TAXID}
 	and m._Marker_key = a._Object_key
 	and a._MGIType_key = 2
