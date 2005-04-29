@@ -68,7 +68,7 @@ declare @mname varchar(255)
 declare @ename varchar(255)
 
 declare @userKey integer
-select @userKey = _User_key from MGI_User where login = user_name()
+select @userKey = _User_key from MGI_User where login = "${CREATEDBY}"
 
 open nomen_cursor
 fetch nomen_cursor into @markerKey, @msymbol, @mname, @esymbol, @ename

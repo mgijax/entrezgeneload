@@ -71,6 +71,8 @@ setenv MGIDBSCHEMADIR   	/usr/local/mgi/live/dbutils/mgd/mgddbschema
 setenv RADARDBSCHEMADIR 	/usr/local/mgi/live/dbutils/radar/radardbschema
 setenv RADARDBPERMSDIR  	/usr/local/mgi/live/dbutils/radar/radardbperms
 
+# Load User
+setenv CREATEDBY		"entrezgene_load"
 
 # Species Key for Mouse
 setenv MOUSESPECIESKEY	1
@@ -171,7 +173,6 @@ setenv REPORTTRAILER    /mgi/software/customSQL/bin/trailer
 setenv ANNOTLOAD		/usr/local/mgi/live/dataload/annotload
 setenv ANNOTMODE		new
 setenv ANNOTREFERENCE     	"J:63103"
-setenv ANNOTEDITOR		"mgd_dbo"
 
 # initialize RADAR DB value
 source ${RADARDBSCHEMADIR}/Configuration

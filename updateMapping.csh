@@ -64,7 +64,7 @@ declare @echr varchar(15)
 declare @emap varchar(100)
 
 declare @userKey integer
-select @userKey = _User_key from MGI_User where login = user_name()
+select @userKey = _User_key from MGI_User where login = "${CREATEDBY}"
 
 open mapping_cursor
 fetch mapping_cursor into @markerKey, @echr, @emap

@@ -48,6 +48,7 @@ referenceKey = os.environ['REFERENCEKEY']	# _Refs_key of Reference
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
 egKey = os.environ['LOGICALEGKEY']		# _LogicalDB_key of EntrezGene
 organism = os.environ['ORGANISM']
+user = os.environ['CREATEDBY']
 
 accFileName = datadir +  '/ACC_Accession.bcp'
 accrefFileName = datadir +  '/ACC_AccessionReference.bcp'
@@ -148,7 +149,7 @@ def init():
 	results = db.sql('select maxKey = max(_Marker_key) + 1 from MRK_Marker', 'auto')
 	markerKey = results[0]['maxKey']
 
-	userKey = loadlib.verifyUser(db.get_sqlUser(), 0, None)
+	userKey = loadlib.verifyUser(user, 0, None)
 
 def writeAccBCP():
 	'''

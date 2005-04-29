@@ -38,7 +38,7 @@ import loadlib
 
 datadir = os.environ['DATADIR']
 radar = os.environ['RADARDB']
-editor = os.environ['ANNOTEDITOR']
+editor = os.environ['CREATEDBY']
 reference = os.environ['ANNOTREFERENCE']
 evidenceCode = 'TAS'
 logicalDB = 'Entrez Gene'
