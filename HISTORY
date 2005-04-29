@@ -2,7 +2,8 @@ TAG: entrezgeneload-omim-1
 DATE: 04/29/2005
 STAFF: lec
 CHANGES:
-2) OMIM branch
+1) load all human and rat markers
+2) load OMIM annotations for human
 
 TAG: entrezgeneload-omim-BP
 DATE: 04/27/2005

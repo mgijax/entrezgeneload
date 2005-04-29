@@ -184,7 +184,6 @@ insert into WRK_EntrezGene_Bucket0
 select distinct ${RATTAXID}, -1, ${LOGICALRGDKEY}, b.geneID, b.mgiID, e.locusTag, ${RGDPRIVATE}, 0
 from #bucket0 b, DP_EntrezGene_Info e
 where b.mgiID = 'none'
-and m._Organism_key = ${RATSPECIESKEY}
 and b.geneID = e.geneID
 and e.locusTag like 'RGD%'
 go
@@ -216,7 +215,6 @@ insert into WRK_EntrezGene_Bucket0
 select distinct ${RATTAXID}, -1, ${LOGICALRATMAPKEY}, b.geneID, b.mgiID, substring(e.dbXrefID,8,50), ${RATMAPPRIVATE}, 0
 from #bucket0 b, DP_EntrezGene_DBXRef e
 where b.mgiID = 'none'
-and m._Organism_key = ${RATSPECIESKEY}
 and b.geneID = e.geneID
 and e.dbXrefID like 'RATMAP%'
 go
