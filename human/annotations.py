@@ -40,6 +40,7 @@ datadir = os.environ['DATADIR']
 radar = os.environ['RADARDB']
 editor = os.environ['CREATEDBY']
 reference = os.environ['ANNOTREFERENCE']
+logicalOMIM = os.environ['LOGICALOMIMKEY']
 evidenceCode = 'TAS'
 logicalDB = 'Entrez Gene'
 
@@ -70,10 +71,10 @@ def exit(status, message = None):
                 diagFile.write('\n\nEnd Date/Time: %s\n' % (mgi_utils.date()))
 		diagFile.close()
 		annotFile.close()
-		accrefFile.close()
 	except:
 		pass
 
+	db.useOneConnection(0)
 	sys.exit(status)
  
 def init():
@@ -107,6 +108,8 @@ def init():
 	except:
 		exit(1, 'Could not open file %s\n' % annotFileName)
 		
+	db.useOneConnection(1)
+
 def writeAnnotations():
 	'''
 	# requires:
@@ -119,9 +122,15 @@ def writeAnnotations():
 	#
 	'''
 
+	# OMIM ids currently stored in MGI
+
+        db.sql('select accID into #omim from ACC_Accession where _MGIType_key = 13 and _LogicalDB_key = %s' % (logicalOMIM), None)
+	db.sql('create index idx1 on #omim(accID)', None)
+
 	#
 	# select OMIM disease annotations...
 	# those OMIM ids in the MIM table that don't also exist in the Gene Info table
+	# those OMIM disease ids that are stored in MGI (in the OMIM vocabulary)
 	#
 
 	results = db.sql('select m.geneID, m.mimID ' + \
@@ -129,6 +138,7 @@ def writeAnnotations():
 		'where not exists (select 1 from %s..DP_EntrezGene_DBXRef e ' % (radar) + \
 		'where m.geneID = e.geneID ' + \
 		'and m.mimID = substring(e.dbXrefID,5,30)) ' + \
+		'and exists (select 1 from #omim o where m.mimID = o.accID) ' + \
 		'order by geneID', 'auto')
 
 	for r in results:
