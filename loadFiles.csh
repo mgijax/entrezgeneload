@@ -58,6 +58,7 @@ cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene_history.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/mim2gene ${EGINPUTDIR}
 cp ${FTPDATA2}/homologene.data ${EGINPUTDIR}
 
 # uncompress the files
@@ -98,6 +99,7 @@ cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_RefSeq in ${EGINPUTDIR}/ge
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Synonym in ${EGINPUTDIR}/gene_synonym.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_History in ${EGINPUTDIR}/gene_history.mgi -c -t\\t -U${DBUSER} >>& ${LOG}
 cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_HomoloGene in ${EGINPUTDIR}/homologene.data -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_MIM in ${EGINPUTDIR}/mim2gene -c -t\\t -U${DBUSER} >>& ${LOG}
 
 # create indexes
 ${RADARDBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}

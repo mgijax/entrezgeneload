@@ -71,6 +71,8 @@ setenv MGIDBSCHEMADIR   	/usr/local/mgi/live/dbutils/mgd/mgddbschema
 setenv RADARDBSCHEMADIR 	/usr/local/mgi/live/dbutils/radar/radardbschema
 setenv RADARDBPERMSDIR  	/usr/local/mgi/live/dbutils/radar/radardbperms
 
+# Load User
+setenv CREATEDBY		"entrezgene_load"
 
 # Species Key for Mouse
 setenv MOUSESPECIESKEY	1
@@ -108,6 +110,9 @@ setenv LOGICALEGKEY     55
 # Logical Key for EntrezGene Coordinates
 setenv LOGICALEGCOORDKEY     59
 
+# Logical Key for OMIM
+setenv LOGICALOMIMKEY 15
+
 # Logical Key for RGD
 setenv LOGICALRGDKEY	47
 
@@ -119,6 +124,9 @@ setenv MOUSEEGPRIVATE	0
 
 # Private flag for Human EntrezGeneID (0 = no, 1 = yes)
 setenv HUMANEGPRIVATE	0
+
+# Private flag for Human OMIM ID (0 = no, 1 = yes)
+setenv HUMANOMIMPRIVATE 0
 
 # Private flag for Rat EntrezGeneID (0 = no, 1 = yes)
 setenv RATEGPRIVATE	0
@@ -159,6 +167,12 @@ setenv REFERENCEKEY	64047
 # Report header/trailer scripts
 setenv REPORTHEADER     /mgi/software/customSQL/bin/header.sh
 setenv REPORTTRAILER    /mgi/software/customSQL/bin/trailer
+
+# Annotation load config variables
+
+setenv ANNOTLOAD		/usr/local/mgi/live/dataload/annotload
+setenv ANNOTMODE		new
+setenv ANNOTREFERENCE     	"J:63103"
 
 # initialize RADAR DB value
 source ${RADARDBSCHEMADIR}/Configuration

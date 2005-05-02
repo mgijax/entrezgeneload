@@ -44,6 +44,7 @@ radar = os.environ['RADARDB']
 referenceKey = os.environ['REFERENCEKEY']	# _Refs_key of Reference
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
 synTypeKey = os.environ['SYNTYPEKEY']		# _SynonymType_key
+user = os.environ['CREATEDBY']
 
 synFileName = datadir +  '/MGI_Synonym.bcp'
 diagFileName = datadir + '/syns.diagnostics'
@@ -117,7 +118,7 @@ def init():
 	results = db.sql('select maxKey = max(_Synonym_key) + 1 from MGI_Synonym', 'auto')
 	synKey = results[0]['maxKey']
 
-	userKey = loadlib.verifyUser(db.get_sqlUser(), 0, None)
+	userKey = loadlib.verifyUser(user, 0, None)
 
 def writeBCP():
 	'''
