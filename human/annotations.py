@@ -135,9 +135,7 @@ def writeAnnotations():
 
 	results = db.sql('select m.geneID, m.mimID ' + \
 		'from %s..DP_EntrezGene_MIM m ' % (radar) + \
-		'where not exists (select 1 from %s..DP_EntrezGene_DBXRef e ' % (radar) + \
-		'where m.geneID = e.geneID ' + \
-		'and m.mimID = substring(e.dbXrefID,5,30)) ' + \
+		'where m.annotationType = "phenotype" ' + \
 		'and exists (select 1 from #omim o where m.mimID = o.accID) ' + \
 		'order by geneID', 'auto')
 
