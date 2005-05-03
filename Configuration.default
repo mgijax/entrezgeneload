@@ -164,6 +164,9 @@ setenv RATSYNTYPEKEY    1014
 # Reference for Load J:63103
 setenv REFERENCEKEY	64047
 
+# Reference for SwissProt Load J:53168
+setenv SPREFERENCEKEY   53672
+
 # Report header/trailer scripts
 setenv REPORTHEADER     /mgi/software/customSQL/bin/header.sh
 setenv REPORTTRAILER    /mgi/software/customSQL/bin/trailer
