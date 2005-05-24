@@ -68,6 +68,9 @@ setenv RADARDBPERMSDIR  	/usr/local/mgi/live/dbutils/radar/radardbperms
 # Load User
 setenv CREATEDBY		"entrezgene_load"
 
+# Species Key for Mouse
+setenv MOUSESPECIESKEY	1
+
 # Species Key for Human
 setenv HUMANSPECIESKEY	2
 
