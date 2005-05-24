@@ -21,9 +21,6 @@ setenv EGINPUTDIR           	${EGDATADIR}/input
 # logs directory
 setenv EGLOGSDIR            	${EGDATADIR}/logs
 
-# mouse data directory
-setenv MOUSEDATADIR       	${EGDATADIR}/output/mouse
-
 # human data directory
 setenv HUMANDATADIR       	${EGDATADIR}/output/human
 
@@ -32,9 +29,6 @@ setenv RATDATADIR       	${EGDATADIR}/output/rat
 
 # archive directory
 setenv ARCHIVEDIR		${EGDATADIR}/archive
-
-# archive directory
-setenv MOUSEARCHIVEDIR		${EGDATADIR}/archive/mouse
 
 # archive directory
 setenv HUMANARCHIVEDIR		${EGDATADIR}/archive/human
@@ -73,9 +67,6 @@ setenv RADARDBPERMSDIR  	/usr/local/mgi/live/dbutils/radar/radardbperms
 
 # Load User
 setenv CREATEDBY		"entrezgene_load"
-
-# Species Key for Mouse
-setenv MOUSESPECIESKEY	1
 
 # Species Key for Human
 setenv HUMANSPECIESKEY	2
@@ -118,9 +109,6 @@ setenv LOGICALRGDKEY	47
 
 # Logical Key for RatMap
 setenv LOGICALRATMAPKEY	4
-
-# Private flag for Mouse EntrezGeneID (0 = no, 1 = yes)
-setenv MOUSEEGPRIVATE	0
 
 # Private flag for Human EntrezGeneID (0 = no, 1 = yes)
 setenv HUMANEGPRIVATE	0

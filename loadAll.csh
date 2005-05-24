@@ -11,7 +11,7 @@
 #	Lori Corbani
 #
 # Purpose:
-#	Wrapper to execute all EntrezGene loads (mouse, human, rat)
+#	Wrapper to execute all EntrezGene loads (human, rat)
 #
 # Requirements Satisfied by This Program:
 #
@@ -35,6 +35,10 @@
 #
 # Modification History:
 #
+#
+# 05/24/2005 - lec
+#	- TR 6046; removing mouse....mouse load is now done by the "egload" product
+#
 # 01/03/2004 - lec
 #	- TR 5939/LocusLink->EntrezGene conversion
 #
@@ -49,7 +53,6 @@ date >> ${LOG}
 
 loadFiles.csh >> ${LOG}
 updateIDs.csh >> ${LOG}
-mouse/load.csh >> ${LOG}
 human/load.csh >> ${LOG}
 rat/load.csh >> ${LOG}
 
