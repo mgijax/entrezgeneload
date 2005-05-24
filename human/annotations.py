@@ -129,8 +129,7 @@ def writeAnnotations():
 
 	#
 	# select OMIM disease annotations...
-	# those OMIM ids in the MIM table that don't also exist in the Gene Info table
-	# those OMIM disease ids that are stored in MGI (in the OMIM vocabulary)
+	# for those OMIM disease ids that are stored in MGI (in the OMIM vocabulary)
 	#
 
 	results = db.sql('select m.geneID, m.mimID ' + \
