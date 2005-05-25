@@ -125,7 +125,7 @@ def writeAnnotations():
 	# OMIM ids currently stored in MGI
 
         db.sql('select distinct accID into #omim from ACC_Accession ' + \
-		'where _LogicalDB_key = %s' % (logicalOMIM), None)
+		'where _MGIType_key = 13 and _LogicalDB_key = %s' % (logicalOMIM), None)
 	db.sql('create index idx1 on #omim(accID)', None)
 
 	#
