@@ -124,7 +124,8 @@ def writeAnnotations():
 
 	# OMIM ids currently stored in MGI
 
-        db.sql('select accID into #omim from ACC_Accession where _MGIType_key = 13 and _LogicalDB_key = %s' % (logicalOMIM), None)
+        db.sql('select distinct accID into #omim from ACC_Accession ' + \
+		'where _LogicalDB_key = %s' % (logicalOMIM), None)
 	db.sql('create index idx1 on #omim(accID)', None)
 
 	#
@@ -134,8 +135,7 @@ def writeAnnotations():
 
 	results = db.sql('select m.geneID, m.mimID ' + \
 		'from %s..DP_EntrezGene_MIM m ' % (radar) + \
-		'where m.annotationType = "phenotype" ' + \
-		'and exists (select 1 from #omim o where m.mimID = o.accID) ' + \
+		'where exists (select 1 from #omim o where m.mimID = o.accID) ' + \
 		'order by geneID', 'auto')
 
 	for r in results:
