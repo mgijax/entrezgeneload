@@ -166,7 +166,7 @@ setenv REPORTTRAILER    /mgi/software/customSQL/bin/trailer
 
 setenv ANNOTLOAD		/usr/local/mgi/live/dataload/annotload
 setenv ANNOTMODE		new
-setenv ANNOTREFERENCE     	"J:63103"
+setenv ANNOTREFERENCE     	"J:98535"
 
 # initialize RADAR DB value
 source ${RADARDBSCHEMADIR}/Configuration
