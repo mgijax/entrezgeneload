@@ -160,7 +160,7 @@ go
 /***** HGNC ids *****/
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${HUMANTAXID}, a._Object_key, ${LOGICALHGNCKEY}, b.geneID, b.mgiID, substring(e.locusTag,6,30), ${HUMANHGNCPRIVATE}, 0
+select distinct ${HUMANTAXID}, a._Object_key, ${LOGICALHGNCKEY}, b.geneID, b.mgiID, e.locusTag, ${HUMANHGNCPRIVATE}, 0
 from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_Info e
 where b.idType = 'EG'
 and b.mgiID = a.accID
@@ -171,7 +171,7 @@ and e.locusTag like 'HGNC:%'
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${HUMANTAXID}, m._Marker_key, ${LOGICALHGNCKEY}, b.geneID, b.mgiID, substring(e.locusTag,6,30), ${HUMANHGNCPRIVATE}, 0
+select distinct ${HUMANTAXID}, m._Marker_key, ${LOGICALHGNCKEY}, b.geneID, b.mgiID, e.locusTag, ${HUMANHGNCPRIVATE}, 0
 from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_Info e
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
@@ -181,7 +181,7 @@ and e.locusTag like 'HGNC:%'
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${HUMANTAXID}, -1, ${LOGICALHGNCKEY}, b.geneID, b.mgiID, substring(e.locusTag,6,30), ${HUMANHGNCPRIVATE}, 0
+select distinct ${HUMANTAXID}, -1, ${LOGICALHGNCKEY}, b.geneID, b.mgiID, e.locusTag, ${HUMANHGNCPRIVATE}, 0
 from #bucket0 b, DP_EntrezGene_Info e
 where b.mgiID = 'none'
 and b.geneID = e.geneID
