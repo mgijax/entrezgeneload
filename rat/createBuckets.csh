@@ -157,6 +157,68 @@ and b.geneID = r.geneID
 and r.rna like 'NM_%'
 go
 
+/***** Protein RefSeq ids *****/
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${RATTAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${RATREFSEQPRIVATE}, 1
+from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_RefSeq r
+where b.idType = 'EG'
+and b.mgiID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALEGKEY}
+and b.geneID = r.geneID
+and (r.protein like 'NP_%' or r.protein like 'XP_%')
+go
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${RATTAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${RATREFSEQPRIVATE}, 1
+from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_RefSeq r
+where b.idType = 'Symbol'
+and b.mgiID = m.symbol
+and m._Organism_key = ${RATSPECIESKEY}
+and b.geneID = r.geneID
+and (r.protein like 'NP_%' or r.protein like 'XP_%')
+go
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${RATTAXID}, -1, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${RATREFSEQPRIVATE}, 1
+from #bucket0 b, DP_EntrezGene_RefSeq r
+where b.mgiID = 'none'
+and b.geneID = r.geneID
+and (r.protein like 'NP_%' or r.protein like 'XP_%')
+go
+
+/***** SwissProt ids *****/
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${RATTAXID}, a._Object_key, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${RATSPPRIVATE}, 1
+from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_Accession r
+where b.idType = 'EG'
+and b.mgiID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALEGKEY}
+and b.geneID = r.geneID
+and r.protein like '[A-Z][0-9][0-9][0-9][0-9][0-9]'
+go
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${RATTAXID}, m._Marker_key, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${RATSPPRIVATE}, 1
+from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_Accession r
+where b.idType = 'Symbol'
+and b.mgiID = m.symbol
+and m._Organism_key = ${RATSPECIESKEY}
+and b.geneID = r.geneID
+and r.protein like '[A-Z][0-9][0-9][0-9][0-9][0-9]'
+go
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${RATTAXID}, -1, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${RATSPPRIVATE}, 1
+from #bucket0 b, DP_EntrezGene_Accession r
+where b.mgiID = 'none'
+and b.geneID = r.geneID
+and r.protein like '[A-Z][0-9][0-9][0-9][0-9][0-9]'
+go
+
 /***** RGD *****/
 
 insert into WRK_EntrezGene_Bucket0

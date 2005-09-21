@@ -126,7 +126,7 @@ from #bucket0 b
 where b.mgiID = 'none'
 go
 
-/***** RefSeq ids *****/
+/***** RNA RefSeq ids *****/
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${HUMANTAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${HUMANREFSEQPRIVATE}, 1
@@ -155,6 +155,68 @@ from #bucket0 b, DP_EntrezGene_RefSeq r
 where b.mgiID = 'none'
 and b.geneID = r.geneID
 and r.rna like 'NM_%'
+go
+
+/***** Protein RefSeq ids *****/
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${HUMANTAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${HUMANREFSEQPRIVATE}, 1
+from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_RefSeq r
+where b.idType = 'EG'
+and b.mgiID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALEGKEY}
+and b.geneID = r.geneID
+and (r.protein like 'NP_%' or r.protein like 'XP_%')
+go
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${HUMANTAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${HUMANREFSEQPRIVATE}, 1
+from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_RefSeq r
+where b.idType = 'Symbol'
+and b.mgiID = m.symbol
+and m._Organism_key = ${HUMANSPECIESKEY}
+and b.geneID = r.geneID
+and (r.protein like 'NP_%' or r.protein like 'XP_%')
+go
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${HUMANTAXID}, -1, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${HUMANREFSEQPRIVATE}, 1
+from #bucket0 b, DP_EntrezGene_RefSeq r
+where b.mgiID = 'none'
+and b.geneID = r.geneID
+and (r.protein like 'NP_%' or r.protein like 'XP_%')
+go
+
+/***** SwissProt ids *****/
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${HUMANTAXID}, a._Object_key, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${HUMANSPPRIVATE}, 1
+from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_Accession r
+where b.idType = 'EG'
+and b.mgiID = a.accID
+and a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALEGKEY}
+and b.geneID = r.geneID
+and r.protein like '[A-Z][0-9][0-9][0-9][0-9][0-9]'
+go
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${HUMANTAXID}, m._Marker_key, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${HUMANSPPRIVATE}, 1
+from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_Accession r
+where b.idType = 'Symbol'
+and b.mgiID = m.symbol
+and m._Organism_key = ${HUMANSPECIESKEY}
+and b.geneID = r.geneID
+and r.protein like '[A-Z][0-9][0-9][0-9][0-9][0-9]'
+go
+
+insert into WRK_EntrezGene_Bucket0
+select distinct ${HUMANTAXID}, -1, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${HUMANSPPRIVATE}, 1
+from #bucket0 b, DP_EntrezGene_Accession r
+where b.mgiID = 'none'
+and b.geneID = r.geneID
+and r.protein like '[A-Z][0-9][0-9][0-9][0-9][0-9]'
 go
 
 /***** HGNC ids *****/
