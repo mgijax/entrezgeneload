@@ -65,7 +65,9 @@ date >> ${LOG}
 ../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID}
 ./annotations.csh ${HUMANDATADIR}
 ../deleteObsolete.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
-${DBUTILSBINDIR}/runDeleteObsoleteDummy.csh ${DBSERVER} ${DBNAME}
-${DBUTILSBINDIR}/runCreateDummy.csh ${DBSERVER} ${DBNAME}
+
+# done as part of rat...so let's not do it twice
+#${DBUTILSBINDIR}/runDeleteObsoleteDummy.csh ${DBSERVER} ${DBNAME}
+#${DBUTILSBINDIR}/runCreateDummy.csh ${DBSERVER} ${DBNAME}
 
 date >> ${LOG}
