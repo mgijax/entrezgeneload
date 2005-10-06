@@ -141,7 +141,7 @@ setenv RGDPRIVATE	0
 setenv REFSEQPRIVATE	0
 
 # Private flag for RefSeq ID (0 = no, 1 = yes)
-setenv HUMANREFSEQPRIVATE	1
+setenv HUMANREFSEQPRIVATE	0
 
 # Private flag for SwissProt ID (0 = no, 1 = yes)
 setenv HUMANSPPRIVATE    0
@@ -150,7 +150,7 @@ setenv HUMANSPPRIVATE    0
 setenv HUMANHGNCPRIVATE	0
 
 # Private flag for RefSeq ID (0 = no, 1 = yes)
-setenv RATREFSEQPRIVATE	1
+setenv RATREFSEQPRIVATE	0
 
 # Private flag for SwissProt ID (0 = no, 1 = yes)
 setenv RATSPPRIVATE    0
