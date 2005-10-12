@@ -7,6 +7,10 @@
 #
 # History
 #
+#	09/15/2005 lec
+#	- TR 5972 - add load of SwissProt, NP, XP
+#
+#
 
 cd `dirname $0` && source ../Configuration
 
@@ -19,14 +23,25 @@ touch ${LOG}
 date >> ${LOG}
 
 ../deleteIDs.csh ${RATDATADIR} ${RATSPECIESKEY} "${LOGICALREFSEQKEY}" "${LOGICALRGDKEY},${LOGICALRATMAPKEY}" ${RATSYNTYPEKEY}
+
+#
+# for PIRSF implementation only...this really only has to be run once
+#
+../deleteIDs.csh ${RATDATADIR} ${RATSPECIESKEY} "${LOGICALREFSEQKEY},${LOGICALSPKEY}" "${LOGICALREFSEQKEY},${LOGICALSPKEY}" ${RATSYNTYPEKEY}
+#
+#
+#
+
 ../createSets.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
 ./createBuckets.csh
+../runreports.csh ${RATDATADIR}
 ../acc.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
 ../syns.csh ${RATDATADIR} ${RATTAXID} ${RATSYNTYPEKEY}
 ../updateNomen.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
 ../updateMapping.csh ${RATDATADIR} ${RATTAXID}
 ../deleteObsolete.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
-../runreports.csh ${RATDATADIR}
+${DBUTILSBINDIR}/runDeleteObsoleteDummy.csh ${DBSERVER} ${DBNAME}
+${DBUTILSBINDIR}/runCreateDummy.csh ${DBSERVER} ${DBNAME}
 
 date >> ${LOG}
 

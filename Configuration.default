@@ -104,6 +104,15 @@ setenv LOGICALEGKEY     55
 # Logical Key for EntrezGene Coordinates
 setenv LOGICALEGCOORDKEY     59
 
+# Logical Key for RefSeq ID
+setenv LOGICALREFSEQKEY 27
+
+# Logical Key for SwissProt
+setenv LOGICALSPKEY      13
+
+# Logical Key for HGNC ID
+setenv LOGICALHGNCKEY	64
+
 # Logical Key for OMIM
 setenv LOGICALOMIMKEY 15
 
@@ -128,23 +137,23 @@ setenv RATMAPPRIVATE	0
 # Private flag for RatMap ID (0 = no, 1 = yes)
 setenv RGDPRIVATE	0
 
-# Logical Key for RefSeq ID
-setenv LOGICALREFSEQKEY	27
-
-# Logical Key for HGNC ID
-setenv LOGICALHGNCKEY	64
-
 # Private flag for RefSeq ID (0 = no, 1 = yes)
 setenv REFSEQPRIVATE	0
 
 # Private flag for RefSeq ID (0 = no, 1 = yes)
-setenv HUMANREFSEQPRIVATE	1
+setenv HUMANREFSEQPRIVATE	0
+
+# Private flag for SwissProt ID (0 = no, 1 = yes)
+setenv HUMANSPPRIVATE    0
 
 # Private flag for HGNC ID (0 = no, 1 = yes)
 setenv HUMANHGNCPRIVATE	0
 
 # Private flag for RefSeq ID (0 = no, 1 = yes)
-setenv RATREFSEQPRIVATE	1
+setenv RATREFSEQPRIVATE	0
+
+# Private flag for SwissProt ID (0 = no, 1 = yes)
+setenv RATSPPRIVATE    0
 
 # EntrezGene Human Synonym Type
 setenv HUMSYNTYPEKEY    1012

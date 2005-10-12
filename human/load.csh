@@ -20,6 +20,9 @@
 #
 # History
 #
+#	09/15/2005 lec
+#	- TR 5972 - add load of SwissProt, NP, XP
+#
 #	04/28/2005 lec
 #	- TR 3853, OMIM
 #
@@ -43,7 +46,16 @@ touch ${LOG}
 
 date >> ${LOG}
 
-../deleteIDs.csh ${HUMANDATADIR} ${HUMANSPECIESKEY} ${LOGICALREFSEQKEY} "${LOGICALHGNCKEY},${LOGICALOMIMKEY}" ${HUMSYNTYPEKEY}
+../deleteIDs.csh ${HUMANDATADIR} ${HUMANSPECIESKEY} "${LOGICALREFSEQKEY},${LOGICALSPKEY}" "${LOGICALHGNCKEY},${LOGICALOMIMKEY}" ${HUMSYNTYPEKEY}
+
+#
+# for PIRSF implementation only...this really only has to be run once
+#
+../deleteIDs.csh ${HUMANDATADIR} ${HUMANSPECIESKEY} "${LOGICALREFSEQKEY},${LOGICALSPKEY}" "${LOGICALREFSEQKEY},${LOGICALSPKEY}" ${HUMSYNTYPEKEY}
+#
+#
+#
+
 ../createSets.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 ./createBuckets.csh
 ../runreports.csh ${HUMANDATADIR}
@@ -53,5 +65,9 @@ date >> ${LOG}
 ../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID}
 ./annotations.csh ${HUMANDATADIR}
 ../deleteObsolete.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
+
+# done as part of rat...so let's not do it twice
+#${DBUTILSBINDIR}/runDeleteObsoleteDummy.csh ${DBSERVER} ${DBNAME}
+#${DBUTILSBINDIR}/runCreateDummy.csh ${DBSERVER} ${DBNAME}
 
 date >> ${LOG}

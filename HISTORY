@@ -1,3 +1,28 @@
+TAG: entrezgeneload-3-4-0-4
+DATE: 10/12/2005
+STAFF: lec
+CHANGES:
+1) MGI 3.4 branch merge
+
+TAG: entrezgeneload-3-4-0-3
+DATE: 10/06/2005
+STAFF: lec
+CHANGES:
+1) MGI 3.4
+2) Configuration.default; private = false for human/rat RefSeqs
+
+TAG: entrezgeneload-3-4-0-2
+DATE: 10/03/2005
+STAFF: lec
+CHANGES:
+1) MGI 3.4
+
+TAG: entrezgeneload-3-4-0-1
+DATE: 09/21/2005
+STAFF: lec
+CHANGES:
+1) MGI 3.4
+
 TAG: entrezgeneload-pirsfload-BP
 DATE: 09/08/2005
 STAFF: lec
