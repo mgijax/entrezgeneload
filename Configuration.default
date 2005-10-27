@@ -177,6 +177,8 @@ setenv ANNOTLOAD		/usr/local/mgi/live/dataload/annotload
 setenv ANNOTMODE		new
 setenv ANNOTREFERENCE     	"J:98535"
 
+setenv SEQCACHELOAD             /usr/local/mgi/live/dbutils/seqcacheload
+
 # initialize RADAR DB value
 source ${RADARDBSCHEMADIR}/Configuration
 setenv RADARDB ${DBNAME}

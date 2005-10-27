@@ -68,6 +68,6 @@ date >> ${LOG}
 
 # done as part of rat...so let's not do it twice
 #${DBUTILSBINDIR}/runDeleteObsoleteDummy.csh ${DBSERVER} ${DBNAME}
-#${DBUTILSBINDIR}/runCreateDummy.csh ${DBSERVER} ${DBNAME}
+#${SEQCACHELOAD}/seqdummy.csh
 
 date >> ${LOG}

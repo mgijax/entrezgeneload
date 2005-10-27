@@ -41,7 +41,7 @@ date >> ${LOG}
 ../updateMapping.csh ${RATDATADIR} ${RATTAXID}
 ../deleteObsolete.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
 ${DBUTILSBINDIR}/runDeleteObsoleteDummy.csh ${DBSERVER} ${DBNAME}
-${DBUTILSBINDIR}/runCreateDummy.csh ${DBSERVER} ${DBNAME}
+${SEQCACHELOAD}/seqdummy.csh
 
 date >> ${LOG}
 
