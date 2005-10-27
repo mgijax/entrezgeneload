@@ -66,8 +66,4 @@ date >> ${LOG}
 ./annotations.csh ${HUMANDATADIR}
 ../deleteObsolete.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
 
-# done as part of rat...so let's not do it twice
-#${DBUTILSBINDIR}/runDeleteObsoleteDummy.csh ${DBSERVER} ${DBNAME}
-#${SEQCACHELOAD}/seqdummy.csh
-
 date >> ${LOG}
