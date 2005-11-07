@@ -12,7 +12,7 @@
 #
 # Assumes:
 #
-#	${RADARDB}..WRK_EntrezGene_Bucket0 exists
+#	${RADAR_DBNAME}..WRK_EntrezGene_Bucket0 exists
 #
 # Output:
 #
@@ -37,7 +37,7 @@ import loadlib
 #globals
 
 datadir = os.environ['DATADIR']
-radar = os.environ['RADARDB']
+radar = os.environ['RADAR_DBNAME']
 editor = os.environ['CREATEDBY']
 reference = os.environ['ANNOTREFERENCE']
 logicalOMIM = os.environ['LOGICALOMIMKEY']

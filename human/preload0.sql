@@ -20,7 +20,7 @@ select distinct mgiSymbol = substring(e.mgiSymbol,1,25),
        symbol = substring(m2.symbol,1,25), 
        egName = substring(e.egName,1,50)
 into #results
-from ${RADARDB}..WRK_EntrezGene_Nomen e,
+from ${RADAR_DBNAME}..WRK_EntrezGene_Nomen e,
      MRK_Marker m1, HMD_Homology_Marker hm1, HMD_Homology h1,
      MRK_Marker m2, HMD_Homology_Marker hm2, HMD_Homology h2
 where e.taxID = ${HUMANTAXID}
@@ -37,7 +37,7 @@ select substring(e.mgiSymbol,1,25),
        substring(e.egSymbol,1,25), 
        null, 
        substring(e.egName,1,50)
-from ${RADARDB}..WRK_EntrezGene_Nomen e
+from ${RADAR_DBNAME}..WRK_EntrezGene_Nomen e
 where e.taxID = ${HUMANTAXID}
 and not exists (select 1 from MRK_Marker m1, HMD_Homology_Marker hm1, HMD_Homology h1,
                               MRK_Marker m2, HMD_Homology_Marker hm2, HMD_Homology h2

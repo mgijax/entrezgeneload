@@ -49,21 +49,21 @@ setenv LD_LIBRARY_PATH         $SYBASE/OCS-12_5/lib
 setenv PYTHONPATH         	/usr/local/mgi/live/lib/python
 
 # DB UTILITIES
-setenv DBUTILITIESPATH		/usr/local/mgi/live/dbutils/mgidbutilities
+setenv MGIDBUTILSDIR		/usr/local/mgi/live/dbutils/mgidbutilities
 
 # PATH
-set path = ($DBUTILITIESPATH/bin $path $SYBASE/ASE-12_5/bin $SYBASE/OCS-12_5/bin)
+set path = ($MGIDBUTILSDIR/bin $path $SYBASE/ASE-12_5/bin $SYBASE/OCS-12_5/bin)
 
 # FTP Data Files
 setenv FTPDATA1			/data/downloads/ftp.ncbi.nih.gov/gene/DATA
 setenv FTPDATA2			/data/downloads/ftp.ncbi.nih.gov/pub/HomoloGene/current
 
 # MGI Schema Product
-setenv MGIDBSCHEMADIR   	/usr/local/mgi/live/dbutils/mgd/mgddbschema
+setenv MGD_DBSCHEMADIR   	/usr/local/mgi/live/dbutils/mgd/mgddbschema
 
 # RADAR Schema Product
-setenv RADARDBSCHEMADIR 	/usr/local/mgi/live/dbutils/radar/radardbschema
-setenv RADARDBPERMSDIR  	/usr/local/mgi/live/dbutils/radar/radardbperms
+setenv RADAR_DBSCHEMADIR 	/usr/local/mgi/live/dbutils/radar/radardbschema
+setenv RADAR_DBPERMSDIR  	/usr/local/mgi/live/dbutils/radar/radardbperms
 
 # Load User
 setenv CREATEDBY		"entrezgene_load"
@@ -178,8 +178,8 @@ setenv ANNOTMODE		new
 setenv ANNOTREFERENCE     	"J:98535"
 
 # initialize RADAR DB value
-source ${RADARDBSCHEMADIR}/Configuration
-setenv RADARDB ${DBNAME}
+source ${RADAR_DBSCHEMADIR}/Configuration
+setenv RADAR_DBNAME ${DBNAME}
 
-source ${MGIDBSCHEMADIR}/Configuration
+source ${MGD_DBSCHEMADIR}/Configuration
 

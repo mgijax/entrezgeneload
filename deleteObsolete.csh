@@ -62,7 +62,7 @@ select m._Marker_key
 from MRK_Marker m
 where m._Organism_key = ${ORGANISM}
 and not exists (select h.* from HMD_Homology_Marker h where m._Marker_key = h._Marker_key)
-and not exists (select e.* from ${RADARDB}..DP_EntrezGene_Info e, ACC_Accession a
+and not exists (select e.* from ${RADAR_DBNAME}..DP_EntrezGene_Info e, ACC_Accession a
 	where e.taxID = ${TAXID}
 	and m._Marker_key = a._Object_key
 	and a._MGIType_key = 2

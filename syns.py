@@ -12,7 +12,7 @@
 #
 # Assumes:
 #
-#	${RADARDB}..WRK_EntrezGene_Synonym exists
+#	${RADAR_DBNAME}..WRK_EntrezGene_Synonym exists
 #
 # Output:
 #
@@ -40,7 +40,7 @@ import loadlib
 
 taxId = os.environ['TAXID']
 datadir = os.environ['DATADIR']
-radar = os.environ['RADARDB']
+radar = os.environ['RADAR_DBNAME']
 referenceKey = os.environ['REFERENCEKEY']	# _Refs_key of Reference
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
 synTypeKey = os.environ['SYNTYPEKEY']		# _SynonymType_key

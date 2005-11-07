@@ -53,7 +53,7 @@ date | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
  
-use ${RADARDB}
+use ${RADAR_DBNAME}
 go
 
 delete from WRK_EntrezGene_EGSet where taxID = ${TAXID}
@@ -65,8 +65,8 @@ go
 EOSQL
 
 # drop indexes
-${RADARDBSCHEMADIR}/index/WRK_EntrezGene_EGSet_drop.object | tee -a ${LOG}
-${RADARDBSCHEMADIR}/index/WRK_EntrezGene_MGISet_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_EGSet_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_MGISet_drop.object | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
  
@@ -77,7 +77,7 @@ go
 
 /* set of all EG IDs (for markers)... */
 
-insert into ${RADARDB}..WRK_EntrezGene_MGISet
+insert into ${RADAR_DBNAME}..WRK_EntrezGene_MGISet
 select ${TAXID}, a.accID, a.accID, 'EG'
 from MRK_Marker m, ACC_Accession a
 where m._Organism_key = ${ORGANISM}
@@ -101,14 +101,14 @@ go
 create index idx1 on #noeg(_Marker_key)
 go
 
-insert into ${RADARDB}..WRK_EntrezGene_MGISet
+insert into ${RADAR_DBNAME}..WRK_EntrezGene_MGISet
 select ${TAXID}, symbol, symbol, 'Symbol'
 from #noeg
 go
 
 /* curated GenBank IDs for symbols that do not have EG ids */
 
-insert into ${RADARDB}..WRK_EntrezGene_MGISet
+insert into ${RADAR_DBNAME}..WRK_EntrezGene_MGISet
 select distinct ${TAXID}, n.symbol, a.accID, 'Gen'
 from #noeg n, ACC_Accession a
 where n._Marker_key = a._Object_key
@@ -118,7 +118,7 @@ go
 
 /***** EntrezGene *****/
 
-use ${RADARDB}
+use ${RADAR_DBNAME}
 go
 
 /* set of all EG IDs */
@@ -158,8 +158,8 @@ go
 EOSQL
  
 # create indexes
-${RADARDBSCHEMADIR}/index/WRK_EntrezGene_EGSet_create.object | tee -a ${LOG}
-${RADARDBSCHEMADIR}/index/WRK_EntrezGene_MGISet_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_EGSet_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_MGISet_create.object | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating sets." | tee -a ${LOG}

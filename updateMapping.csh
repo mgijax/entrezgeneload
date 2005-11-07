@@ -54,7 +54,7 @@ go
 
 declare mapping_cursor cursor for
 select _Marker_key, egChr, egMapPosition
-from ${RADARDB}..WRK_EntrezGene_Mapping
+from ${RADAR_DBNAME}..WRK_EntrezGene_Mapping
 where taxID = ${TAXID}
 for read only
 go

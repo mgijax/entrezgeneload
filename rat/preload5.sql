@@ -34,7 +34,7 @@ go
 
 select m.*, e.geneID, e.locusTag, egsymbol = substring(e.symbol,1,30), egname = substring(e.name,1,30)
 into #match
-from #nonoset m, ${RADARDB}..DP_EntrezGene_Info e
+from #nonoset m, ${RADAR_DBNAME}..DP_EntrezGene_Info e
 where e.taxid = ${RATTAXID}
 and m.symbol = e.symbol
 go
@@ -43,13 +43,13 @@ go
 
 select m.*, r.rna
 into #refSeq
-from #match m, ${RADARDB}..DP_EntrezGene_RefSeq r
+from #match m, ${RADAR_DBNAME}..DP_EntrezGene_RefSeq r
 where m.geneID = r.geneID
 and r.rna like 'NM%'
 union
 select m.*, NULL
 from #match m
-where not exists (select 1 from ${RADARDB}..DP_EntrezGene_RefSeq r
+where not exists (select 1 from ${RADAR_DBNAME}..DP_EntrezGene_RefSeq r
 where m.geneID = r.geneID
 and r.rna like 'NM%')
 go

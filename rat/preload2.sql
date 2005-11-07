@@ -18,7 +18,7 @@ print "     New EntrezGene IDs added to MGI Rat symbol based on Symbol and Seq I
 print ""
 
 select e.accID, m.symbol
-from ${RADARDB}..WRK_EntrezGene_Bucket0 e, MRK_Marker m
+from ${RADAR_DBNAME}..WRK_EntrezGene_Bucket0 e, MRK_Marker m
 where e.taxID = ${RATTAXID}
 and e._LogicalDB_key = ${LOGICALEGKEY}
 and e._Object_key = m._Marker_key

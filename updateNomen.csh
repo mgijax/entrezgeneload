@@ -55,7 +55,7 @@ go
 
 declare nomen_cursor cursor for
 select _Marker_key, mgiSymbol, mgiName, egSymbol, egName
-from ${RADARDB}..WRK_EntrezGene_Nomen
+from ${RADAR_DBNAME}..WRK_EntrezGene_Nomen
 where taxID = ${TAXID}
 for read only
 go

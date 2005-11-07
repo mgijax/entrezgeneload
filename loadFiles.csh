@@ -83,31 +83,31 @@ cd ${EGINSTALLDIR}
 ./stripversion.py >>& ${LOG}
 
 # truncate existing tables
-${RADARDBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
-${RADARDBSCHEMADIR}/table/DP_HomoloGene_truncate.object >>& ${LOG}
+${RADAR_DBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
+${RADAR_DBSCHEMADIR}/table/DP_HomoloGene_truncate.object >>& ${LOG}
 
 # drop indexes
-${RADARDBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
-${RADARDBSCHEMADIR}/index/DP_HomoloGene_drop.object >>& ${LOG}
+${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
+${RADAR_DBSCHEMADIR}/index/DP_HomoloGene_drop.object >>& ${LOG}
 
 # bcp new data into tables
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Accession in ${EGINPUTDIR}/gene2accession.new -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Info in ${EGINPUTDIR}/gene_info.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_DBXRef in ${EGINPUTDIR}/gene_dbxref.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_PubMed in ${EGINPUTDIR}/gene2pubmed.mgi -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_RefSeq in ${EGINPUTDIR}/gene2refseq.new -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_Synonym in ${EGINPUTDIR}/gene_synonym.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_History in ${EGINPUTDIR}/gene_history.mgi -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_HomoloGene in ${EGINPUTDIR}/homologene.data -c -t\\t -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${RADARDB}..DP_EntrezGene_MIM in ${EGINPUTDIR}/mim2gene -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_Accession in ${EGINPUTDIR}/gene2accession.new -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_Info in ${EGINPUTDIR}/gene_info.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_DBXRef in ${EGINPUTDIR}/gene_dbxref.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_PubMed in ${EGINPUTDIR}/gene2pubmed.mgi -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_RefSeq in ${EGINPUTDIR}/gene2refseq.new -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_Synonym in ${EGINPUTDIR}/gene_synonym.bcp -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_History in ${EGINPUTDIR}/gene_history.mgi -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_HomoloGene in ${EGINPUTDIR}/homologene.data -c -t\\t -U${DBUSER} >>& ${LOG}
+cat ${DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_MIM in ${EGINPUTDIR}/mim2gene -c -t\\t -U${DBUSER} >>& ${LOG}
 
 # create indexes
-${RADARDBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
-${RADARDBSCHEMADIR}/index/DP_HomoloGene_create.object >>& ${LOG}
+${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
+${RADAR_DBSCHEMADIR}/index/DP_HomoloGene_create.object >>& ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
  
-use ${RADARDB}
+use ${RADAR_DBNAME}
 go
 
 /* convert the EG mapPosition values to MGI format (remove the leading chromosome value) */

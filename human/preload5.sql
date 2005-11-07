@@ -16,7 +16,7 @@ print "Bucket 5: New Human Markers Added to MGI"
 print ""
 
 select b.accID "EG ID", e.symbol "Symbol", e.name "Name", e.chromosome "Chromosome", e.mapPosition "Map Position"
-from ${RADARDB}..WRK_EntrezGene_Bucket0 b, ${RADARDB}..DP_EntrezGene_Info e
+from ${RADAR_DBNAME}..WRK_EntrezGene_Bucket0 b, ${RADAR_DBNAME}..DP_EntrezGene_Info e
 where b.taxID = ${HUMANTAXID}
 and b._Object_key = -1
 and b._LogicalDB_key = ${LOGICALEGKEY}
