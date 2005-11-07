@@ -59,11 +59,10 @@ setenv FTPDATA1			/data/downloads/ftp.ncbi.nih.gov/gene/DATA
 setenv FTPDATA2			/data/downloads/ftp.ncbi.nih.gov/pub/HomoloGene/current
 
 # MGI Schema Product
-setenv MGD_DBSCHEMADIR   	/usr/local/mgi/live/dbutils/mgd/mgddbschema
+setenv MGDDBSCHEMADIR   	/usr/local/mgi/live/dbutils/mgd/mgddbschema
 
 # RADAR Schema Product
-setenv RADAR_DBSCHEMADIR 	/usr/local/mgi/live/dbutils/radar/radardbschema
-setenv RADAR_DBPERMSDIR  	/usr/local/mgi/live/dbutils/radar/radardbperms
+setenv RADARDBSCHEMADIR 	/usr/local/mgi/live/dbutils/radar/radardbschema
 
 # Load User
 setenv CREATEDBY		"entrezgene_load"
@@ -178,8 +177,8 @@ setenv ANNOTMODE		new
 setenv ANNOTREFERENCE     	"J:98535"
 
 # initialize RADAR DB value
-source ${RADAR_DBSCHEMADIR}/Configuration
+source ${RADARDBSCHEMADIR}/Configuration
 setenv RADAR_DBNAME ${DBNAME}
 
-source ${MGD_DBSCHEMADIR}/Configuration
+source ${MGDDBSCHEMADIR}/Configuration
 
