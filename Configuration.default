@@ -55,8 +55,8 @@ setenv MGIDBUTILSDIR		/usr/local/mgi/live/dbutils/mgidbutilities
 set path = ($MGIDBUTILSDIR/bin $path $SYBASE/ASE-12_5/bin $SYBASE/OCS-12_5/bin)
 
 # FTP Data Files
-setenv FTPDATA1			/data/downloads/ftp.ncbi.nih.gov/gene/DATA
-setenv FTPDATA2			/data/downloads/ftp.ncbi.nih.gov/pub/HomoloGene/current
+setenv FTPDATA1			/net/orodruin-g/vol/hobbiton/data/downloads/ftp.ncbi.nih.gov/gene/DATA
+setenv FTPDATA2			/net/orodruin-g/vol/hobbiton/data/downloads/ftp.ncbi.nih.gov/pub/HomoloGene/current
 
 # MGI Schema Product
 setenv MGDDBSCHEMADIR   	/usr/local/mgi/live/dbutils/mgd/mgddbschema
