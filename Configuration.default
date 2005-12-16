@@ -179,6 +179,8 @@ setenv ANNOTREFERENCE     	"J:98535"
 # initialize RADAR DB value
 source ${RADARDBSCHEMADIR}/Configuration
 setenv RADAR_DBNAME ${DBNAME}
+setenv RADARDB ${DBNAME}
+
 
 source ${MGDDBSCHEMADIR}/Configuration
 
