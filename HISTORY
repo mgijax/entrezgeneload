@@ -1,3 +1,11 @@
+TAG: entrezgeneload-3-4-0-7
+DATE: 01/25/2006
+STAFF: lec
+CHANGES:
+1) RGD ids are now in the radar..DP_EntrezGene_DBXRef.dbXrefID field
+   instead of DB_EntrezGene_Info.locusTag.
+   Modified rat/createBuckets.csh.
+
 TAG: entrezgeneload-3-4-0-6
 DATE: 12/16/2005
 STAFF: lec
