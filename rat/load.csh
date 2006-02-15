@@ -34,12 +34,12 @@ date >> ${LOG}
 
 ../createSets.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
 ./createBuckets.csh
-../runreports.csh ${RATDATADIR}
 ../acc.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
 ../syns.csh ${RATDATADIR} ${RATTAXID} ${RATSYNTYPEKEY}
 ../updateNomen.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
 ../updateMapping.csh ${RATDATADIR} ${RATTAXID}
 ../deleteObsolete.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
+../runreports.csh ${RATDATADIR}
 
 date >> ${LOG}
 
