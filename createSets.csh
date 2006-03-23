@@ -1,8 +1,5 @@
 #!/bin/csh -fx
 
-# $Header$
-# $Name$
-
 #
 # Program:
 #	createSets.csh

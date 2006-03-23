@@ -1,9 +1,5 @@
 #!/bin/csh -fx
 
-
-# $HEADER$
-# $NAME$
-
 #
 # Program:
 #	updateIDs.csh

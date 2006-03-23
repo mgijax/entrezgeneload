@@ -1,7 +1,5 @@
 #!/bin/csh -fx
 
-# $Header$
-
 #
 # Program:
 #	annotations.csh
