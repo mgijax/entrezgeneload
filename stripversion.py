@@ -72,7 +72,19 @@ accFile = open(inputDir + '/gene2accession.mgi', 'r')
 newaccFile = open(inputDir + '/gene2accession.new', 'w')
 
 for line in accFile.readlines():
-	[taxID, geneID, status, rna, rnaGI, protein, proteinGI, genomic, genomicGI, startPos, endPos, orient, assembly] = string.splitfields(line[:-1], TAB)
+	tokens = string.splitfields(line[:-1], TAB)
+	taxID = tokens[0]
+	geneID = tokens[1]
+	status = tokens[2]
+	rna = tokens[3]
+	rnaGI = tokens[4]
+	protein = tokens[5]
+	proteinGI = tokens[6]
+	genomic = tokens[7]
+	genomicGI = tokens[8]
+	startPos = tokens[9]
+	endPos = tokens[10]
+	orient = tokens[11]
 	[newRNA, version] = splitSeqIdV(rna)
 	[newProtein, version] = splitSeqIdV(protein)
 	[newGenomic, version] = splitSeqIdV(genomic)
@@ -95,7 +107,19 @@ refFile = open(inputDir + '/gene2refseq.mgi', 'r')
 newrefFile = open(inputDir + '/gene2refseq.new', 'w')
 
 for line in refFile.readlines():
-	[taxID, geneID, status, rna, rnaGI, protein, proteinGI, genomic, genomicGI, startPos, endPos, orient, assembly] = string.splitfields(line[:-1], TAB)
+	tokens = string.splitfields(line[:-1], TAB)
+	taxID = tokens[0]
+	geneID = tokens[1]
+	status = tokens[2]
+	rna = tokens[3]
+	rnaGI = tokens[4]
+	protein = tokens[5]
+	proteinGI = tokens[6]
+	genomic = tokens[7]
+	genomicGI = tokens[8]
+	startPos = tokens[9]
+	endPos = tokens[10]
+	orient = tokens[11]
 	[newRNA, version] = splitSeqIdV(rna)
 	[newProtein, version] = splitSeqIdV(protein)
 	[newGenomic, version] = splitSeqIdV(genomic)
