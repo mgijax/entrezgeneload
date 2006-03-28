@@ -72,7 +72,7 @@ accFile = open(inputDir + '/gene2accession.mgi', 'r')
 newaccFile = open(inputDir + '/gene2accession.new', 'w')
 
 for line in accFile.readlines():
-	[taxID, geneID, status, rna, rnaGI, protein, proteinGI, genomic, genomicGI, startPos, endPos, orient] = string.splitfields(line[:-1], TAB)
+	[taxID, geneID, status, rna, rnaGI, protein, proteinGI, genomic, genomicGI, startPos, endPos, orient, assembly] = string.splitfields(line[:-1], TAB)
 	[newRNA, version] = splitSeqIdV(rna)
 	[newProtein, version] = splitSeqIdV(protein)
 	[newGenomic, version] = splitSeqIdV(genomic)
@@ -95,7 +95,7 @@ refFile = open(inputDir + '/gene2refseq.mgi', 'r')
 newrefFile = open(inputDir + '/gene2refseq.new', 'w')
 
 for line in refFile.readlines():
-	[taxID, geneID, status, rna, rnaGI, protein, proteinGI, genomic, genomicGI, startPos, endPos, orient] = string.splitfields(line[:-1], TAB)
+	[taxID, geneID, status, rna, rnaGI, protein, proteinGI, genomic, genomicGI, startPos, endPos, orient, assembly] = string.splitfields(line[:-1], TAB)
 	[newRNA, version] = splitSeqIdV(rna)
 	[newProtein, version] = splitSeqIdV(protein)
 	[newGenomic, version] = splitSeqIdV(genomic)

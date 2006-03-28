@@ -1,3 +1,10 @@
+TAG: entrezgeneload-3-4-0-9
+DATE: 03/28/2006
+STAFF: lec
+CHANGES:
+1) EntrezGene file format for gene2accession, gene2refseq changed.
+   An additional "assembly" column has been added.
+
 TAG: entrezgeneload-tr7508-BP
 DATE: 03/23/2006
 STAFF: lec
