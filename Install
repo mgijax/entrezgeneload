@@ -8,5 +8,20 @@
 # 3. cd to the installation directory
 # 4. cp Configuration.default Configuration
 # 5. edit Configuration file
+# 6. run Install
 #
+
+source ./Configuration
+
+set directories="${EGDATADIR} ${EGINPUTDIR} ${EGLOGSDIR} ${HUMANDATADIR} ${RATDATADIR} ${DOGDATADIR} ${CHIMPDATADIR}"
+set directories="${directories} ${ARCHIVEDIR} ${HUMANARCHIVEDIR} ${RATARCHIVEDIR} ${DOGARCHIVEDIR} ${CHIMPARCHIVEDIR}"
+
+foreach x ($directories)
+
+if ( ! -d "${x}" ) then
+	mkdir ${x}
+	chmod 775 ${x}
+endif
+
+end
 

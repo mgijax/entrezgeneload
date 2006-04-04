@@ -7,7 +7,7 @@
 #
 # Processing
 #
-#	1.  Delete all dog RefSeq and synonyms
+#	1.  Delete all RefSeq and synonyms
 #	2.  Create EG and MGI Sets in RADAR.
 #	3.  Create Buckets in RADAR.
 #	4.  Load Marker and Accession records.
