@@ -35,7 +35,6 @@
 import sys
 import os
 import string
-import regsub
 
 TAB = '\t'
 CRT = '\n'
