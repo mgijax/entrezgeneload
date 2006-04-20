@@ -48,6 +48,6 @@ touch ${LOG}
 date >> ${LOG}
 
 ../syns.py >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${DBNAME}..MGI_Synonym in ${DATADIR}/MGI_Synonym.bcp -c -t\| -S${DBSERVER} -U${DBUSER} >>& ${LOG}
+cat ${MGD_DBPASSWORDFILE} | bcp ${MGD_DBNAME}..MGI_Synonym in ${DATADIR}/MGI_Synonym.bcp -c -t\| -S${MGD_DBSERVER} -U${MGD_DBUSER} >>& ${LOG}
 
 date >> ${LOG}
