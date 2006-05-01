@@ -85,6 +85,7 @@ for line in accFile.readlines():
 	startPos = tokens[9]
 	endPos = tokens[10]
 	orient = tokens[11]
+	assembly = tokens[12]
 	[newRNA, version] = splitSeqIdV(rna)
 	[newProtein, version] = splitSeqIdV(protein)
 	[newGenomic, version] = splitSeqIdV(genomic)
@@ -120,6 +121,7 @@ for line in refFile.readlines():
 	startPos = tokens[9]
 	endPos = tokens[10]
 	orient = tokens[11]
+	assembly = tokens[12]
 	[newRNA, version] = splitSeqIdV(rna)
 	[newProtein, version] = splitSeqIdV(protein)
 	[newGenomic, version] = splitSeqIdV(genomic)

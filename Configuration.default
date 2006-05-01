@@ -131,7 +131,7 @@ setenv HUMANOMIMPRIVATE 0
 setenv RATEGPRIVATE	0
 
 # Private flag for RGD ID (0 = no, 1 = yes)
-setenv RATMAPPRIVATE	0
+setenv RATMAPPRIVATE	1
 
 # Private flag for RatMap ID (0 = no, 1 = yes)
 setenv RGDPRIVATE	0
