@@ -1,8 +1,5 @@
 #!/bin/csh -fx
 
-# $Header$
-# $Name$
-
 #
 # Program:
 #	acc.csh
@@ -51,8 +48,8 @@ touch ${LOG}
 date >> ${LOG}
 
 ../accids.py >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${DBNAME}..MRK_Marker in ${DATADIR}/MRK_Marker.bcp -c -t\\t -S${DBSERVER} -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_Accession in ${DATADIR}/ACC_Accession.bcp -c -t\\t -S${DBSERVER} -U${DBUSER} >>& ${LOG}
-cat ${DBPASSWORDFILE} | bcp ${DBNAME}..ACC_AccessionReference in ${DATADIR}/ACC_AccessionReference.bcp -c -t\\t -S${DBSERVER} -U${DBUSER} >>& ${LOG}
+cat ${MGD_DBPASSWORDFILE} | bcp ${MGD_DBNAME}..MRK_Marker in ${DATADIR}/MRK_Marker.bcp -c -t\\t -S${MGD_DBSERVER} -U${MGD_DBUSER} >>& ${LOG}
+cat ${MGD_DBPASSWORDFILE} | bcp ${MGD_DBNAME}..ACC_Accession in ${DATADIR}/ACC_Accession.bcp -c -t\\t -S${MGD_DBSERVER} -U${MGD_DBUSER} >>& ${LOG}
+cat ${MGD_DBPASSWORDFILE} | bcp ${MGD_DBNAME}..ACC_AccessionReference in ${DATADIR}/ACC_AccessionReference.bcp -c -t\\t -S${MGD_DBSERVER} -U${MGD_DBUSER} >>& ${LOG}
 
 date >> ${LOG}
