@@ -33,6 +33,12 @@ setenv HUMANDATADIR       	${EGDATADIR}/output/human
 # rat data directory
 setenv RATDATADIR       	${EGDATADIR}/output/rat
 
+# dog data directory
+setenv DOGDATADIR       	${EGDATADIR}/output/dog
+
+# chimpanzee data directory
+setenv CHIMPDATADIR       	${EGDATADIR}/output/chimpanzee
+
 # archive directory
 setenv ARCHIVEDIR		${EGDATADIR}/archive
 
@@ -41,6 +47,12 @@ setenv HUMANARCHIVEDIR		${EGDATADIR}/archive/human
 
 # archive directory
 setenv RATARCHIVEDIR		${EGDATADIR}/archive/rat
+
+# archive directory
+setenv DOGARCHIVEDIR		${EGDATADIR}/archive/dog
+
+# archive directory
+setenv CHIMPARCHIVEDIR		${EGDATADIR}/archive/chimpanzee
 
 # HUGO directory
 setenv HUGOFTPDIR               gondor:/export/gondor/ftp/private/hes
@@ -61,6 +73,12 @@ setenv HUMANSPECIESKEY	2
 # Species Key for Rat
 setenv RATSPECIESKEY	40
 
+# Species Key for Dog
+setenv DOGSPECIESKEY	13
+
+# Species Key for Dog
+setenv CHIMPSPECIESKEY	10
+
 # Taxinomic ID for Mouse
 setenv MOUSETAXID	10090
 
@@ -69,6 +87,12 @@ setenv HUMANTAXID	9606
 
 # Taxinomic ID for Rat
 setenv RATTAXID	10116
+
+# Taxinomic ID for Dog
+setenv DOGTAXID	9615
+
+# Taxinomic ID for Dog
+setenv CHIMPTAXID	9598
 
 # MGI Type Key for Marker
 setenv MARKERTYPEKEY	2
@@ -116,10 +140,16 @@ setenv HUMANOMIMPRIVATE 0
 setenv RATEGPRIVATE	0
 
 # Private flag for RGD ID (0 = no, 1 = yes)
-setenv RATMAPPRIVATE	1
+setenv RATMAPPRIVATE	0
 
 # Private flag for RatMap ID (0 = no, 1 = yes)
 setenv RGDPRIVATE	0
+
+# Private flag for Dog EntrezGeneID (0 = no, 1 = yes)
+setenv DOGEGPRIVATE	0
+
+# Private flag for Dog EntrezGeneID (0 = no, 1 = yes)
+setenv CHIMPEGPRIVATE	0
 
 # Private flag for RefSeq ID (0 = no, 1 = yes)
 setenv REFSEQPRIVATE	0
@@ -139,11 +169,29 @@ setenv RATREFSEQPRIVATE	0
 # Private flag for SwissProt ID (0 = no, 1 = yes)
 setenv RATSPPRIVATE    0
 
+# Private flag for RefSeq ID (0 = no, 1 = yes)
+setenv DOGREFSEQPRIVATE	0
+
+# Private flag for SwissProt ID (0 = no, 1 = yes)
+setenv DOGSPPRIVATE    0
+
+# Private flag for RefSeq ID (0 = no, 1 = yes)
+setenv CHIMPREFSEQPRIVATE	0
+
+# Private flag for SwissProt ID (0 = no, 1 = yes)
+setenv CHIMPSPPRIVATE    0
+
 # EntrezGene Human Synonym Type
 setenv HUMSYNTYPEKEY    1012
 
 # EntrezGene Rat Synonym Type
 setenv RATSYNTYPEKEY    1014
+
+# EntrezGene Dog Synonym Type
+setenv DOGSYNTYPEKEY    ????
+
+# EntrezGene Dog Synonym Type
+setenv CHIMPSYNTYPEKEY    ????
 
 # Reference for Load J:63103
 setenv REFERENCEKEY	64047
@@ -162,5 +210,5 @@ setenv ANNOTMODE		new
 setenv ANNOTREFERENCE     	"J:98535"
 
 # this can be removed after PYTHONPATH is added to mgiconfig
-source ${MGDDBSCHEMADIR}/Configuration
+source ${MGD_DBSCHEMA}/Configuration
 

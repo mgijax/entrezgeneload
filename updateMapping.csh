@@ -46,7 +46,7 @@ date | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
 
-use ${DBNAME}
+use ${MGD_DBNAME}
 go
 
 declare mapping_cursor cursor for

@@ -64,14 +64,12 @@ foreach i (*.gz)
 /usr/local/bin/gunzip -f $i >>& ${LOG}
 end
 
-# parse out mouse, human, rat, dog only
+# parse out mouse, human, rat only
 foreach i (gene2accession gene2pubmed gene2refseq gene_info gene_history)
 rm -rf $i.mgi
 grep "^${MOUSETAXID}" $i > $i.mgi
 grep "^${HUMANTAXID}" $i >> $i.mgi
 grep "^${RATTAXID}" $i >> $i.mgi
-grep "^${DOGTAXID}" $i >> $i.mgi
-grep "^${CHIMPTAXID}" $i >> $i.mgi
 end
 
 # split up gene_info.mgi into gene_info.bcp, gene_dbxref.bcp, gene_synonym.bcp
@@ -81,13 +79,13 @@ cd ${EGINSTALLDIR}
 # strip version numbers out of gene2accession.mgi, gene2refseq.mgi
 ./stripversion.py >>& ${LOG}
 
-# drop indexes
-${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
-${RADAR_DBSCHEMADIR}/index/DP_HomoloGene_drop.object >>& ${LOG}
-
 # truncate existing tables
-${RADAR_DBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
-${RADAR_DBSCHEMADIR}/table/DP_HomoloGene_truncate.object >>& ${LOG}
+${RADAR_DBSCHEMA}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
+${RADAR_DBSCHEMA}/table/DP_HomoloGene_truncate.object >>& ${LOG}
+
+# drop indexes
+${RADAR_DBSCHEMA}/index/DP_EntrezGene_drop.logical >>& ${LOG}
+${RADAR_DBSCHEMA}/index/DP_HomoloGene_drop.object >>& ${LOG}
 
 # bcp new data into tables
 cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_Accession in ${EGINPUTDIR}/gene2accession.new -c -t\\t -U${RADAR_DBUSER} >>& ${LOG}
@@ -101,8 +99,8 @@ cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_HomoloGene in ${EGINPUTDIR
 cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_MIM in ${EGINPUTDIR}/mim2gene -c -t\\t -U${RADAR_DBUSER} >>& ${LOG}
 
 # create indexes
-${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
-${RADAR_DBSCHEMADIR}/index/DP_HomoloGene_create.object >>& ${LOG}
+${RADAR_DBSCHEMA}/index/DP_EntrezGene_create.logical >>& ${LOG}
+${RADAR_DBSCHEMA}/index/DP_HomoloGene_create.object >>& ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
  
@@ -113,37 +111,37 @@ go
 
 update DP_EntrezGene_Info
 set mapPosition = substring(mapPosition, 3, 100)
-where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID})
-and mapPosition like '[123][0-9]%'
+where taxID in (${HUMANTAXID}, ${RATTAXID})
+and mapPosition like '[12][0-9]%'
 go
 
 update DP_EntrezGene_Info
 set mapPosition = substring(mapPosition, 2, 100)
-where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID})
+where taxID in (${HUMANTAXID}, ${RATTAXID})
 and mapPosition like '[1-9]%'
 go
 
 update DP_EntrezGene_Info
 set mapPosition = substring(mapPosition, 2, 100)
-where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID})
+where taxID in (${HUMANTAXID}, ${RATTAXID})
 and mapPosition like '[XY]%'
 go
 
 update DP_EntrezGene_Info
 set chromosome = 'MT'
-where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID})
+where taxID in (${HUMANTAXID}, ${RATTAXID})
 and chromosome = 'mitochondrion'
 go
 
 update DP_EntrezGene_Info
 set chromosome = 'UN'
-where taxID in (${MOUSETAXID}, ${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID})
+where taxID in (${MOUSETAXID}, ${HUMANTAXID}, ${RATTAXID})
 and chromosome in ('Un', 'unknown', '-')
 go
 
 update DP_EntrezGene_Info
 set chromosome = 'XY'
-where taxID in (${MOUSETAXID}, ${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID})
+where taxID in (${MOUSETAXID}, ${HUMANTAXID}, ${RATTAXID})
 and chromosome = 'X|Y'
 go
 

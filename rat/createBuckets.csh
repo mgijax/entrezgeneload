@@ -10,7 +10,7 @@
 
 cd `dirname $0` && source ../Configuration
 
-setenv LOG      ${RATDATADIR}/`basename $0`.log
+setenv LOG      ${RATDATA}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
@@ -37,10 +37,10 @@ go
 EOSQL
 
 # drop indexes
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Nomen_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Mapping_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Synonym_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Bucket0_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Nomen_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Mapping_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Synonym_drop.object | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
  
@@ -114,7 +114,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select ${RATTAXID}, m._Marker_key, ${LOGICALEGKEY}, b.geneID, b.mgiID, b.geneID, ${RATEGPRIVATE}, 0
-from #bucket0 b, ${DBNAME}..MRK_Marker m
+from #bucket0 b, ${MGD_DBNAME}..MRK_Marker m
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
 and m._Organism_key = ${RATSPECIESKEY}
@@ -130,7 +130,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${RATTAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${RATREFSEQPRIVATE}, 1
-from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_RefSeq r
+from #bucket0 b, ${MGD_DBNAME}..ACC_Accession a, DP_EntrezGene_RefSeq r
 where b.idType = 'EG'
 and b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -141,7 +141,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${RATTAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${RATREFSEQPRIVATE}, 1
-from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_RefSeq r
+from #bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_RefSeq r
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
 and m._Organism_key = ${RATSPECIESKEY}
@@ -161,7 +161,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${RATTAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${RATREFSEQPRIVATE}, 1
-from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_RefSeq r
+from #bucket0 b, ${MGD_DBNAME}..ACC_Accession a, DP_EntrezGene_RefSeq r
 where b.idType = 'EG'
 and b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -172,7 +172,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${RATTAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${RATREFSEQPRIVATE}, 1
-from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_RefSeq r
+from #bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_RefSeq r
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
 and m._Organism_key = ${RATSPECIESKEY}
@@ -192,7 +192,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${RATTAXID}, a._Object_key, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${RATSPPRIVATE}, 1
-from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_Accession r
+from #bucket0 b, ${MGD_DBNAME}..ACC_Accession a, DP_EntrezGene_Accession r
 where b.idType = 'EG'
 and b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -203,7 +203,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${RATTAXID}, m._Marker_key, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${RATSPPRIVATE}, 1
-from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_Accession r
+from #bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_Accession r
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
 and m._Organism_key = ${RATSPECIESKEY}
@@ -223,7 +223,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${RATTAXID}, a._Object_key, ${LOGICALRGDKEY}, b.geneID, b.mgiID, e.dbXrefID, ${RGDPRIVATE}, 0
-from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_DBXRef e
+from #bucket0 b, ${MGD_DBNAME}..ACC_Accession a, DP_EntrezGene_DBXRef e
 where b.idType = 'EG'
 and b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -234,7 +234,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${RATTAXID}, m._Marker_key, ${LOGICALRGDKEY}, b.geneID, b.mgiID, e.dbXrefID, ${RGDPRIVATE}, 0
-from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_DBXRef e
+from #bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_DBXRef e
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
 and m._Organism_key = ${RATSPECIESKEY}
@@ -254,7 +254,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${RATTAXID}, a._Object_key, ${LOGICALRATMAPKEY}, b.geneID, b.mgiID, substring(e.dbXrefID,8,50), ${RATMAPPRIVATE}, 0
-from #bucket0 b, ${DBNAME}..ACC_Accession a, DP_EntrezGene_DBXRef e
+from #bucket0 b, ${MGD_DBNAME}..ACC_Accession a, DP_EntrezGene_DBXRef e
 where b.idType = 'EG'
 and b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -265,7 +265,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${RATTAXID}, m._Marker_key, ${LOGICALRATMAPKEY}, b.geneID, b.mgiID, substring(e.dbXrefID,8,50), ${RATMAPPRIVATE}, 0
-from #bucket0 b, ${DBNAME}..MRK_Marker m, DP_EntrezGene_DBXRef e
+from #bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_DBXRef e
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
 and m._Organism_key = ${RATSPECIESKEY}
@@ -285,7 +285,7 @@ go
 
 insert into WRK_EntrezGene_Nomen
 select e.taxID, m._Marker_key, e.geneID, m.symbol, m.name, e.symbol, e.name
-from DP_EntrezGene_Info e, ${DBNAME}..ACC_Accession a, ${DBNAME}..MRK_Marker m
+from DP_EntrezGene_Info e, ${MGD_DBNAME}..ACC_Accession a, ${MGD_DBNAME}..MRK_Marker m
 where e.taxID = ${RATTAXID}
 and e.geneID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -299,7 +299,7 @@ go
 
 insert into WRK_EntrezGene_Mapping
 select e.taxID, m._Marker_key, e.geneID, m.chromosome, m.cytogeneticOffset, e.chromosome, e.mapPosition
-from DP_EntrezGene_Info e, ${DBNAME}..ACC_Accession a, ${DBNAME}..MRK_Marker m
+from DP_EntrezGene_Info e, ${MGD_DBNAME}..ACC_Accession a, ${MGD_DBNAME}..MRK_Marker m
 where e.taxID = ${RATTAXID}
 and e.geneID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -320,7 +320,7 @@ go
 
 insert into WRK_EntrezGene_Synonym
 select s.taxID, a._Object_key, s.geneID, s.synonym
-from DP_EntrezGene_Synonym s, ${DBNAME}..ACC_Accession a
+from DP_EntrezGene_Synonym s, ${MGD_DBNAME}..ACC_Accession a
 where s.taxID = ${RATTAXID}
 and s.geneID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -330,10 +330,10 @@ go
 EOSQL
  
 # create indexes
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_create.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Nomen_create.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Mapping_create.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Synonym_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Bucket0_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Nomen_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Mapping_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Synonym_create.object | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating rat buckets." | tee -a ${LOG}

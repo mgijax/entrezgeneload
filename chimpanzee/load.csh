@@ -31,11 +31,6 @@ touch ${LOG}
 date >> ${LOG}
 
 ../deleteIDs.csh ${CHIMPDATADIR} ${CHIMPSPECIESKEY} "${LOGICALREFSEQKEY},${LOGICALSPKEY}" "" ${CHIMPSYNTYPEKEY}
-
-#
-#
-#
-
 ../createSets.csh ${CHIMPDATADIR} ${CHIMPTAXID} ${CHIMPSPECIESKEY}
 ./createBuckets.csh
 ../acc.csh ${CHIMPDATADIR} ${CHIMPTAXID} ${CHIMPSPECIESKEY}

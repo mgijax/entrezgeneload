@@ -51,7 +51,7 @@ date >> ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
  
-use ${DBNAME}
+use ${MGD_DBNAME}
 go
 
 /* remove existing assocations by reference */

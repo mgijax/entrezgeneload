@@ -48,7 +48,7 @@ date >> ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
  
-use ${DBNAME}
+use ${MGD_DBNAME}
 go
 
 /* existing Human/Rat EntrezGene ids that are obsolete and need to be mapped to current ids */

@@ -31,11 +31,6 @@ touch ${LOG}
 date >> ${LOG}
 
 ../deleteIDs.csh ${DOGDATADIR} ${DOGSPECIESKEY} "${LOGICALREFSEQKEY},${LOGICALSPKEY}" "" ${DOGSYNTYPEKEY}
-
-#
-#
-#
-
 ../createSets.csh ${DOGDATADIR} ${DOGTAXID} ${DOGSPECIESKEY}
 ./createBuckets.csh
 ../acc.csh ${DOGDATADIR} ${DOGTAXID} ${DOGSPECIESKEY}

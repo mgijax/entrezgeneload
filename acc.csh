@@ -36,7 +36,6 @@
 #	- TR 5939/LocusLink->EntrezGene conversion
 #
 
-
 setenv DATADIR $1
 setenv TAXID $2
 setenv ORGANISM $3

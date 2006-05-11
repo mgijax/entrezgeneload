@@ -6,7 +6,7 @@ setenv REPORTFILE	${OUTPUTFILE}.rpt
 
 ${REPORTHEADER} ${OUTPUTFILE}
 
-isql -S${MGD_DBSERVER} -U${PUBDBUSER} -P${PUBDBPASSWORD} -w300 <<END >> ${REPORTFILE}
+isql -S${MGD_DBSERVER} -U${MGD_PUBLICUSER} -P${MGD_DBPUBLICPASSWORDFILE} -w300 <<END >> ${REPORTFILE}
 
 use ${MGD_DBNAME}
 go
@@ -32,13 +32,11 @@ go
 
 /* Get records that have a match to EG Symbols */
 
-select m.*, e.geneID, x.dbXrefID, egsymbol = substring(e.symbol,1,30), egname = substring(e.name,1,30)
+select m.*, e.geneID, e.locusTag, egsymbol = substring(e.symbol,1,30), egname = substring(e.name,1,30)
 into #match
-from #nonoset m, ${RADAR_DBNAME}..DP_EntrezGene_Info e, ${RADAR_DBNAME}..DP_EntrezGene_DBXRef x
+from #nonoset m, ${RADAR_DBNAME}..DP_EntrezGene_Info e
 where e.taxid = ${RATTAXID}
 and m.symbol = e.symbol
-and e.geneID *= x.geneID
-and x.dbXrefID like 'RGD%'
 go
 
 /* Get Ref Seq IDs for any matched symbols that have them */
@@ -56,7 +54,7 @@ where m.geneID = r.geneID
 and r.rna like 'NM%')
 go
 
-select _Marker_key, symbol, name, geneID, dbXrefID, egsymbol, egname, rna
+select _Marker_key, symbol, name, geneID, locusTag, egsymbol, egname, rna
 into #final
 from #refSeq
 union
@@ -77,7 +75,7 @@ print ""
 
 
 select f.symbol "MGI Rat Symbol", f.name "MGI Rat Name", 
-f.egsymbol "EG Symbol", f.egname "EG Name", f.dbXrefID "EG RGD ID", f.geneID "EG ID", f.rna "EG RefSeq ID",
+f.egsymbol "EG Symbol", f.egname "EG Name", f.locusTag "EG RGD ID", f.geneID "EG ID", f.rna "EG RefSeq ID",
 m.symbol "Mouse Symbol", substring(m.name, 1, 30) "Mouse Name"
 from #final f, HMD_Homology h1, HMD_Homology_Marker hm1, 
 HMD_Homology h2, HMD_Homology_Marker hm2, MRK_Marker m
@@ -88,7 +86,7 @@ and h2._Homology_key = hm2._Homology_key
 and hm2._Marker_key = m._Marker_key
 and m._Organism_key = 1
 union
-select f.symbol, f.name, f.egsymbol, f.egname, f.dbXrefID, f.geneID, f.rna, NULL, NULL
+select f.symbol, f.name, f.egsymbol, f.egname, f.locusTag, f.geneID, f.rna, NULL, NULL
 from #final f
 where not exists (select 1 from
 HMD_Homology h1, HMD_Homology_Marker hm1, HMD_Homology h2, HMD_Homology_Marker hm2, MRK_Marker m
