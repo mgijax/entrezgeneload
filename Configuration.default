@@ -6,8 +6,14 @@
 # env variables
 #
 
+if ( ${?MGICONFIG} == 0 ) then
+	setenv MGICONFIG /usr/local/mgi/live/mgiconfig
+endif
+
+source ${MGICONFIG}/master.config.csh
+
 # install directory
-setenv EGINSTALLDIR		/usr/local/mgi/live/dataload/entrezgeneload
+setenv EGINSTALLDIR		${USRLOCALMGI}/dataload/entrezgeneload
 
 # system doc directory
 setenv SYSTEMDOCDIR		${EGINSTALLDIR}/system_docs
@@ -27,12 +33,6 @@ setenv HUMANDATADIR       	${EGDATADIR}/output/human
 # rat data directory
 setenv RATDATADIR       	${EGDATADIR}/output/rat
 
-# dog data directory
-setenv DOGDATADIR       	${EGDATADIR}/output/dog
-
-# chimpanzee data directory
-setenv CHIMPDATADIR       	${EGDATADIR}/output/chimpanzee
-
 # archive directory
 setenv ARCHIVEDIR		${EGDATADIR}/archive
 
@@ -42,39 +42,12 @@ setenv HUMANARCHIVEDIR		${EGDATADIR}/archive/human
 # archive directory
 setenv RATARCHIVEDIR		${EGDATADIR}/archive/rat
 
-# archive directory
-setenv DOGARCHIVEDIR		${EGDATADIR}/archive/dog
-
-# archive directory
-setenv CHIMPARCHIVEDIR		${EGDATADIR}/archive/chimpanzee
-
 # HUGO directory
 setenv HUGOFTPDIR               gondor:/export/gondor/ftp/private/hes
-
-# SYBASE
-setenv SYBASE	/opt/sybase/12.5
-
-# LD LIBRARY PATH
-setenv LD_LIBRARY_PATH         $SYBASE/OCS-12_5/lib
-
-# PYTHON
-setenv PYTHONPATH         	/usr/local/mgi/live/lib/python
-
-# DB UTILITIES
-setenv MGIDBUTILSDIR		/usr/local/mgi/live/dbutils/mgidbutilities
-
-# PATH
-set path = ($MGIDBUTILSDIR/bin $path $SYBASE/ASE-12_5/bin $SYBASE/OCS-12_5/bin)
 
 # FTP Data Files
 setenv FTPDATA1			/data/downloads/ftp.ncbi.nih.gov/gene/DATA
 setenv FTPDATA2			/data/downloads/ftp.ncbi.nih.gov/pub/HomoloGene/current
-
-# MGI Schema Product
-setenv MGDDBSCHEMADIR   	/usr/local/mgi/live/dbutils/mgd/mgddbschema
-
-# RADAR Schema Product
-setenv RADARDBSCHEMADIR 	/usr/local/mgi/live/dbutils/radar/radardbschema
 
 # Load User
 setenv CREATEDBY		"entrezgene_load"
@@ -88,12 +61,6 @@ setenv HUMANSPECIESKEY	2
 # Species Key for Rat
 setenv RATSPECIESKEY	40
 
-# Species Key for Dog
-setenv DOGSPECIESKEY	13
-
-# Species Key for Dog
-setenv CHIMPSPECIESKEY	10
-
 # Taxinomic ID for Mouse
 setenv MOUSETAXID	10090
 
@@ -102,12 +69,6 @@ setenv HUMANTAXID	9606
 
 # Taxinomic ID for Rat
 setenv RATTAXID	10116
-
-# Taxinomic ID for Dog
-setenv DOGTAXID	9615
-
-# Taxinomic ID for Dog
-setenv CHIMPTAXID	9598
 
 # MGI Type Key for Marker
 setenv MARKERTYPEKEY	2
@@ -155,16 +116,10 @@ setenv HUMANOMIMPRIVATE 0
 setenv RATEGPRIVATE	0
 
 # Private flag for RGD ID (0 = no, 1 = yes)
-setenv RATMAPPRIVATE	0
+setenv RATMAPPRIVATE	1
 
 # Private flag for RatMap ID (0 = no, 1 = yes)
 setenv RGDPRIVATE	0
-
-# Private flag for Dog EntrezGeneID (0 = no, 1 = yes)
-setenv DOGEGPRIVATE	0
-
-# Private flag for Dog EntrezGeneID (0 = no, 1 = yes)
-setenv CHIMPEGPRIVATE	0
 
 # Private flag for RefSeq ID (0 = no, 1 = yes)
 setenv REFSEQPRIVATE	0
@@ -184,29 +139,11 @@ setenv RATREFSEQPRIVATE	0
 # Private flag for SwissProt ID (0 = no, 1 = yes)
 setenv RATSPPRIVATE    0
 
-# Private flag for RefSeq ID (0 = no, 1 = yes)
-setenv DOGREFSEQPRIVATE	0
-
-# Private flag for SwissProt ID (0 = no, 1 = yes)
-setenv DOGSPPRIVATE    0
-
-# Private flag for RefSeq ID (0 = no, 1 = yes)
-setenv CHIMPREFSEQPRIVATE	0
-
-# Private flag for SwissProt ID (0 = no, 1 = yes)
-setenv CHIMPSPPRIVATE    0
-
 # EntrezGene Human Synonym Type
 setenv HUMSYNTYPEKEY    1012
 
 # EntrezGene Rat Synonym Type
 setenv RATSYNTYPEKEY    1014
-
-# EntrezGene Dog Synonym Type
-setenv DOGSYNTYPEKEY    ????
-
-# EntrezGene Dog Synonym Type
-setenv CHIMPSYNTYPEKEY    ????
 
 # Reference for Load J:63103
 setenv REFERENCEKEY	64047
@@ -220,14 +157,10 @@ setenv REPORTTRAILER    /mgi/software/customSQL/bin/trailer
 
 # Annotation load config variables
 
-setenv ANNOTLOAD		/usr/local/mgi/live/dataload/annotload
+setenv ANNOTLOAD		${USRLOCALMGI}/dataload/annotload
 setenv ANNOTMODE		new
 setenv ANNOTREFERENCE     	"J:98535"
 
-# initialize RADAR DB value
-source ${RADARDBSCHEMADIR}/Configuration
-setenv RADAR_DBNAME ${DBNAME}
-setenv RADARDB ${DBNAME}
-
+# this can be removed after PYTHONPATH is added to mgiconfig
 source ${MGDDBSCHEMADIR}/Configuration
 
