@@ -1,8 +1,5 @@
 #!/bin/csh -fx
 
-# $Header$
-# $Name$
-
 #
 # Program:
 #	createSets.csh
@@ -65,14 +62,14 @@ go
 EOSQL
 
 # drop indexes
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_EGSet_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_MGISet_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMA}/index/WRK_EntrezGene_EGSet_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMA}/index/WRK_EntrezGene_MGISet_drop.object | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
  
 /***** MGI *****/
 
-use ${DBNAME}
+use ${MGD_DBNAME}
 go
 
 /* set of all EG IDs (for markers)... */
@@ -158,8 +155,8 @@ go
 EOSQL
  
 # create indexes
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_EGSet_create.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_MGISet_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMA}/index/WRK_EntrezGene_EGSet_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMA}/index/WRK_EntrezGene_MGISet_create.object | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating sets." | tee -a ${LOG}

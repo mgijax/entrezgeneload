@@ -1,7 +1,5 @@
 #!/bin/csh -fx
 
-# $Header$
-
 #
 # Program:
 #	deleteObsolete.csh
@@ -54,7 +52,7 @@ date >> ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
  
-use ${DBNAME}
+use ${MGD_DBNAME}
 go
 
 declare mrk_cursor cursor for

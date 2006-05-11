@@ -23,15 +23,6 @@ touch ${LOG}
 date >> ${LOG}
 
 ../deleteIDs.csh ${RATDATADIR} ${RATSPECIESKEY} "${LOGICALREFSEQKEY}" "${LOGICALRGDKEY},${LOGICALRATMAPKEY}" ${RATSYNTYPEKEY}
-
-#
-# for PIRSF implementation only...this really only has to be run once
-#
-../deleteIDs.csh ${RATDATADIR} ${RATSPECIESKEY} "${LOGICALREFSEQKEY},${LOGICALSPKEY}" "${LOGICALREFSEQKEY},${LOGICALSPKEY}" ${RATSYNTYPEKEY}
-#
-#
-#
-
 ../createSets.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
 ./createBuckets.csh
 ../acc.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}

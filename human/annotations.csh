@@ -1,7 +1,5 @@
 #!/bin/csh -fx
 
-# $Header$
-
 #
 # Program:
 #	annotations.csh
@@ -53,6 +51,6 @@ date >> ${LOG}
 
 ./annotations.py >>& ${LOG}
 cd ${DATADIR}
-${ANNOTLOAD}/annotload.py -S${DBSERVER} -D${DBNAME} -U${DBUSER} -P${DBPASSWORDFILE} -M${ANNOTMODE} -I${ANNOTATIONFILE} -A"${ANNOTATIONTYPENAME}" -R${ANNOTREFERENCE}
+${ANNOTLOAD}/annotload.py -S${MGD_DBSERVER} -D${MGD_DBNAME} -U${MGD_DBUSER} -P${MGD_DBPASSWORDFILE} -M${ANNOTMODE} -I${ANNOTATIONFILE} -A"${ANNOTATIONTYPENAME}" -R${ANNOTREFERENCE}
 
 date >> ${LOG}
