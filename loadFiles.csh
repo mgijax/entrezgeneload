@@ -80,12 +80,12 @@ cd ${EGINSTALLDIR}
 ./stripversion.py >>& ${LOG}
 
 # truncate existing tables
-${RADAR_DBSCHEMA}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
-${RADAR_DBSCHEMA}/table/DP_HomoloGene_truncate.object >>& ${LOG}
+${RADAR_DBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
+${RADAR_DBSCHEMADIR}/table/DP_HomoloGene_truncate.object >>& ${LOG}
 
 # drop indexes
-${RADAR_DBSCHEMA}/index/DP_EntrezGene_drop.logical >>& ${LOG}
-${RADAR_DBSCHEMA}/index/DP_HomoloGene_drop.object >>& ${LOG}
+${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
+${RADAR_DBSCHEMADIR}/index/DP_HomoloGene_drop.object >>& ${LOG}
 
 # bcp new data into tables
 cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_Accession in ${EGINPUTDIR}/gene2accession.new -c -t\\t -U${RADAR_DBUSER} >>& ${LOG}
@@ -99,8 +99,8 @@ cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_HomoloGene in ${EGINPUTDIR
 cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_MIM in ${EGINPUTDIR}/mim2gene -c -t\\t -U${RADAR_DBUSER} >>& ${LOG}
 
 # create indexes
-${RADAR_DBSCHEMA}/index/DP_EntrezGene_create.logical >>& ${LOG}
-${RADAR_DBSCHEMA}/index/DP_HomoloGene_create.object >>& ${LOG}
+${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
+${RADAR_DBSCHEMADIR}/index/DP_HomoloGene_create.object >>& ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
  

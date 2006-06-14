@@ -62,8 +62,8 @@ go
 EOSQL
 
 # drop indexes
-${RADAR_DBSCHEMA}/index/WRK_EntrezGene_EGSet_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMA}/index/WRK_EntrezGene_MGISet_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIRDIR}/index/WRK_EntrezGene_EGSet_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIRDIR}/index/WRK_EntrezGene_MGISet_drop.object | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
  
@@ -155,8 +155,8 @@ go
 EOSQL
  
 # create indexes
-${RADAR_DBSCHEMA}/index/WRK_EntrezGene_EGSet_create.object | tee -a ${LOG}
-${RADAR_DBSCHEMA}/index/WRK_EntrezGene_MGISet_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIRDIR}/index/WRK_EntrezGene_EGSet_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIRDIR}/index/WRK_EntrezGene_MGISet_create.object | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating sets." | tee -a ${LOG}
