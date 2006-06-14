@@ -161,6 +161,3 @@ setenv ANNOTLOAD		${USRLOCALMGI}/dataload/annotload
 setenv ANNOTMODE		new
 setenv ANNOTREFERENCE     	"J:98535"
 
-# this can be removed after PYTHONPATH is added to mgiconfig
-source ${MGDDBSCHEMADIR}/Configuration
-
