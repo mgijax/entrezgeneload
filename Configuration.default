@@ -13,7 +13,7 @@ endif
 source ${MGICONFIG}/master.config.csh
 
 # install directory
-setenv EGINSTALLDIR		${USRLOCALMGI}/dataload/entrezgeneload
+setenv EGINSTALLDIR		${DATALOAD}/entrezgeneload
 
 # system doc directory
 setenv SYSTEMDOCDIR		${EGINSTALLDIR}/system_docs
@@ -152,12 +152,12 @@ setenv REFERENCEKEY	64047
 setenv SPREFERENCEKEY   53672
 
 # Report header/trailer scripts
-setenv REPORTHEADER     /mgi/software/customSQL/bin/header.sh
-setenv REPORTTRAILER    /mgi/software/customSQL/bin/trailer
+setenv REPORTHEADER     ${MGI_DBUTILS}/text/header.sh
+setenv REPORTTRAILER    ${MGI_DBUTILS}/text/copyrightnotice
 
 # Annotation load config variables
 
-setenv ANNOTLOAD		${USRLOCALMGI}/dataload/annotload
+setenv ANNOTLOAD		${DATALOAD}/annotload
 setenv ANNOTMODE		new
 setenv ANNOTREFERENCE     	"J:98535"
 
