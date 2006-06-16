@@ -42,9 +42,6 @@ setenv HUMANARCHIVEDIR		${EGDATADIR}/archive/human
 # archive directory
 setenv RATARCHIVEDIR		${EGDATADIR}/archive/rat
 
-# HUGO directory
-setenv HUGOFTPDIR               gondor:/export/gondor/ftp/private/hes
-
 # FTP Data Files
 setenv FTPDATA1			/data/downloads/ftp.ncbi.nih.gov/gene/DATA
 setenv FTPDATA2			/data/downloads/ftp.ncbi.nih.gov/pub/HomoloGene/current
