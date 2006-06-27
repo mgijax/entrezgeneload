@@ -7,3 +7,8 @@
 
 cd `dirname $0` && source ./Configuration
 
+#if ( ! -d ${QCREPORTDIR} ) then
+#        mkdir ${QCREPORTDIR}
+#endif
+
+
