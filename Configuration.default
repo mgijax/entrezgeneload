@@ -11,6 +11,7 @@ if ( ${?MGICONFIG} == 0 ) then
 endif
 
 source ${MGICONFIG}/master.config.csh
+source ${RADAR_DBSCHEMADIR}/Configuration
 
 # install directory
 setenv EGINSTALLDIR		${DATALOAD}/entrezgeneload
