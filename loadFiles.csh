@@ -113,13 +113,13 @@ go
 
 update DP_EntrezGene_Info
 set mapPosition = substring(mapPosition, 3, 100)
-where taxID in (${HUMANTAXID}, ${RATTAXID})
-and mapPosition like '[12][0-9]%'
+where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID})
+and mapPosition like '[123][0-9]%'
 go
 
 update DP_EntrezGene_Info
 set mapPosition = substring(mapPosition, 2, 100)
-where taxID in (${HUMANTAXID}, ${RATTAXID})
+where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID})
 and mapPosition like '[1-9]%'
 go
 
@@ -130,21 +130,18 @@ and mapPosition like '[XY]%'
 go
 
 update DP_EntrezGene_Info
-set chromosome = 'MT'
-where taxID in (${HUMANTAXID}, ${RATTAXID})
-and chromosome = 'mitochondrion'
+set chromosome = 'UN'
+where chromosome in ('Un', 'unknown', '-')
 go
 
 update DP_EntrezGene_Info
 set chromosome = 'UN'
-where taxID in (${MOUSETAXID}, ${HUMANTAXID}, ${RATTAXID})
-and chromosome in ('Un', 'unknown', '-')
+where chromosome like '%|Un'
 go
 
 update DP_EntrezGene_Info
 set chromosome = 'XY'
-where taxID in (${MOUSETAXID}, ${HUMANTAXID}, ${RATTAXID})
-and chromosome = 'X|Y'
+where chromosome = 'X|Y'
 go
 
 EOSQL
