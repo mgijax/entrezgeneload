@@ -70,6 +70,8 @@ rm -rf $i.mgi
 grep "^${MOUSETAXID}" $i > $i.mgi
 grep "^${HUMANTAXID}" $i >> $i.mgi
 grep "^${RATTAXID}" $i >> $i.mgi
+grep "^${DOGTAXID}" $i >> $i.mgi
+grep "^${CHIMPTAXID}" $i >> $i.mgi
 end
 
 # split up gene_info.mgi into gene_info.bcp, gene_dbxref.bcp, gene_synonym.bcp
