@@ -7,8 +7,55 @@
 
 cd `dirname $0` && source ./Configuration
 
-#if ( ! -d ${QCREPORTDIR} ) then
-#        mkdir ${QCREPORTDIR}
-#endif
+if ( ! -d ${EGDATADIR} ) then
+        mkdir ${EGDATADIR}
+endif
 
+if ( ! -d ${EGINPUTDIR} ) then
+        mkdir ${EGINPUTDIR}
+endif
+
+if ( ! -d ${EGLOGSDIR} ) then
+        mkdir ${EGLOGSDIR}
+endif
+
+if ( ! -d ${EGOUTPUTDIR} ) then
+        mkdir ${EGOUTPUTDIR}
+endif
+
+if ( ! -d ${HUMANDATADIR} ) then
+        mkdir ${HUMANDATADIR}
+endif
+
+if ( ! -d ${RATDATADIR} ) then
+        mkdir ${RATDATADIR}
+endif
+
+if ( ! -d ${DOGDATADIR} ) then
+        mkdir ${DOGDATADIR}
+endif
+
+if ( ! -d ${CHIMPDATADIR} ) then
+        mkdir ${CHIMPDATADIR}
+endif
+
+if ( ! -d ${ARCHIVEDIR} ) then
+        mkdir ${ARCHIVEDIR}
+endif
+
+if ( ! -d ${HUMANARCHIVEDIR} ) then
+        mkdir ${HUMANARCHIVEDIR}
+endif
+
+if ( ! -d ${RATARCHIVEDIR} ) then
+        mkdir ${RATARCHIVEDIR}
+endif
+
+if ( ! -d ${DOGARCHIVEDIR} ) then
+        mkdir ${DOGARCHIVEDIR}
+endif
+
+if ( ! -d ${CHIMPARCHIVEDIR} ) then
+        mkdir ${CHIMPARCHIVEDIR}
+endif
 

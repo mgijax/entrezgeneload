@@ -28,6 +28,9 @@ setenv EGINPUTDIR           	${EGDATADIR}/input
 # logs directory
 setenv EGLOGSDIR            	${EGDATADIR}/logs
 
+# output directory
+setenv EGOUTPUTDIR              ${EGDATADIR}/output
+
 # human data directory
 setenv HUMANDATADIR       	${EGDATADIR}/output/human
 
