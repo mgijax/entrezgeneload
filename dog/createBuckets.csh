@@ -243,7 +243,7 @@ and a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
 and a._Object_key = m._Marker_key
 and (
-(e.chromosome != '-' and e.chromosome not like '%|%' and e.chromosome != m.chromosome)
+(e.chromosome != m.chromosome)
 or 
 (e.mapPosition != '-' and e.mapPosition not like '%|%' and e.mapPosition != m.cytogeneticOffset)
 )
