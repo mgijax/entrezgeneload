@@ -53,6 +53,6 @@ updateIDs.csh >> ${LOG}
 human/load.csh >> ${LOG}
 rat/load.csh >> ${LOG}
 dog/load.csh >> ${LOG}
-chimp/load.csh >> ${LOG}
+chimpanzee/load.csh >> ${LOG}
 
 date >> ${LOG}
