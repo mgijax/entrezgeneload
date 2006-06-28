@@ -186,10 +186,10 @@ setenv HUMSYNTYPEKEY    1012
 setenv RATSYNTYPEKEY    1014
 
 # EntrezGene Dog Synonym Type
-setenv DOGSYNTYPEKEY    ????
+setenv DOGSYNTYPEKEY    1024
 
 # EntrezGene Dog Synonym Type
-setenv CHIMPSYNTYPEKEY    ????
+setenv CHIMPSYNTYPEKEY    1026
 
 # Reference for Load J:63103
 setenv REFERENCEKEY	64047
