@@ -197,9 +197,6 @@ setenv CHIMPSYNTYPEKEY    1026
 # Reference for Load J:63103
 setenv REFERENCEKEY	64047
 
-# Reference for SwissProt Load J:53168
-setenv SPREFERENCEKEY   53672
-
 # Report header/trailer scripts
 setenv REPORTHEADER     ${MGI_DBUTILS}/text/header.sh
 setenv REPORTTRAILER    ${MGI_DBUTILS}/text/copyrightnotice
