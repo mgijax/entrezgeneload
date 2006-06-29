@@ -37,10 +37,10 @@ go
 EOSQL
 
 # drop indexes
-${RADAR_DBSCHEMADIRDIR}/index/WRK_EntrezGene_Bucket0_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIRDIR}/index/WRK_EntrezGene_Nomen_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIRDIR}/index/WRK_EntrezGene_Mapping_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIRDIR}/index/WRK_EntrezGene_Synonym_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Nomen_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Mapping_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Synonym_drop.object | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
  
