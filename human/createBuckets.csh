@@ -37,10 +37,10 @@ go
 EOSQL
 
 # drop indexes
-${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Bucket0_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Nomen_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Mapping_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Synonym_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIRDIR}/index/WRK_EntrezGene_Bucket0_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIRDIR}/index/WRK_EntrezGene_Nomen_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIRDIR}/index/WRK_EntrezGene_Mapping_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIRDIR}/index/WRK_EntrezGene_Synonym_drop.object | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
  
@@ -329,10 +329,10 @@ go
 EOSQL
  
 # create indexes
-${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Bucket0_create.object | tee -a ${LOG}
-${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Nomen_create.object | tee -a ${LOG}
-${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Mapping_create.object | tee -a ${LOG}
-${RADAR_DBSCHEMA}/index/WRK_EntrezGene_Synonym_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Nomen_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Mapping_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Synonym_create.object | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating human buckets." | tee -a ${LOG}
