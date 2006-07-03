@@ -51,7 +51,7 @@ cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
 use ${MGD_DBNAME}
 go
 
-/* existing Human/Rat EntrezGene ids that are obsolete and need to be mapped to current ids */
+/* existing EntrezGene ids that are obsolete and need to be mapped to current ids */
 
 select a._Accession_key, e.geneID
 into #toupdate
@@ -59,7 +59,7 @@ from ACC_Accession a, ${RADAR_DBNAME}..DP_EntrezGene_History e
 where a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
 and a.accID = e.oldgeneID
-and e.taxID in (${HUMANTAXID}, ${RATTAXID})
+and e.taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID})
 and e.geneID != '-'
 go
 

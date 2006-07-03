@@ -11,9 +11,10 @@ if ( ${?MGICONFIG} == 0 ) then
 endif
 
 source ${MGICONFIG}/master.config.csh
+source ${RADAR_DBSCHEMADIR}/Configuration
 
 # install directory
-setenv EGINSTALLDIR		${USRLOCALMGI}/dataload/entrezgeneload
+setenv EGINSTALLDIR		${DATALOAD}/entrezgeneload
 
 # system doc directory
 setenv SYSTEMDOCDIR		${EGINSTALLDIR}/system_docs
@@ -27,11 +28,20 @@ setenv EGINPUTDIR           	${EGDATADIR}/input
 # logs directory
 setenv EGLOGSDIR            	${EGDATADIR}/logs
 
+# output directory
+setenv EGOUTPUTDIR              ${EGDATADIR}/output
+
 # human data directory
 setenv HUMANDATADIR       	${EGDATADIR}/output/human
 
 # rat data directory
 setenv RATDATADIR       	${EGDATADIR}/output/rat
+
+# dog data directory
+setenv DOGDATADIR               ${EGDATADIR}/output/dog
+
+# chimpanzee data directory
+setenv CHIMPDATADIR             ${EGDATADIR}/output/chimpanzee
 
 # archive directory
 setenv ARCHIVEDIR		${EGDATADIR}/archive
@@ -42,8 +52,11 @@ setenv HUMANARCHIVEDIR		${EGDATADIR}/archive/human
 # archive directory
 setenv RATARCHIVEDIR		${EGDATADIR}/archive/rat
 
-# HUGO directory
-setenv HUGOFTPDIR               gondor:/export/gondor/ftp/private/hes
+# archive directory
+setenv DOGARCHIVEDIR            ${EGDATADIR}/archive/dog
+
+# archive directory
+setenv CHIMPARCHIVEDIR          ${EGDATADIR}/archive/chimpanzee
 
 # FTP Data Files
 setenv FTPDATA1			/data/downloads/ftp.ncbi.nih.gov/gene/DATA
@@ -61,6 +74,12 @@ setenv HUMANSPECIESKEY	2
 # Species Key for Rat
 setenv RATSPECIESKEY	40
 
+# Species Key for Dog
+setenv DOGSPECIESKEY    13
+
+# Species Key for Dog
+setenv CHIMPSPECIESKEY  10
+
 # Taxinomic ID for Mouse
 setenv MOUSETAXID	10090
 
@@ -69,6 +88,12 @@ setenv HUMANTAXID	9606
 
 # Taxinomic ID for Rat
 setenv RATTAXID	10116
+
+# Taxinomic ID for Dog
+setenv DOGTAXID 9615
+
+# Taxinomic ID for Dog
+setenv CHIMPTAXID       9598
 
 # MGI Type Key for Marker
 setenv MARKERTYPEKEY	2
@@ -121,6 +146,12 @@ setenv RATMAPPRIVATE	1
 # Private flag for RatMap ID (0 = no, 1 = yes)
 setenv RGDPRIVATE	0
 
+# Private flag for Dog EntrezGeneID (0 = no, 1 = yes)
+setenv DOGEGPRIVATE     0
+
+# Private flag for Dog EntrezGeneID (0 = no, 1 = yes)
+setenv CHIMPEGPRIVATE   0
+
 # Private flag for RefSeq ID (0 = no, 1 = yes)
 setenv REFSEQPRIVATE	0
 
@@ -139,28 +170,40 @@ setenv RATREFSEQPRIVATE	0
 # Private flag for SwissProt ID (0 = no, 1 = yes)
 setenv RATSPPRIVATE    0
 
+# Private flag for RefSeq ID (0 = no, 1 = yes)
+setenv DOGREFSEQPRIVATE 0
+
+# Private flag for SwissProt ID (0 = no, 1 = yes)
+setenv DOGSPPRIVATE    0
+
+# Private flag for RefSeq ID (0 = no, 1 = yes)
+setenv CHIMPREFSEQPRIVATE       0
+
+# Private flag for SwissProt ID (0 = no, 1 = yes)
+setenv CHIMPSPPRIVATE    0
+
 # EntrezGene Human Synonym Type
 setenv HUMSYNTYPEKEY    1012
 
 # EntrezGene Rat Synonym Type
 setenv RATSYNTYPEKEY    1014
 
+# EntrezGene Dog Synonym Type
+setenv DOGSYNTYPEKEY    1024
+
+# EntrezGene Dog Synonym Type
+setenv CHIMPSYNTYPEKEY    1026
+
 # Reference for Load J:63103
 setenv REFERENCEKEY	64047
 
-# Reference for SwissProt Load J:53168
-setenv SPREFERENCEKEY   53672
-
 # Report header/trailer scripts
-setenv REPORTHEADER     /mgi/software/customSQL/bin/header.sh
-setenv REPORTTRAILER    /mgi/software/customSQL/bin/trailer
+setenv REPORTHEADER     ${MGI_DBUTILS}/text/header.sh
+setenv REPORTTRAILER    ${MGI_DBUTILS}/text/copyrightnotice
 
 # Annotation load config variables
 
-setenv ANNOTLOAD		${USRLOCALMGI}/dataload/annotload
+setenv ANNOTLOAD		${DATALOAD}/annotload
 setenv ANNOTMODE		new
 setenv ANNOTREFERENCE     	"J:98535"
-
-# this can be removed after PYTHONPATH is added to mgiconfig
-source ${MGDDBSCHEMADIR}/Configuration
 

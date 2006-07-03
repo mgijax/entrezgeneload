@@ -12,12 +12,12 @@ use ${MGD_DBNAME}
 go
 
 print ""
-print "Duplicate Human Symbols found in MGI"
+print "Duplicate Dog Symbols found in MGI"
 print ""
 
 select symbol
 from MRK_Marker
-where _Organism_key = ${HUMANSPECIESKEY}
+where _Organism_key = ${DOGSPECIESKEY}
 group by symbol having count(*) > 1
 order by symbol
 go

@@ -43,7 +43,7 @@ import loadlib
 
 taxId = os.environ['TAXID']
 datadir = os.environ['DATADIR']
-radar = os.environ['RADARDB']
+radar = os.environ['RADAR_DBNAME']
 referenceKey = os.environ['REFERENCEKEY']	# _Refs_key of Reference
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
 egKey = os.environ['LOGICALEGKEY']		# _LogicalDB_key of EntrezGene
