@@ -45,7 +45,7 @@ touch ${LOG}
 
 date >> ${LOG}
 
-cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
+cat - <<EOSQL | doisql.csh ${MGD_DBSERVER} ${MGD_DBNAME} $0 >>& ${LOG}
 
 use ${MGD_DBNAME}
 go

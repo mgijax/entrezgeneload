@@ -17,7 +17,7 @@ touch ${LOG}
 echo "Begin: creating dog buckets..." | tee -a ${LOG}
 date | tee -a ${LOG}
 
-cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
+cat - <<EOSQL | doisql.csh ${RADAR_DBSERVER} ${RADAR_DBNAME} $0 | tee -a ${LOG}
  
 use ${RADAR_DBNAME}
 go
@@ -42,7 +42,7 @@ ${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Nomen_drop.object | tee -a ${LOG}
 ${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Mapping_drop.object | tee -a ${LOG}
 ${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Synonym_drop.object | tee -a ${LOG}
 
-cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
+cat - <<EOSQL | doisql.csh ${RADAR_DBSERVER} ${RADAR_DBNAME} $0 | tee -a ${LOG}
  
 use ${RADAR_DBNAME}
 go

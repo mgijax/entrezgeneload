@@ -64,7 +64,10 @@ foreach i (*.gz)
 /usr/local/bin/gunzip -f $i >>& ${LOG}
 end
 
+#
 # parse out mouse, human, rat only
+# also strips out comments from input file
+#
 foreach i (gene2accession gene2pubmed gene2refseq gene_info gene_history)
 rm -rf $i.mgi
 grep "^${MOUSETAXID}" $i > $i.mgi
@@ -72,6 +75,14 @@ grep "^${HUMANTAXID}" $i >> $i.mgi
 grep "^${RATTAXID}" $i >> $i.mgi
 grep "^${DOGTAXID}" $i >> $i.mgi
 grep "^${CHIMPTAXID}" $i >> $i.mgi
+end
+
+#
+# strips out comments from input file
+#
+foreach i (mim2gene)
+rm -rf $i.mgi
+grep "^[0-9]" $i > $i.mgi
 end
 
 # split up gene_info.mgi into gene_info.bcp, gene_dbxref.bcp, gene_synonym.bcp
@@ -98,13 +109,13 @@ cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_RefSeq in ${EGI
 cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_Synonym in ${EGINPUTDIR}/gene_synonym.bcp -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
 cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_History in ${EGINPUTDIR}/gene_history.mgi -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
 cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_HomoloGene in ${EGINPUTDIR}/homologene.data -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
-cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_MIM in ${EGINPUTDIR}/mim2gene -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
+cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_MIM in ${EGINPUTDIR}/mim2gene.mgi -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
 
 # create indexes
 ${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
 ${RADAR_DBSCHEMADIR}/index/DP_HomoloGene_create.object >>& ${LOG}
 
-cat - <<EOSQL | doisql.csh $0 >>& ${LOG}
+cat - <<EOSQL | doisql.csh ${RADAR_DBSERVER} ${RADAR_DBNAME} $0 >>& ${LOG}
  
 use ${RADAR_DBNAME}
 go

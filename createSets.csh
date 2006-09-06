@@ -48,7 +48,7 @@ touch ${LOG}
 echo "Begin: creating sets..." | tee -a ${LOG}
 date | tee -a ${LOG}
 
-cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
+cat - <<EOSQL | doisql.csh ${RADAR_DBSERVER} ${RADAR_DBNAME} $0 | tee -a ${LOG}
  
 use ${RADAR_DBNAME}
 go
@@ -65,7 +65,7 @@ EOSQL
 ${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_EGSet_drop.object | tee -a ${LOG}
 ${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_MGISet_drop.object | tee -a ${LOG}
 
-cat - <<EOSQL | doisql.csh $0 | tee -a ${LOG}
+cat - <<EOSQL | doisql.csh ${MGD_DBSERVER} ${MGD_DBNAME} $0 | tee -a ${LOG}
  
 /***** MGI *****/
 
