@@ -35,7 +35,7 @@
 import sys
 import os
 import string
-import regsub
+import re
 
 TAB = '\t'
 CRT = '\n'
@@ -70,6 +70,7 @@ for line in infoFile.readlines():
 
 	for s in string.split(dbxRefs, '|'):
 		if s != '-':
+			s = re.sub('MGD:', 'MGI:', s)
 			dbxOutFile.write(taxID + TAB + geneID + TAB + s + CRT)
 
 infoFile.close()
