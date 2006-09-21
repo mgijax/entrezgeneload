@@ -12,12 +12,6 @@ endif
 
 source ${MGICONFIG}/master.config.csh
 
-# install directory
-setenv EGINSTALLDIR		${DATALOAD}/entrezgeneload
-
-# system doc directory
-setenv SYSTEMDOCDIR		${EGINSTALLDIR}/system_docs
-
 # data directory
 setenv EGDATADIR		/data/loads/entrezgene/entrezgeneload
 

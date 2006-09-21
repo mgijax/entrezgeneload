@@ -86,7 +86,7 @@ grep "^[0-9]" $i > $i.mgi
 end
 
 # split up gene_info.mgi into gene_info.bcp, gene_dbxref.bcp, gene_synonym.bcp
-cd ${EGINSTALLDIR}
+cd ${ENTREZGENELOAD}
 ./geneinfo.py >>& ${LOG}
 
 # strip version numbers out of gene2accession.mgi, gene2refseq.mgi
