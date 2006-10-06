@@ -192,7 +192,6 @@ setenv REFERENCEKEY	64047
 
 # Report header/trailer scripts
 setenv REPORTHEADER     ${MGI_DBUTILS}/text/header.sh
-setenv REPORTTRAILER    ${MGI_DBUTILS}/text/copyrightnotice
 
 # Annotation load config variables
 
