@@ -8,54 +8,54 @@
 cd `dirname $0` && source ./Configuration
 
 if ( ! -d ${EGDATADIR} ) then
-        mkdir ${EGDATADIR}
+        mkdir -p ${EGDATADIR}
 endif
 
 if ( ! -d ${EGINPUTDIR} ) then
-        mkdir ${EGINPUTDIR}
+        mkdir -p ${EGINPUTDIR}
 endif
 
 if ( ! -d ${EGLOGSDIR} ) then
-        mkdir ${EGLOGSDIR}
+        mkdir -p ${EGLOGSDIR}
 endif
 
 if ( ! -d ${EGOUTPUTDIR} ) then
-        mkdir ${EGOUTPUTDIR}
+        mkdir -p ${EGOUTPUTDIR}
 endif
 
 if ( ! -d ${HUMANDATADIR} ) then
-        mkdir ${HUMANDATADIR}
+        mkdir -p ${HUMANDATADIR}
 endif
 
 if ( ! -d ${RATDATADIR} ) then
-        mkdir ${RATDATADIR}
+        mkdir -p ${RATDATADIR}
 endif
 
 if ( ! -d ${DOGDATADIR} ) then
-        mkdir ${DOGDATADIR}
+        mkdir -p ${DOGDATADIR}
 endif
 
 if ( ! -d ${CHIMPDATADIR} ) then
-        mkdir ${CHIMPDATADIR}
+        mkdir -p ${CHIMPDATADIR}
 endif
 
 if ( ! -d ${ARCHIVEDIR} ) then
-        mkdir ${ARCHIVEDIR}
+        mkdir -p ${ARCHIVEDIR}
 endif
 
 if ( ! -d ${HUMANARCHIVEDIR} ) then
-        mkdir ${HUMANARCHIVEDIR}
+        mkdir -p ${HUMANARCHIVEDIR}
 endif
 
 if ( ! -d ${RATARCHIVEDIR} ) then
-        mkdir ${RATARCHIVEDIR}
+        mkdir -p ${RATARCHIVEDIR}
 endif
 
 if ( ! -d ${DOGARCHIVEDIR} ) then
-        mkdir ${DOGARCHIVEDIR}
+        mkdir -p ${DOGARCHIVEDIR}
 endif
 
 if ( ! -d ${CHIMPARCHIVEDIR} ) then
-        mkdir ${CHIMPARCHIVEDIR}
+        mkdir -p ${CHIMPARCHIVEDIR}
 endif
 
