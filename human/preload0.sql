@@ -1,12 +1,6 @@
 #!/bin/csh
  
-source ../Configuration
-setenv OUTPUTFILE	$1
-setenv REPORTFILE	${OUTPUTFILE}.rpt
-
-${REPORTHEADER} ${REPORTFILE}
-
-isql -S${MGD_DBSERVER} -U${MGI_PUBLICUSER} -P${MGI_PUBLICPASSWORD} -w300 <<END >> ${REPORTFILE}
+isql -S${MGD_DBSERVER} -U${MGI_PUBLICUSER} -P${MGI_PUBLICPASSWORD} -w300 <<END >> $1
 
 use ${MGD_DBNAME}
 go

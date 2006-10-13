@@ -36,6 +36,8 @@
 #	- TR 5939/LocusLink->EntrezGene conversion
 #
 
+source ../Configuration
+
 setenv DATADIR	$1
 
 setenv LOG      ${DATADIR}/`basename $0`.log
@@ -46,7 +48,8 @@ echo "Generating Reports..." >> $LOG
 date >> $LOG
 
 foreach i (preload*.sql)
-$i ${DATADIR}/$i
+${REPORTHEADER} ${DATADIR}/$i.rpt
+$i ${DATADIR}/$i.rpt
 end
 
 foreach i (preload*.py)
