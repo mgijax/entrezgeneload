@@ -72,7 +72,7 @@ go
 
 EOSQL
  
-./createRADARindexes.csh | tee -a ${LOG}
+${ENTREZGENELOAD}/createRADARindexes.csh | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating buckets step 2." | tee -a ${LOG}

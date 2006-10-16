@@ -86,11 +86,10 @@ grep "^[0-9]" $i > $i.mgi
 end
 
 # split up gene_info.mgi into gene_info.bcp, gene_dbxref.bcp, gene_synonym.bcp
-cd ${ENTREZGENELOAD}
-./geneinfo.py >>& ${LOG}
+${ENTREZGENELOAD}/geneinfo.py >>& ${LOG}
 
 # strip version numbers out of gene2accession.mgi, gene2refseq.mgi
-./stripversion.py >>& ${LOG}
+${ENTREZGENELOAD}/stripversion.py >>& ${LOG}
 
 # truncate existing tables
 ${RADAR_DBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}

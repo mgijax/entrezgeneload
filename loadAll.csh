@@ -48,11 +48,11 @@ touch ${LOG}
 
 date >> ${LOG}
 
-loadFiles.csh >> ${LOG}
-updateIDs.csh >> ${LOG}
-human/load.csh >> ${LOG}
-rat/load.csh >> ${LOG}
-#dog/load.csh >> ${LOG}
-#chimpanzee/load.csh >> ${LOG}
+${ENTREZGENELOAD}/loadFiles.csh >> ${LOG}
+${ENTREZGENELOAD}/updateIDs.csh >> ${LOG}
+${ENTREZGENELOAD}/human/load.csh >> ${LOG}
+${ENTREZGENELOAD}/rat/load.csh >> ${LOG}
+#${ENTREZGENELOAD}/dog/load.csh >> ${LOG}
+#${ENTREZGENELOAD}/chimpanzee/load.csh >> ${LOG}
 
 date >> ${LOG}

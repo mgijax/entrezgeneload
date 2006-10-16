@@ -15,7 +15,7 @@ touch ${LOG}
 echo "Begin: creating buckets..." | tee -a ${LOG}
 date | tee -a ${LOG}
 
-./deleteRADAR.csh ${TAXID} | tee -a ${LOG}
+${ENTREZGENELOAD}/deleteRADAR.csh ${TAXID} | tee -a ${LOG}
  
 cat - <<EOSQL | doisql.csh ${RADAR_DBSERVER} ${RADAR_DBNAME} $0 | tee -a ${LOG}
  

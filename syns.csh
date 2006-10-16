@@ -43,7 +43,7 @@ touch ${LOG}
 
 date >> ${LOG}
 
-../syns.py >>& ${LOG}
+${ENTREZGENELOAD}/syns.py >>& ${LOG}
 cat ${MGD_DBPASSWORDFILE} | bcp ${MGD_DBNAME}..MGI_Synonym in ${DATADIR}/MGI_Synonym.bcp -c -t\| -S${MGD_DBSERVER} -U${MGD_DBUSER} >>& ${LOG}
 
 date >> ${LOG}

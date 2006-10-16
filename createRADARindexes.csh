@@ -8,8 +8,6 @@
 # History
 #
 
-cd `dirname $0` && source ./Configuration
-
 # create indexes
 ${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_create.object
 ${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Nomen_create.object

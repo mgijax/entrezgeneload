@@ -34,6 +34,9 @@ setenv FTPDATA2			/data/downloads/ftp.ncbi.nih.gov/pub/HomoloGene/current
 # Load User
 setenv CREATEDBY		"entrezgene_load"
 
+# All TaxIDs that are updated by this product
+setenv MGITAXIDS        "2,40,10,13"
+
 # MGI Type Key for Marker
 setenv MARKERTYPEKEY	2
 

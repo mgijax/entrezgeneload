@@ -23,11 +23,11 @@ touch ${LOG}
 
 date >> ${LOG}
 
-acc.csh
-syns.csh
-updateNomen.csh
-updateMapping.csh
-deleteObsolete.csh
-runreports.csh
+${ENTREZGENELOAD}/dog/load.csh/acc.csh
+${ENTREZGENELOAD}/dog/load.csh/syns.csh
+${ENTREZGENELOAD}/dog/load.csh/updateNomen.csh
+${ENTREZGENELOAD}/dog/load.csh/updateMapping.csh
+${ENTREZGENELOAD}/dog/load.csh/deleteObsolete.csh
+${ENTREZGENELOAD}/dog/load.csh/runreports.csh
 
 date >> ${LOG}
