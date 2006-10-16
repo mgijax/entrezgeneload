@@ -28,7 +28,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${HUMANTAXID}, a._Object_key, ${LOGICALHGNCKEY}, b.geneID, b.mgiID, e.dbXrefID, ${HUMANHGNCPRIVATE}, 0
-from #bucket0 b, ${MGD_DBNAME}..ACC_Accession a, DP_EntrezGene_DBXRef e
+from tempdb..bucket0 b, ${MGD_DBNAME}..ACC_Accession a, DP_EntrezGene_DBXRef e
 where b.idType = 'EG'
 and b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -39,7 +39,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${HUMANTAXID}, m._Marker_key, ${LOGICALHGNCKEY}, b.geneID, b.mgiID, e.dbXrefID, ${HUMANHGNCPRIVATE}, 0
-from #bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_DBXRef e
+from tempdb..bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_DBXRef e
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
 and m._Organism_key = ${HUMANSPECIESKEY}
@@ -49,7 +49,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${HUMANTAXID}, -1, ${LOGICALHGNCKEY}, b.geneID, b.mgiID, e.dbXrefID, ${HUMANHGNCPRIVATE}, 0
-from #bucket0 b, DP_EntrezGene_DBXRef e
+from tempdb..bucket0 b, DP_EntrezGene_DBXRef e
 where b.mgiID = 'none'
 and b.geneID = e.geneID
 and e.dbXrefID like 'HGNC:%'
@@ -59,7 +59,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${HUMANTAXID}, a._Object_key, ${LOGICALOMIMKEY}, b.geneID, b.mgiID, e.mimID, ${HUMANOMIMPRIVATE}, 0
-from #bucket0 b, ${MGD_DBNAME}..ACC_Accession a, DP_EntrezGene_MIM e
+from tempdb..bucket0 b, ${MGD_DBNAME}..ACC_Accession a, DP_EntrezGene_MIM e
 where b.idType = 'EG'
 and b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
@@ -70,7 +70,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${HUMANTAXID}, m._Marker_key, ${LOGICALOMIMKEY}, b.geneID, b.mgiID, e.mimID, ${HUMANOMIMPRIVATE}, 0
-from #bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_MIM e
+from tempdb..bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_MIM e
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
 and m._Organism_key = ${HUMANSPECIESKEY}
@@ -80,7 +80,7 @@ go
 
 insert into WRK_EntrezGene_Bucket0
 select distinct ${HUMANTAXID}, -1, ${LOGICALOMIMKEY}, b.geneID, b.mgiID, e.mimID, ${HUMANOMIMPRIVATE}, 0
-from #bucket0 b, DP_EntrezGene_MIM e
+from tempdb..bucket0 b, DP_EntrezGene_MIM e
 where b.mgiID = 'none'
 and b.geneID = e.geneID
 and e.annotationType = 'gene'
