@@ -20,7 +20,7 @@
 # History
 #
 
-archive.csh ${DATADIR} ${ARCHIVEDIR}
+${ENTREZGENELOAD}/archive.csh ${DATADIR} ${ARCHIVEDIR}
 
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
@@ -28,15 +28,15 @@ touch ${LOG}
 
 date >> ${LOG}
 
-${ENTREZGENELOAD}/dog/load.csh/deleteIDs.csh
-${ENTREZGENELOAD}/dog/load.csh/createSets.csh
-${ENTREZGENELOAD}/dog/load.csh/commonBuckets-1.csh
-${ENTREZGENELOAD}/dog/load.csh/commonBuckets-2.csh
-${ENTREZGENELOAD}/dog/load.csh/acc.csh
-${ENTREZGENELOAD}/dog/load.csh/syns.csh
-${ENTREZGENELOAD}/dog/load.csh/updateNomen.csh
-${ENTREZGENELOAD}/dog/load.csh/updateMapping.csh
-${ENTREZGENELOAD}/dog/load.csh/deleteObsolete.csh
-${ENTREZGENELOAD}/dog/load.csh/runreports.csh
+${ENTREZGENELOAD}/deleteIDs.csh
+${ENTREZGENELOAD}/createSets.csh
+${ENTREZGENELOAD}/commonBuckets-1.csh
+${ENTREZGENELOAD}/commonBuckets-2.csh
+${ENTREZGENELOAD}/acc.csh
+${ENTREZGENELOAD}/syns.csh
+${ENTREZGENELOAD}/updateNomen.csh
+${ENTREZGENELOAD}/updateMapping.csh
+${ENTREZGENELOAD}/deleteObsolete.csh
+${ENTREZGENELOAD}/runreports.csh
 
 date >> ${LOG}

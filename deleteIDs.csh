@@ -56,7 +56,7 @@ from ACC_Accession a, ACC_AccessionReference r, MRK_Marker m
 where r._Refs_key = ${REFERENCEKEY}
 and r._Accession_key = a._Accession_key 
 and a._MGIType_key = ${MARKERTYPEKEY}
-and a._LogicalDB_key in (${DELDELLOGICALDBBYREF})
+and a._LogicalDB_key in (${DELLOGICALDBBYREF})
 and a._Object_key = m._Marker_key
 and m._Organism_key = ${ORGANISM}
 go
