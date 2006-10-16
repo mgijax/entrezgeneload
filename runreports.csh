@@ -52,9 +52,9 @@ ${REPORTHEADER} ${DATADIR}/$i.rpt
 $i ${DATADIR}/$i.rpt
 end
 
-foreach i (preload*.py)
-$i
-end
+#foreach i (preload*.py)
+#$i
+#end
 
 date >> $LOG
 echo "Reports Generated." >>$LOG

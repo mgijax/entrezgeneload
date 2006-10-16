@@ -3,7 +3,7 @@
 #
 # Create Buckets for Dog Processing
 #
-# Usage:  createBuckets.sh
+# Usage:  createBuckets.csh
 #
 # History
 #
@@ -17,30 +17,7 @@ touch ${LOG}
 echo "Begin: creating dog buckets..." | tee -a ${LOG}
 date | tee -a ${LOG}
 
-cat - <<EOSQL | doisql.csh ${RADAR_DBSERVER} ${RADAR_DBNAME} $0 | tee -a ${LOG}
- 
-use ${RADAR_DBNAME}
-go
-
-delete from WRK_EntrezGene_Bucket0 where taxID = ${DOGTAXID}
-go
-
-delete from WRK_EntrezGene_Nomen where taxID = ${DOGTAXID}
-go
-
-delete from WRK_EntrezGene_Mapping where taxID = ${DOGTAXID}
-go
-
-delete from WRK_EntrezGene_Synonym where taxID = ${DOGTAXID}
-go
-
-EOSQL
-
-# drop indexes
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Nomen_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Mapping_drop.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Synonym_drop.object | tee -a ${LOG}
+../deleteRADAR.csh ${DOGTAXID} | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh ${RADAR_DBSERVER} ${RADAR_DBNAME} $0 | tee -a ${LOG}
  
@@ -266,11 +243,7 @@ go
 
 EOSQL
  
-# create indexes
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_create.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Nomen_create.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Mapping_create.object | tee -a ${LOG}
-${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Synonym_create.object | tee -a ${LOG}
+../createRADARindexes.csh | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating dog buckets." | tee -a ${LOG}

@@ -38,6 +38,6 @@ date >> ${LOG}
 ../updateNomen.csh ${DOGDATADIR} ${DOGTAXID} ${DOGSPECIESKEY}
 ../updateMapping.csh ${DOGDATADIR} ${DOGTAXID}
 ../deleteObsolete.csh ${DOGDATADIR} ${DOGTAXID} ${DOGSPECIESKEY}
-../runreports.csh ${DOGDATADIR}
+#../runreports.csh ${DOGDATADIR}
 
 date >> ${LOG}
