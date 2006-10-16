@@ -36,8 +36,6 @@
 #	- TR 5939/LocusLink->EntrezGene conversion
 #
 
-setenv DATADIR	$1
-setenv ARCHIVEDIR $2
 setenv LOADDATE    `date '+%d-%m-%Y'`
 
 mkdir ${ARCHIVEDIR}/${LOADDATE}

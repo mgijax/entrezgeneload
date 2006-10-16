@@ -59,3 +59,9 @@ if ( ! -d ${CHIMPARCHIVEDIR} ) then
         mkdir -p ${CHIMPARCHIVEDIR}
 endif
 
+foreach i (human rat dog chimpanzee)
+cd $i
+ln -s ../Configuration .
+cd ..
+end
+

@@ -36,10 +36,6 @@
 #	- TR 5939/LocusLink->EntrezGene conversion
 #
 
-source ../Configuration
-
-setenv DATADIR	$1
-
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf $LOG
 touch $LOG
@@ -47,6 +43,7 @@ touch $LOG
 echo "Generating Reports..." >> $LOG
 date >> $LOG
 
+cd ${REPORTSDIR}
 foreach i (preload*.sql)
 ${REPORTHEADER} ${DATADIR}/$i.rpt
 $i ${DATADIR}/$i.rpt

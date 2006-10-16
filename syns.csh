@@ -37,10 +37,6 @@
 #
 
 
-setenv DATADIR $1
-setenv TAXID $2
-setenv SYNTYPEKEY $3
-
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}

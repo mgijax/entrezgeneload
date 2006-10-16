@@ -5,19 +5,6 @@
 #
 # Usage:  load.csh
 #
-# Processing
-#
-#	1.  Delete all human RefSeq, HGNC and OMIM gene annotations, and synonyms
-#	2.  Create EG and MGI Sets in RADAR.
-#	3.  Create Buckets in RADAR.
-#	4.  Run reports.
-#	5.  Load Marker and Accession records.
-#	6.  Load Synonyms.
-#	7.  Update Nomenclature information (symbol, name).
-#	8.  Update Mapping information (chromosome, map position).
-#	9.  Delete/load Human/OMIM Disease Annotations
-#	10. Delete obsolete Marker records.
-#
 # History
 #
 #	09/15/2005 lec
@@ -36,9 +23,11 @@
 #	- TR 1992
 #
 
-cd `dirname $0` && source ../Configuration
+cd `dirname $0` && source ./Configuration
 
-../archive.csh ${HUMANDATADIR} ${HUMANARCHIVEDIR}
+source ${ENTREZGENELOAD}/human.config
+
+${ENTREZGENELOAD}/archive.csh
 
 setenv LOG      ${HUMANDATADIR}/`basename $0`.log
 rm -rf ${LOG}
@@ -46,15 +35,10 @@ touch ${LOG}
 
 date >> ${LOG}
 
-../deleteIDs.csh ${HUMANDATADIR} ${HUMANSPECIESKEY} "${LOGICALREFSEQKEY},${LOGICALSPKEY}" "${LOGICALHGNCKEY},${LOGICALOMIMKEY}" ${HUMSYNTYPEKEY}
-../createSets.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
-./createBuckets.csh
-../acc.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
-../syns.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMSYNTYPEKEY}
-../updateNomen.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
-../updateMapping.csh ${HUMANDATADIR} ${HUMANTAXID}
-./annotations.csh ${HUMANDATADIR}
-../deleteObsolete.csh ${HUMANDATADIR} ${HUMANTAXID} ${HUMANSPECIESKEY}
-../runreports.csh ${HUMANDATADIR}
+${ENTREZGENELOAD}/deleteIDs.csh
+${ENTREZGENELOAD}/createSets.csh
+${ENTREZGENELOAD}/human/createBuckets.csh
+${ENTREZGENELOAD}/commonLoad-2.csh
+${ENTREZGENELOAD}/annotations.csh
 
 date >> ${LOG}

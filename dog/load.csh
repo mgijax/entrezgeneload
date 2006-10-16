@@ -8,14 +8,14 @@
 # History
 #
 
-cd `dirname $0` && source ../Configuration
+cd `dirname $0` && source ./Configuration
 
-setenv LOG      ${DOGDATADIR}/`basename $0`.log
+source ${ENTREZGENELOAD}/dog.config
+
+setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
 date >> ${LOG}
-
-../commonLoad.csh ${DOGDATADIR} ${DOGARCHIVEDIR} ${DOGTAXID} ${DOGSPECIESKEY} ${DOGSYNTYPEKEY}
-
+${ENTREZGENELOAD}/commonLoad-1.csh
 date >> ${LOG}

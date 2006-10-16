@@ -8,13 +8,14 @@
 # History
 #
 
-cd `dirname $0` && source ../Configuration
+cd `dirname $0` && source ./Configuration
+
+source ${ENTREZGENELOAD}/chimpanzee.config
 
 setenv LOG      ${CHIMPDATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
 date >> ${LOG}
-../commonLoad.csh ${CHIMPDATADIR} ${CHIMPARCHIVEDIR} ${CHIMPTAXID} ${CHIMPSPECIESKEY} ${CHIMPSYNTYPEKEY} | tee -a ${LOG}
+${ENTREZGENELOAD}/commonLoad-1.csh
 date >> ${LOG}
-

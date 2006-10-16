@@ -36,12 +36,6 @@
 #	- TR 5939/LocusLink->EntrezGene conversion
 #
 
-setenv DATADIR $1
-setenv ORGANISM $2
-setenv LOGICALDBBYREF $3
-setenv LOGICALDB $4
-setenv SYNTYPEKEY $5
-
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
@@ -62,7 +56,7 @@ from ACC_Accession a, ACC_AccessionReference r, MRK_Marker m
 where r._Refs_key = ${REFERENCEKEY}
 and r._Accession_key = a._Accession_key 
 and a._MGIType_key = ${MARKERTYPEKEY}
-and a._LogicalDB_key in (${LOGICALDBBYREF})
+and a._LogicalDB_key in (${DELDELLOGICALDBBYREF})
 and a._Object_key = m._Marker_key
 and m._Organism_key = ${ORGANISM}
 go
@@ -90,7 +84,7 @@ select a._Accession_key
 into #todelete
 from ACC_Accession a, MRK_Marker m 
 where a._MGIType_key = ${MARKERTYPEKEY}
-and a._LogicalDB_key in (${LOGICALDB})
+and a._LogicalDB_key in (${DELLOGICALDB})
 and a._Object_key = m._Marker_key
 and m._Organism_key = ${ORGANISM}
 go

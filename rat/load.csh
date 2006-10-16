@@ -12,9 +12,11 @@
 #
 #
 
-cd `dirname $0` && source ../Configuration
+cd `dirname $0` && source ./Configuration
 
-../archive.csh ${RATDATADIR} ${RATARCHIVEDIR}
+source ${ENTREZGENELOAD/rat.config
+
+${ENTREZGENELOAD}/archive.csh
 
 setenv LOG      ${RATDATADIR}/`basename $0`.log
 rm -rf ${LOG}
@@ -22,15 +24,10 @@ touch ${LOG}
 
 date >> ${LOG}
 
-../deleteIDs.csh ${RATDATADIR} ${RATSPECIESKEY} "${LOGICALREFSEQKEY}" "${LOGICALRGDKEY},${LOGICALRATMAPKEY}" ${RATSYNTYPEKEY}
-../createSets.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
-./createBuckets.csh
-../acc.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
-../syns.csh ${RATDATADIR} ${RATTAXID} ${RATSYNTYPEKEY}
-../updateNomen.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
-../updateMapping.csh ${RATDATADIR} ${RATTAXID}
-../deleteObsolete.csh ${RATDATADIR} ${RATTAXID} ${RATSPECIESKEY}
-../runreports.csh ${RATDATADIR}
+${ENTREZGENELOAD}/deleteIDs.csh
+${ENTREZGENELOAD}/createSets.csh
+${ENTREZGENELOAD}/rat/createBuckets.csh
+${ENTREZGENELOAD}/commonLoad-2.csh
 
 date >> ${LOG}
 

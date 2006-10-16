@@ -13,11 +13,6 @@
 # History
 #
 
-cd `dirname $0` && source ./Configuration
-
-setenv DATADIR $1
-setenv TAXID $2
-
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}

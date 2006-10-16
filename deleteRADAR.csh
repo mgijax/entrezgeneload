@@ -8,8 +8,6 @@
 # History
 #
 
-setenv TAXID   $1
-
 cat - <<EOSQL | doisql.csh ${RADAR_DBSERVER} ${RADAR_DBNAME} $0
  
 use ${RADAR_DBNAME}

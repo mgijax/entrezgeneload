@@ -36,7 +36,7 @@
 #	- TR 3853, OMIM
 #
 
-cd `dirname $0` && source ../Configuration
+cd `dirname $0` && source ./Configuration
 
 setenv DATADIR $1
 

@@ -8,12 +8,6 @@
 # History
 #
 
-cd `dirname $0` && source ./Configuration
-
-setenv DATADIR $1
-setenv TAXID $2
-setenv SPECIESKEY $3
-
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
@@ -107,7 +101,7 @@ select distinct ${TAXID}, m._Marker_key, ${LOGICALEGKEY}, b.geneID, b.mgiID, b.g
 from tempdb..bucket0 b, ${MGD_DBNAME}..MRK_Marker m
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
-and m._Organism_key = ${SPECIESKEY}
+and m._Organism_key = ${ORGANISM}
 go
 
 insert into WRK_EntrezGene_Bucket0
@@ -134,7 +128,7 @@ select distinct ${TAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID,
 from tempdb..bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_RefSeq r
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
-and m._Organism_key = ${SPECIESKEY}
+and m._Organism_key = ${ORGANISM}
 and b.geneID = r.geneID
 and r.rna like 'NM_%'
 go
@@ -165,7 +159,7 @@ select distinct ${TAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID,
 from tempdb..bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_RefSeq r
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
-and m._Organism_key = ${SPECIESKEY}
+and m._Organism_key = ${ORGANISM}
 and b.geneID = r.geneID
 and (r.protein like 'NP_%' or r.protein like 'XP_%')
 go
@@ -196,7 +190,7 @@ select distinct ${TAXID}, m._Marker_key, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.p
 from tempdb..bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_Accession r
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
-and m._Organism_key = ${SPECIESKEY}
+and m._Organism_key = ${ORGANISM}
 and b.geneID = r.geneID
 and r.protein like '[A-Z][0-9][0-9][0-9][0-9][0-9]'
 go

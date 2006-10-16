@@ -35,10 +35,6 @@
 #	- TR 5939/LocusLink->EntrezGene conversion
 #
 
-setenv DATADIR  $1
-setenv TAXID	$2
-setenv ORGANISM $3
-
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
