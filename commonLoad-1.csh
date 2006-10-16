@@ -7,15 +7,16 @@
 #
 # Processing
 #
-#	1.  Delete all RefSeq and synonyms
-#	2.  Create EG and MGI Sets in RADAR.
-#	3.  Create Buckets in RADAR.
-#	4.  Load Marker and Accession records.
-#	5.  Load Synonyms.
-#	6.  Update Nomenclature information (symbol, name).
-#	7.  Update Mapping information (chromosome, map position).
-#	8.  Delete obsolete Marker records.
-#	9.  Run reports.
+#	Archive previous logs and output files
+#	Delete all previously loaded associations
+#	Create EG and MGI Sets in RADAR
+#	Create Buckets in RADAR
+#	Load Marker and Accession records
+#	Load Synonyms
+#	Update Nomenclature information (symbol, name)
+#	Update Mapping information (chromosome, map position)
+#	Delete obsolete Marker records
+#	Run reports
 #
 # History
 #

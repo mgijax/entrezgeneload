@@ -14,7 +14,7 @@
 
 cd `dirname $0` && source ./Configuration
 
-source ${ENTREZGENELOAD/rat.config
+source ${ENTREZGENELOAD}/rat.config
 
 ${ENTREZGENELOAD}/archive.csh
 
