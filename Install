@@ -30,7 +30,7 @@ endif
 foreach i (*.config)
 source $i
 if ( ! -d ${DATADIR} ) then
-        mkdir -p ${HUMANDATADIR}
+        mkdir -p ${DATADIR}
 endif
 if ( ! -d ${ARCHIVEDIR} ) then
         mkdir -p ${ARCHIVEDIR}
