@@ -23,44 +23,26 @@ if ( ! -d ${EGOUTPUTDIR} ) then
         mkdir -p ${EGOUTPUTDIR}
 endif
 
-if ( ! -d ${HUMANDATADIR} ) then
+if ( ! -d ${EGARCHIVEDIR} ) then
+        mkdir -p ${EGARCHIVEDIR}
+endif
+
+foreach i (*.config)
+source $i
+if ( ! -d ${DATADIR} ) then
         mkdir -p ${HUMANDATADIR}
 endif
-
-if ( ! -d ${RATDATADIR} ) then
-        mkdir -p ${RATDATADIR}
-endif
-
-if ( ! -d ${DOGDATADIR} ) then
-        mkdir -p ${DOGDATADIR}
-endif
-
-if ( ! -d ${CHIMPDATADIR} ) then
-        mkdir -p ${CHIMPDATADIR}
-endif
-
 if ( ! -d ${ARCHIVEDIR} ) then
         mkdir -p ${ARCHIVEDIR}
 endif
-
-if ( ! -d ${HUMANARCHIVEDIR} ) then
-        mkdir -p ${HUMANARCHIVEDIR}
+if ( ! -d ${REPORTSDIR} ) then
+        mkdir -p ${REPORTSDIR}
 endif
-
-if ( ! -d ${RATARCHIVEDIR} ) then
-        mkdir -p ${RATARCHIVEDIR}
-endif
-
-if ( ! -d ${DOGARCHIVEDIR} ) then
-        mkdir -p ${DOGARCHIVEDIR}
-endif
-
-if ( ! -d ${CHIMPARCHIVEDIR} ) then
-        mkdir -p ${CHIMPARCHIVEDIR}
-endif
+end
 
 foreach i (human rat dog chimpanzee)
 cd $i
+rm -rf Configuration
 ln -s ../Configuration .
 cd ..
 end

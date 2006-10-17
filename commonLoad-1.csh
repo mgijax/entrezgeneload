@@ -21,7 +21,7 @@
 # History
 #
 
-${ENTREZGENELOAD}/archive.csh ${DATADIR} ${ARCHIVEDIR}
+${ENTREZGENELOAD}/archive.csh
 
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}

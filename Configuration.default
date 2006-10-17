@@ -25,7 +25,7 @@ setenv EGLOGSDIR            	${EGDATADIR}/logs
 setenv EGOUTPUTDIR              ${EGDATADIR}/output
 
 # archive directory
-setenv ARCHIVEDIR		${EGDATADIR}/archive
+setenv EGARCHIVEDIR		${EGDATADIR}/archive
 
 # FTP Data Files
 setenv FTPDATA1			/data/downloads/ftp.ncbi.nih.gov/gene/DATA
