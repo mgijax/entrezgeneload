@@ -8,7 +8,7 @@
 # History
 #
 
-setenv LOG      ${RATDATA}/`basename $0`.log
+setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 

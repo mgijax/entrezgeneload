@@ -11,7 +11,7 @@ print ""
 
 select symbol
 from MRK_Marker
-where _Organism_key = ${CHIMPSPECIESKEY}
+where _Organism_key = ${ORGANISM}
 group by symbol having count(*) > 1
 order by symbol
 go

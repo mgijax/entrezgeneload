@@ -16,7 +16,7 @@ select distinct e.geneID "EG ID", substring(m.symbol,1,25) "Symbol",
        e.mgiChr "MGI chromosome", e.mgiMapPosition "MGI Map Position",
        e.egChr "EG chromosome", substring(e.egMapPosition,1,20) "EG Map Position"
 from ${RADAR_DBNAME}..WRK_EntrezGene_Mapping e, MRK_Marker m
-where e.taxID = ${DOGTAXID}
+where e.taxID = ${TAXID}
 and e._Marker_key = m._Marker_key
 order by e.geneID
 go

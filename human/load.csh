@@ -29,7 +29,7 @@ source ${ENTREZGENELOAD}/human.config
 
 ${ENTREZGENELOAD}/archive.csh
 
-setenv LOG      ${HUMANDATADIR}/`basename $0`.log
+setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 

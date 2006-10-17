@@ -11,7 +11,7 @@ go
 select symbol
 into #duplicates
 from MRK_Marker
-where _Organism_key = ${RATSPECIESKEY}
+where _Organism_key = ${ORGANISM}
 group by symbol having count(*) > 1
 go
 
@@ -27,7 +27,7 @@ print ""
 
 select m.symbol, rgdID = ma.accID, in_duplicates_file = "yes"
 from MRK_Marker m, ACC_Accession ma
-where m._Organism_key = ${RATSPECIESKEY}
+where m._Organism_key = ${ORGANISM}
 and m._Marker_key = ma._Object_key
 and ma._MGIType_key = ${MARKERTYPEKEY}
 and ma._LogicalDB_key = ${LOGICALRGDKEY}
@@ -39,7 +39,7 @@ and exists (select 1 from #duplicates d where m.symbol = d.symbol)
 union
 select m.symbol, rgdID = ma.accID, in_duplicates_file = "no"
 from MRK_Marker m, ACC_Accession ma
-where m._Organism_key = ${RATSPECIESKEY}
+where m._Organism_key = ${ORGANISM}
 and m._Marker_key = ma._Object_key
 and ma._MGIType_key = ${MARKERTYPEKEY}
 and ma._LogicalDB_key = ${LOGICALRGDKEY}

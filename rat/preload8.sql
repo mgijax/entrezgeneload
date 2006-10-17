@@ -13,7 +13,7 @@ go
 select m._Marker_key, m.symbol, name = substring(m.name,1,30), ma.accID
 into #nonoyesset
 from MRK_Marker m, ACC_Accession ma
-where m._Organism_key = ${RATSPECIESKEY}
+where m._Organism_key = ${ORGANISM}
 and m._Marker_key = ma._Object_key
 and ma._MGIType_key = ${MARKERTYPEKEY}
 and ma._LogicalDB_key = ${LOGICALRATMAPKEY}

@@ -13,7 +13,7 @@ print ""
 
 select e.accID, m.symbol
 from ${RADAR_DBNAME}..WRK_EntrezGene_Bucket0 e, MRK_Marker m
-where e.taxID = ${DOGTAXID}
+where e.taxID = ${TAXID}
 and e._LogicalDB_key = ${LOGICALEGKEY}
 and e._Object_key = m._Marker_key
 order by e.accID

@@ -13,7 +13,7 @@ go
 select m._Marker_key, symbol = substring(m.symbol,1,30), name = substring(m.name,1,30)
 into #nonoset
 from MRK_Marker m
-where m._Organism_key = ${RATSPECIESKEY}
+where m._Organism_key = ${ORGANISM}
 and not exists (select 1 from ACC_Accession ma
 where m._Marker_key = ma._Object_key
 and ma._MGIType_key = ${MARKERTYPEKEY}
@@ -34,7 +34,7 @@ select m.*, e.geneID, e.locusTag,
 egsymbol = substring(e.symbol,1,30), egname = substring(e.name,1,30)
 into #match
 from #nonoset m, ${RADAR_DBNAME}..DP_EntrezGene_Info e
-where e.taxid = ${RATTAXID}
+where e.taxid = ${TAXID}
 and m.symbol = e.symbol
 go
 

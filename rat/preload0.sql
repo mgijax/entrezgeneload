@@ -17,14 +17,14 @@ into #results
 from ${RADAR_DBNAME}..WRK_EntrezGene_Nomen e,
      MRK_Marker m1, HMD_Homology_Marker hm1, HMD_Homology h1,
      MRK_Marker m2, HMD_Homology_Marker hm2, HMD_Homology h2
-where e.taxID = ${RATTAXID}
+where e.taxID = ${TAXID}
 and e._Marker_key = m1._Marker_key
 and m1._Marker_key = hm1._Marker_key
 and hm1._Homology_key = h1._Homology_key
 and h1._Class_key = h2._Class_key
 and h2._Homology_key = hm2._Homology_key
 and hm2._Marker_key = m2._Marker_key
-and m2._Organism_key = ${MOUSESPECIESKEY}
+and m2._Organism_key = 1
 union
 select substring(e.mgiSymbol,1,25), 
        substring(e.mgiName,1,50),
@@ -32,7 +32,7 @@ select substring(e.mgiSymbol,1,25),
        null, 
        substring(e.egName,1,50)
 from ${RADAR_DBNAME}..WRK_EntrezGene_Nomen e
-where e.taxID = ${RATTAXID}
+where e.taxID = ${TAXID}
 and not exists (select 1 from MRK_Marker m1, HMD_Homology_Marker hm1, HMD_Homology h1,
                               MRK_Marker m2, HMD_Homology_Marker hm2, HMD_Homology h2
 		where e._Marker_key = m1._Marker_key
@@ -41,7 +41,7 @@ and not exists (select 1 from MRK_Marker m1, HMD_Homology_Marker hm1, HMD_Homolo
 		and h1._Class_key = h2._Class_key
 		and h2._Homology_key = hm2._Homology_key
 		and hm2._Marker_key = m2._Marker_key
-		and m2._Organism_key = ${MOUSESPECIESKEY})
+		and m2._Organism_key = 1)
 go
 
 set nocount off
