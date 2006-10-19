@@ -97,7 +97,7 @@ create index idx2 on tempdb..bucket0(idType)
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, m._Marker_key, ${LOGICALEGKEY}, b.geneID, b.mgiID, b.geneID, ${CHIMPEGPRIVATE}, 0
+select distinct ${TAXID}, m._Marker_key, ${LOGICALEGKEY}, b.geneID, b.mgiID, b.geneID, ${EGPRIVATE}, 0
 from tempdb..bucket0 b, ${MGD_DBNAME}..MRK_Marker m
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
@@ -105,7 +105,7 @@ and m._Organism_key = ${ORGANISM}
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, -1, ${LOGICALEGKEY}, b.geneID, b.mgiID, b.geneID, ${CHIMPEGPRIVATE}, 0
+select distinct ${TAXID}, -1, ${LOGICALEGKEY}, b.geneID, b.mgiID, b.geneID, ${EGPRIVATE}, 0
 from tempdb..bucket0 b
 where b.mgiID = 'none'
 go
@@ -113,7 +113,7 @@ go
 /***** RNA RefSeq ids *****/
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${CHIMPREFSEQPRIVATE}, 1
+select distinct ${TAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${REFSEQPRIVATE}, 1
 from tempdb..bucket0 b, ${MGD_DBNAME}..ACC_Accession a, DP_EntrezGene_RefSeq r
 where b.idType = 'EG'
 and b.mgiID = a.accID
@@ -124,7 +124,7 @@ and r.rna like 'NM_%'
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${CHIMPREFSEQPRIVATE}, 1
+select distinct ${TAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${REFSEQPRIVATE}, 1
 from tempdb..bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_RefSeq r
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
@@ -134,7 +134,7 @@ and r.rna like 'NM_%'
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, -1, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${CHIMPREFSEQPRIVATE}, 1
+select distinct ${TAXID}, -1, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.rna, ${REFSEQPRIVATE}, 1
 from tempdb..bucket0 b, DP_EntrezGene_RefSeq r
 where b.mgiID = 'none'
 and b.geneID = r.geneID
@@ -144,7 +144,7 @@ go
 /***** Protein RefSeq ids *****/
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${CHIMPREFSEQPRIVATE}, 1
+select distinct ${TAXID}, a._Object_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${REFSEQPRIVATE}, 1
 from tempdb..bucket0 b, ${MGD_DBNAME}..ACC_Accession a, DP_EntrezGene_RefSeq r
 where b.idType = 'EG'
 and b.mgiID = a.accID
@@ -155,7 +155,7 @@ and (r.protein like 'NP_%' or r.protein like 'XP_%')
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${CHIMPREFSEQPRIVATE}, 1
+select distinct ${TAXID}, m._Marker_key, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${REFSEQPRIVATE}, 1
 from tempdb..bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_RefSeq r
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
@@ -165,7 +165,7 @@ and (r.protein like 'NP_%' or r.protein like 'XP_%')
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, -1, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${CHIMPREFSEQPRIVATE}, 1
+select distinct ${TAXID}, -1, ${LOGICALREFSEQKEY}, b.geneID, b.mgiID, r.protein, ${REFSEQPRIVATE}, 1
 from tempdb..bucket0 b, DP_EntrezGene_RefSeq r
 where b.mgiID = 'none'
 and b.geneID = r.geneID
@@ -175,7 +175,7 @@ go
 /***** SwissProt ids *****/
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, a._Object_key, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${CHIMPSPPRIVATE}, 1
+select distinct ${TAXID}, a._Object_key, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${SPPRIVATE}, 1
 from tempdb..bucket0 b, ${MGD_DBNAME}..ACC_Accession a, DP_EntrezGene_Accession r
 where b.idType = 'EG'
 and b.mgiID = a.accID
@@ -186,7 +186,7 @@ and r.protein like '[A-Z][0-9][0-9][0-9][0-9][0-9]'
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, m._Marker_key, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${CHIMPSPPRIVATE}, 1
+select distinct ${TAXID}, m._Marker_key, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${SPPRIVATE}, 1
 from tempdb..bucket0 b, ${MGD_DBNAME}..MRK_Marker m, DP_EntrezGene_Accession r
 where b.idType = 'Symbol'
 and b.mgiID = m.symbol
@@ -196,7 +196,7 @@ and r.protein like '[A-Z][0-9][0-9][0-9][0-9][0-9]'
 go
 
 insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, -1, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${CHIMPSPPRIVATE}, 1
+select distinct ${TAXID}, -1, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${SPPRIVATE}, 1
 from tempdb..bucket0 b, DP_EntrezGene_Accession r
 where b.mgiID = 'none'
 and b.geneID = r.geneID
