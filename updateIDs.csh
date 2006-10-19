@@ -57,7 +57,7 @@ from ACC_Accession a, ${RADAR_DBNAME}..DP_EntrezGene_History e
 where a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
 and a.accID = e.oldgeneID
-and e.taxID in (${MGITAXIDS})
+and e.taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID})
 and e.geneID != '-'
 go
 
