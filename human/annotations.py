@@ -39,12 +39,12 @@ import loadlib
 datadir = os.environ['DATADIR']
 radar = os.environ['RADAR_DBNAME']
 editor = os.environ['CREATEDBY']
-reference = os.environ['ANNOTREFERENCE']
+reference = os.environ['DELETEREFERENCE']
 logicalOMIM = os.environ['LOGICALOMIMKEY']
 evidenceCode = 'TAS'
 logicalDB = 'Entrez Gene'
 
-annotFileName = os.environ['ANNOTATIONFILE']
+annotFileName = os.environ['ANNOTINPUTFILE']
 diagFileName = datadir + '/annotation.diagnostics'
 
 annotFile = None

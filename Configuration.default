@@ -95,9 +95,3 @@ setenv REFERENCEKEY	64047
 # Report header/trailer scripts
 setenv REPORTHEADER     ${MGI_DBUTILS}/text/header.sh
 
-# Annotation load config variables
-
-setenv ANNOTLOAD		${DATALOAD}/annotload
-setenv ANNOTMODE		new
-setenv ANNOTREFERENCE     	"J:98535"
-
