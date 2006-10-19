@@ -8,9 +8,7 @@
 # History
 #
 
-cd `dirname $0` && source ./Configuration
-
-source ${ENTREZGENELOAD}/dog.config
+cd `dirname $0` && source ../dog.config
 
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}

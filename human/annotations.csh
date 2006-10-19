@@ -36,7 +36,7 @@
 #	- TR 3853, OMIM
 #
 
-cd `dirname $0` && source ./human.config
+cd `dirname $0` && source ../human.config
 
 setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}

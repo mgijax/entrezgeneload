@@ -8,9 +8,7 @@
 # History
 #
 
-cd `dirname $0` && source ./Configuration
-
-source ${ENTREZGENELOAD}/chimpanzee.config
+cd `dirname $0` && source ../chimpanzee.config
 
 setenv LOG      ${CHIMPDATADIR}/`basename $0`.log
 rm -rf ${LOG}

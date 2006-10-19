@@ -23,7 +23,7 @@
 #	- TR 1992
 #
 
-cd `dirname $0` && source ./human.config
+cd `dirname $0` && source ../human.config
 
 ${ENTREZGENELOAD}/archive.csh
 

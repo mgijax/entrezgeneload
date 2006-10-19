@@ -12,9 +12,7 @@
 #
 #
 
-cd `dirname $0` && source ./Configuration
-
-source ${ENTREZGENELOAD}/rat.config
+cd `dirname $0` && source ../rat.config
 
 ${ENTREZGENELOAD}/archive.csh
 
