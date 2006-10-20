@@ -10,7 +10,7 @@
 
 cd `dirname $0` && source ../chimpanzee.config
 
-setenv LOG      ${CHIMPDATADIR}/`basename $0`.log
+setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
