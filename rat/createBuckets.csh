@@ -15,7 +15,7 @@ touch ${LOG}
 echo "Begin: creating rat buckets..." | tee -a ${LOG}
 date | tee -a ${LOG}
 
-../commonBuckets-1.csh | tee -a ${LOG}
+${ENTREZGENELOAD}/commonBuckets-1.csh | tee -a ${LOG}
 
 cat - <<EOSQL | doisql.csh ${RADAR_DBSERVER} ${RADAR_DBNAME} $0 | tee -a ${LOG}
  
@@ -132,7 +132,7 @@ go
 
 EOSQL
  
-../createRADARindexes.csh | tee -a ${LOG}
+${ENTREZGENELOAD}/createRADARindexes.csh | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating rat buckets." | tee -a ${LOG}

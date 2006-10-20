@@ -44,7 +44,8 @@ touch ${LOG}
 
 date >> ${LOG}
 
+cd ${DATADIR}
 ${ENTREZGENELOAD}/human/annotations.py >>& ${LOG}
-${ANNOTLOAD}/annotload.py >>& {LOG}
+${ANNOTLOAD}/annotload.py >>& ${LOG}
 
 date >> ${LOG}
