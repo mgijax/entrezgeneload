@@ -10,26 +10,6 @@
 # Purpose:
 #	Wrapper to execute all EntrezGene loads (human, rat)
 #
-# Requirements Satisfied by This Program:
-#
-# Usage:
-#
-# Envvars:
-#
-# Inputs:
-#
-# Outputs:
-#
-# Exit Codes:
-#
-# Assumes:
-#
-# Bugs:
-#
-# Implementation:
-#
-#    Modules:
-#
 # Modification History:
 #
 #
@@ -48,11 +28,10 @@ touch ${LOG}
 
 date >> ${LOG}
 
-${ENTREZGENELOAD}/loadFiles.csh >> ${LOG}
 ${ENTREZGENELOAD}/updateIDs.csh >> ${LOG}
 ${ENTREZGENELOAD}/human/load.csh >> ${LOG}
 ${ENTREZGENELOAD}/rat/load.csh >> ${LOG}
-#${ENTREZGENELOAD}/dog/load.csh >> ${LOG}
-#${ENTREZGENELOAD}/chimpanzee/load.csh >> ${LOG}
+${ENTREZGENELOAD}/dog/load.csh >> ${LOG}
+${ENTREZGENELOAD}/chimpanzee/load.csh >> ${LOG}
 
 date >> ${LOG}
