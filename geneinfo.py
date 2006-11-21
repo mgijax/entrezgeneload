@@ -52,7 +52,22 @@ synOutFile = open(inputDir + '/gene_synonym.bcp', 'w')
 dbxOutFile = open(inputDir + '/gene_dbxref.bcp', 'w')
 
 for line in infoFile.readlines():
-	[taxID, geneID, symbol, locusTag, synonyms, dbxRefs, chr, mp, name, geneType, symbol2, name2, status] = string.splitfields(line[:-1], TAB)
+
+	tokens = string.splitfields(line[:-1], TAB)
+
+	taxID = tokens[0]
+	geneID = tokens[1]
+	symbol = tokens[2]
+	locusTag = tokens[3]
+	synonyms = tokens[4]
+	dbxRefs = tokens[5]
+	chr = tokens[6]
+	mp = tokens[7]
+	name = tokens[8]
+	geneType = tokens[9]
+	symbol2 = tokens[10]
+	name2 = tokens[11]
+	status = tokens[12]
 
 	# if status = "O", then symbol = symbol, name = name
 	# if status = "I", then symbol = symbol2, name = name2
