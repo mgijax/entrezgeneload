@@ -70,7 +70,7 @@ create index idx1 on #toupdate(_Accession_key)
 go
 
 update ACC_Accession
-set accID = u.geneID
+set accID = u.geneID, numericPart = convert(integer, u.geneID)
 from #toupdate u, ACC_Accession a
 where u._Accession_key = a._Accession_key
 go
