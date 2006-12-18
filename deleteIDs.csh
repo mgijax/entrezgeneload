@@ -10,6 +10,7 @@
 # Purpose:
 #	Delete Marker/ID associations for given Organism
 #	Delete duplicate Markers for given Organism
+#	Delete obsolete Markers for given Organism
 #
 # Modification History:
 #

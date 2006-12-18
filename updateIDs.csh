@@ -50,6 +50,7 @@ use ${MGD_DBNAME}
 go
 
 /* existing EntrezGene ids that are obsolete and need to be mapped to current ids */
+/* only if the "new" EntrezGene id does not already exist */
 
 select a._Accession_key, e.geneID
 into #toupdate
@@ -59,6 +60,10 @@ and a._LogicalDB_key = ${LOGICALEGKEY}
 and a.accID = e.oldgeneID
 and e.taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID})
 and e.geneID != '-'
+and not exists (select 1 from ACC_Accession x 
+where x._MGIType_key = ${MARKERTYPEKEY}
+and x._LogicalDB_key = ${LOGICALEGKEY}
+and x.accID = e.geneID)
 go
 
 create index idx1 on #toupdate(_Accession_key)
