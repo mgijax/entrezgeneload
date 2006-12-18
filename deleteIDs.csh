@@ -9,7 +9,7 @@
 #
 # Purpose:
 #	Delete Marker/ID associations for given Organism
-#	Delete any obsolete Markers for given Organism
+#	Delete duplicate Markers for given Organism
 #
 # Modification History:
 #
@@ -21,7 +21,7 @@ setenv LOG      ${DATADIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
-echo "Begin: deleting Marker/ID associations..." >> ${LOG}
+echo "Begin: deleting Marker/ID associations, duplicate and obsolete Markers..." >> ${LOG}
 date >> ${LOG}
 
 cat - <<EOSQL | doisql.csh ${MGD_DBSERVER} ${MGD_DBNAME} $0 >>& ${LOG}
@@ -102,56 +102,89 @@ go
 drop table #todelete
 go
 
-/* remove obsolete markers by organism */
+/* remove duplicate markers by tax id */
 
-select obsoleteKey = a._Object_key, e.geneID, goodKey = x._Object_key
+select duplicateKey = a._Object_key, e.geneID, goodKey = x._Object_key
 into #todelete
 from ACC_Accession a, ${RADAR_DBNAME}..DP_EntrezGene_History e, ACC_Accession x
 where a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
 and a.accID = e.oldgeneID
-and e.taxID = ${ORGANISM}
+and e.taxID = ${TAXID}
 and e.geneID != '-'
 and e.geneID = x.accID
 and x._MGIType_key = ${MARKERTYPEKEY}
 and x._LogicalDB_key = ${LOGICALEGKEY}
 go
 
-create index idx1 on #todelete(obsoleteKey)
+create index idx1 on #todelete(duplicateKey)
 create index idx2 on #todelete(goodKey)
 go
 
-/* if any of the "obsoleted" markers have orthology records, merge the orthology records */
+/* if any of the duplicate markers have orthology records, merge the orthology records */
 
 declare merge_cursor cursor for
-select d.obsoleteKey, d.goodKey
+select d.duplicateKey, d.goodKey
 from #todelete d, HMD_Homology_Marker hm
-where d.obsoleteOne = hm._Marker_key
+where d.duplicateKey = hm._Marker_key
 for read only
 go
 
-declare @obsoleteKey integer
+declare @duplicateKey integer
 declare @goodKey integer
 
 open merge_cursor
-fetch merge_cursor into @obsoleteKey, @goodKey
+fetch merge_cursor into @duplicateKey, @goodKey
 
 while (@@sqlstatus = 0)
 begin
-	/* Merge Orthology records; this deletes obsolete marker */
-	exec HMD_nomenUpdate @obsoleteKey, @goodKey
-	fetch merge_cursor into @obsoleteKey, @goodKey
+	/* Merge Orthology records; this also deletes the duplicate marker */
+	exec HMD_nomenUpdate @duplicateKey, @goodKey
+	fetch merge_cursor into @duplicateKey, @goodKey
 end
 
 close merge_cursor
 deallocate cursor merge_cursor
 go
 
-/* delete obsolete markers */
+/* delete duplicate markers */
 
 delete MRK_Marker
 from #todelete d, MRK_Marker m
-where d.obsoleteKey = m._Marker_key
+where d.duplicateKey = m._Marker_key
+go
+
+select * from #todelete order by geneID
+go
+
+drop table #todelete
+go
+
+/* delete any obsolete markers */
+/* those that have a gene id but that gene id does not exist in EntrezGene */
+
+select m._Marker_key, m.symbol
+into #todelete
+from MRK_Marker m
+where m._Organism_key = ${ORGANISM}
+and not exists (select h.* from HMD_Homology_Marker h where m._Marker_key = h._Marker_key)
+and not exists (select e.* from ${RADAR_DBNAME}..DP_EntrezGene_Info e, ACC_Accession a
+	where e.taxID = ${TAXID}
+	and m._Marker_key = a._Object_key
+	and a._MGIType_key = ${MARKERTYPEKEY}
+	and a._LogicalDB_key = ${LOGICALEGKEY}
+	and a.accID = e.geneID)
+go
+
+create index idx1 on #todelete(_Marker_key)
+go
+
+delete MRK_Marker
+from #todelete d, MRK_Marker m
+where d._Marker_key = m._Marker_key
+go
+
+select * from #todelete order by symbol
 go
 
 checkpoint
@@ -163,4 +196,4 @@ EOSQL
  
 date >> ${LOG}
  
-echo "End: deleting Marker/ID associations." >> ${LOG}
+echo "End: deleting Marker/ID associations, duplicate and obsolete Markers." >> ${LOG}
