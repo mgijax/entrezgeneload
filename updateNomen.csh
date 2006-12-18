@@ -9,26 +9,6 @@
 #
 # Purpose:
 #
-# Requirements Satisfied by This Program:
-#
-# Usage:
-#
-# Envvars:
-#
-# Inputs:
-#
-# Outputs:
-#
-# Exit Codes:
-#
-# Assumes:
-#
-# Bugs:
-#
-# Implementation:
-#
-#    Modules:
-#
 # Modification History:
 #
 # 01/03/2005 - lec
@@ -46,60 +26,25 @@ cat - <<EOSQL | doisql.csh ${MGD_DBSERVER} ${MGD_DBNAME} $0 >>& ${LOG}
 use ${MGD_DBNAME}
 go
 
-declare nomen_cursor cursor for
-select _Marker_key, mgiSymbol, mgiName, egSymbol, egName
+select *
+into #toupdate
 from ${RADAR_DBNAME}..WRK_EntrezGene_Nomen
 where taxID = ${TAXID}
-for read only
 go
 
-declare @markerKey integer
-declare @newmarkerKey integer
-declare @msymbol varchar(50)
-declare @esymbol varchar(50)
-declare @mname varchar(255)
-declare @ename varchar(255)
+create index idx1 on #toupdate(_Marker_key)
+go
 
 declare @userKey integer
 select @userKey = _User_key from MGI_User where login = "${CREATEDBY}"
 
-open nomen_cursor
-fetch nomen_cursor into @markerKey, @msymbol, @mname, @esymbol, @ename
+update MRK_Marker
+set symbol = egSymbol, name = egName, _ModifiedBy_key = @userKey, modification_date = getdate()
+from #toupdate u, MRK_Marker m
+where u._Marker_key = m._Marker_key
+go
 
-while (@@sqlstatus = 0)
-begin
-	/* Nomenclature event if MGI symbol != EG Symbol and EG Symbol already exists in MGI */
-
-	if @msymbol != @esymbol and 
-	   exists (select _Marker_key from MRK_Marker 
-		where _Organism_key = ${ORGANISM} and symbol = @esymbol)
-	begin
-		/* Get marker key of EG Symbol */
-		select @newmarkerKey = _Marker_key from MRK_Marker
-			where _Organism_key = ${ORGANISM} and symbol = @esymbol
-
-		/* Update Orthology records */
-		exec HMD_nomenUpdate @markerKey, @newmarkerKey
-
-		/* Re-set @markerKey to marker key of EG symbol */
-		select @markerKey = @newmarkerKey
-	end
-
-	print "Updating...%1! to %2!", @msymbol, @esymbol
-	print "Updating...%1! to %2!", @mname, @ename
-
-	update MRK_Marker
-	    set symbol = @esymbol, 
-		name = @ename, 
-		_ModifiedBy_key = @userKey,
-		modification_date = getdate()
-	    where _Marker_key = @markerKey
-
-	fetch nomen_cursor into @markerKey, @msymbol, @mname, @esymbol, @ename
-end
-
-close nomen_cursor
-deallocate cursor nomen_cursor
+select from #toupdate order by geneID
 go
 
 checkpoint

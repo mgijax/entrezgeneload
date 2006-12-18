@@ -9,26 +9,7 @@
 #
 # Purpose:
 #	Delete Marker/ID associations for given Organism
-#
-# Requirements Satisfied by This Program:
-#
-# Usage:
-#
-# Envvars:
-#
-# Inputs:
-#
-# Outputs:
-#
-# Exit Codes:
-#
-# Assumes:
-#
-# Bugs:
-#
-# Implementation:
-#
-#    Modules:
+#	Delete any obsolete Markers for given Organism
 #
 # Modification History:
 #
@@ -121,9 +102,65 @@ go
 drop table #todelete
 go
 
+/* remove obsolete markers by organism */
+
+select obsoleteKey = a._Object_key, e.geneID, goodKey = x._Object_key
+into #todelete
+from ACC_Accession a, ${RADAR_DBNAME}..DP_EntrezGene_History e, ACC_Accession x
+where a._MGIType_key = ${MARKERTYPEKEY}
+and a._LogicalDB_key = ${LOGICALEGKEY}
+and a.accID = e.oldgeneID
+and e.taxID = ${ORGANISM}
+and e.geneID != '-'
+and e.geneID = x.accID
+and x._MGIType_key = ${MARKERTYPEKEY}
+and x._LogicalDB_key = ${LOGICALEGKEY}
+go
+
+create index idx1 on #todelete(obsoleteKey)
+create index idx2 on #todelete(goodKey)
+go
+
+/* if any of the "obsoleted" markers have orthology records, merge the orthology records */
+
+declare merge_cursor cursor for
+select d.obsoleteKey, d.goodKey
+from #todelete d, HMD_Homology_Marker hm
+where d.obsoleteOne = hm._Marker_key
+for read only
+go
+
+declare @obsoleteKey integer
+declare @goodKey integer
+
+open merge_cursor
+fetch merge_cursor into @obsoleteKey, @goodKey
+
+while (@@sqlstatus = 0)
+begin
+	/* Merge Orthology records; this deletes obsolete marker */
+	exec HMD_nomenUpdate @obsoleteKey, @goodKey
+	fetch merge_cursor into @obsoleteKey, @goodKey
+end
+
+close merge_cursor
+deallocate cursor merge_cursor
+go
+
+/* delete obsolete markers */
+
+delete MRK_Marker
+from #todelete d, MRK_Marker m
+where d.obsoleteKey = m._Marker_key
+go
+
+checkpoint
+go
+
 quit
  
 EOSQL
  
 date >> ${LOG}
+ 
 echo "End: deleting Marker/ID associations." >> ${LOG}
