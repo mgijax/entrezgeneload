@@ -61,6 +61,8 @@ select n.*, NULL, NULL, NULL, NULL, NULL
 from #nonoset n
 where not exists (select 1 from #refSeq m
 where n._Marker_key = m._Marker_key)
+go
+
 set nocount off
 go
 
@@ -84,7 +86,7 @@ and hm1._Homology_key = h1._Homology_key
 and h1._Homology_key = h2._Homology_key
 and h2._Homology_key = hm2._Homology_key
 and hm2._Marker_key = m._Marker_key
-and m._Organism_key = ${MOUSESPECIESKEY}
+and m._Organism_key = 1
 union
 select f.symbol, f.name, f.egsymbol, f.egname, f.locusTag, f.geneID, f.rna, NULL, NULL
 from #final f
@@ -95,7 +97,7 @@ and hm1._Homology_key = h1._Homology_key
 and h1._Homology_key = h2._Homology_key
 and h2._Homology_key = hm2._Homology_key
 and hm2._Marker_key = m._Marker_key
-and m._Organism_key = ${MOUSESPECIESKEY})
+and m._Organism_key = 1)
 order by symbol
 go
 
