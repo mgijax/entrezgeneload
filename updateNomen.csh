@@ -44,7 +44,7 @@ from #toupdate u, MRK_Marker m
 where u._Marker_key = m._Marker_key
 go
 
-select from #toupdate order by geneID
+select * from #toupdate order by geneID
 go
 
 checkpoint
