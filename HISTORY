@@ -1,3 +1,11 @@
+TAG: entrezgeneload-3-5-1-17
+DATE: 12/18/2006
+STAFF: lec
+CHANGES:
+1) fix deleteIDs.csh (duplicate & obsolete markers)
+2) removed deleteObsolete.csh (incorporated into deleteIDs.csh)
+3) updateNomen.csh (removed duplicate logic; incorporated into deleteIDs.csh)
+
 TAG: entrezgeneload-3-5-1-16
 DATE: 11/21/2006
 STAFF: lec
