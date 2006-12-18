@@ -94,7 +94,6 @@ and e.geneID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
 and a._Object_key = m._Marker_key
-and e.symbol not like 'RGD%'
 and (e.symbol != m.symbol or e.name != m.name)
 go
 
