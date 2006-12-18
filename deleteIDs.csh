@@ -188,6 +188,34 @@ go
 select * from #todelete order by symbol
 go
 
+drop table #todelete
+go
+
+/* delete any obsolete markers */
+/* those that don't have an orthology record and don't have a gene id */
+
+select m._Marker_key, m.symbol
+into #todelete
+from MRK_Marker m
+where m._Organism_key = ${ORGANISM}
+and not exists (select h.* from HMD_Homology_Marker h where m._Marker_key = h._Marker_key)
+and not exists (select a.* from ACC_Accession a
+	where m._Marker_key = a._Object_key
+	and a._MGIType_key = ${MARKERTYPEKEY}
+	and a._LogicalDB_key = ${LOGICALEGKEY})
+go
+
+create index idx1 on #todelete(_Marker_key)
+go
+
+delete MRK_Marker
+from #todelete d, MRK_Marker m
+where d._Marker_key = m._Marker_key
+go
+
+select * from #todelete order by symbol
+go
+
 checkpoint
 go
 
