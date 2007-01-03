@@ -8,24 +8,8 @@
 #	Lori Corbani
 #
 # Purpose:
-#	Update all MGI Human/Rat EntrezGene ids to their 
+#	Update all MGI non-mouse EntrezGene ids to their 
 #	"preferred" values using the EntrezGene history file.
-#
-# Requirements Satisfied by This Program:
-#
-# Usage:
-#
-# Envvars:
-#
-# Inputs:
-#
-# Outputs:
-#
-# Exit Codes:
-#
-# Assumes:
-#
-# Bugs:
 #
 # Implementation:
 #
@@ -51,6 +35,8 @@ go
 
 /* existing EntrezGene ids that are obsolete and need to be mapped to current ids */
 /* only if the "new" EntrezGene id does not already exist */
+/* we don't want to create duplicate entries */
+/* see deleteIDs.csh for handling of potential duplicates */
 
 select a._Accession_key, e.geneID
 into #toupdate
@@ -81,3 +67,4 @@ EOSQL
  
 date >> ${LOG}
 echo "End: updating EntrezGene ids." >> ${LOG}
+
