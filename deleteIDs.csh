@@ -138,7 +138,7 @@ drop table #todelete
 go
 
 /* delete any obsolete markers */
-/* those that have a gene id but that gene id does not exist in EntrezGene */
+/* those that don't have an orthology record and their gene id does not exist in EntrezGene */
 
 select m._Marker_key, m.symbol
 into #todelete
@@ -168,7 +168,7 @@ drop table #todelete
 go
 
 /* delete any obsolete markers */
-/* those that don't have an orthology record and don't have a gene id */
+/* those that don't have an orthology record and their gene id does not exist in MGI */
 
 select m._Marker_key, m.symbol
 into #todelete
