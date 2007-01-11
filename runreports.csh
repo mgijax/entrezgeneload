@@ -44,12 +44,12 @@ echo "Generating Reports..." >> $LOG
 date >> $LOG
 
 cd ${REPORTSDIR}
-foreach i (preload*.sql)
+foreach i (*.sql)
 ${REPORTHEADER} ${DATADIR}/$i.rpt
 $i ${DATADIR}/$i.rpt
 end
 
-#foreach i (preload*.py)
+#foreach i (*.py)
 #$i
 #end
 

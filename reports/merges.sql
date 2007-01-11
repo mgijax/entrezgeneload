@@ -8,7 +8,7 @@ go
 set nocount on
 go
 
-/* remove duplicate markers by tax id */
+/* select markers that need to be merged, but have orthology data */
 
 select oldKey = a._Object_key, e.oldgeneID, e.geneID, newKey = x._Object_key, e.taxID
 into #todelete
@@ -28,6 +28,8 @@ go
 create index idx1 on #todelete(oldKey)
 create index idx2 on #todelete(newKey)
 go
+
+/* resolve their mouse orthologs and class keys */
 
 select geneKey = d.newKey, d.geneID, m1.symbol, mouseSymbol = m2.symbol, h1._Class_key, h1._Refs_key
 into #orthologs
