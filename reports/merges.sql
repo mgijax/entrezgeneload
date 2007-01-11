@@ -10,13 +10,13 @@ go
 
 /* remove duplicate markers by tax id */
 
-select oldKey = a._Object_key, e.oldgeneID, e.geneID, newKey = x._Object_key
+select oldKey = a._Object_key, e.oldgeneID, e.geneID, newKey = x._Object_key, e.taxID
 into #todelete
 from ACC_Accession a, ${RADAR_DBNAME}..DP_EntrezGene_History e, ACC_Accession x
 where a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
 and a.accID = e.oldgeneID
-and e.taxID = ${TAXID}
+and e.taxID in (${HUMANTAXID}, ${RATTAXID}, ${CHIMPTAXID}, ${DOGTAXID})
 and e.geneID != '-'
 and e.geneID = x.accID
 and x._MGIType_key = ${MARKERTYPEKEY}
@@ -55,10 +55,10 @@ set nocount off
 go
 
 print ""
-print "Bucket 6: Human Markers that need to be merged in MGI that also have Orthology Data"
+print "Markers that need to be merged in MGI that also have Orthology Data"
 print ""
 
-select substring(o.geneID,1,10) "EG ID", m.symbol "Symbol", o._Class_key, jnum = a.accID
+select d.taxID, substring(o.geneID,1,10) "EG ID", m.symbol "Symbol", o._Class_key, jnum = a.accID
 from #todelete d, #orthologs o, MRK_Marker m, ACC_Accession a
 where d.oldKey = o.geneKey
 and d.oldKey = m._Marker_key
@@ -66,13 +66,14 @@ and o._Refs_key = a._Object_key
 and a._MGIType_key = 1
 and a.prefixPart = "J:"
 union
-select substring(o.geneID,1,10) "EG ID", m.symbol "Symbol", o._Class_key, jnum = a.accID
+select d.taxID, substring(o.geneID,1,10) "EG ID", m.symbol "Symbol", o._Class_key, jnum = a.accID
 from #todelete d, #orthologs o, MRK_Marker m, ACC_Accession a
 where d.newKey = o.geneKey
 and d.newKey = m._Marker_key
 and o._Refs_key = a._Object_key
 and a._MGIType_key = 1
 and a.prefixPart = "J:"
+order by d.taxID
 go
 
 quit

@@ -34,4 +34,10 @@ ${ENTREZGENELOAD}/rat/load.csh >> ${LOG}
 ${ENTREZGENELOAD}/dog/load.csh >> ${LOG}
 ${ENTREZGENELOAD}/chimpanzee/load.csh >> ${LOG}
 
+# run general reports
+
+setenv REPORTSDIR ${ENTREZGENELOAD}/reports
+setenv DATADIR ${EGOUTPUTDIR}
+${ENTREZGENELOAD}/runreports.csh >> ${LOG}
+
 date >> ${LOG}
