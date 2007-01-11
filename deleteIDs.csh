@@ -122,37 +122,13 @@ create index idx1 on #todelete(duplicateKey)
 create index idx2 on #todelete(goodKey)
 go
 
-/* if any of the duplicate markers have orthology records, merge the orthology records */
-
-declare merge_cursor cursor for
-select d.duplicateKey, d.goodKey
-from #todelete d, HMD_Homology_Marker hm
-where d.duplicateKey = hm._Marker_key
-for read only
-go
-
-declare @duplicateKey integer
-declare @goodKey integer
-
-open merge_cursor
-fetch merge_cursor into @duplicateKey, @goodKey
-
-while (@@sqlstatus = 0)
-begin
-	/* Merge Orthology records; this also deletes the duplicate marker */
-	exec HMD_nomenUpdate @duplicateKey, @goodKey
-	fetch merge_cursor into @duplicateKey, @goodKey
-end
-
-close merge_cursor
-deallocate cursor merge_cursor
-go
-
-/* delete duplicate markers */
+/* delete duplicate markers for those that don't have orthology records */
+/* those that *do* have orthology records will be listed in a qc report */
 
 delete MRK_Marker
 from #todelete d, MRK_Marker m
 where d.duplicateKey = m._Marker_key
+and not exists (select 1 from HMD_Homology_Marker h where d.duplicateKey = h._Marker_key)
 go
 
 select * from #todelete order by geneID
