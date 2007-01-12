@@ -1,3 +1,11 @@
+TAG: entrezgeneload-3-5-1-22
+DATE: 02/12/2007
+STAFF: lec
+CHANGES: 
+TR8103
+1) deleteIDs.csh; remove merged/duplicate markers if they don't have orthology
+2) reports/merges.sql; new report to list merged/duplicate markers that do have orthology
+
 TAG: entrezgeneload-3-5-1-21
 TAG: entrezgeneload-3-5-1-20
 DATE: 12/18/2006

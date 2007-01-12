@@ -31,7 +31,7 @@ go
 
 /* resolve their mouse orthologs and class keys */
 
-select geneKey = d.newKey, d.geneID, m1.symbol, mouseSymbol = m2.symbol, h1._Class_key, h1._Refs_key
+select geneKey = d.newKey, d.geneID, m1.symbol, mouseSymbol = m2.symbol, h1._Class_key, h1._Refs_key, genetype = "new"
 into #orthologs
 from #todelete d, MRK_Marker m1, MRK_Homology_Cache h1, MRK_Homology_Cache h2, MRK_Marker m2
 where d.newKey = m1._Marker_key
@@ -40,7 +40,7 @@ and h1._Homology_key = h2._Homology_key
 and h2._Organism_key = 1
 and h2._Marker_key = m2._Marker_key
 union
-select d.oldKey, d.oldgeneID, m1.symbol, mouseSymbol = m2.symbol, h1._Class_key, h1._Refs_key
+select d.oldKey, d.oldgeneID, m1.symbol, mouseSymbol = m2.symbol, h1._Class_key, h1._Refs_key, genetype = "old"
 from #todelete d, MRK_Marker m1, MRK_Homology_Cache h1, MRK_Homology_Cache h2, MRK_Marker m2
 where d.oldKey = m1._Marker_key
 and d.oldKey = h1._Marker_key
@@ -60,7 +60,7 @@ print ""
 print "Markers that need to be merged in MGI that also have Orthology Data"
 print ""
 
-select d.taxID, substring(o.geneID,1,10) "EG ID", m.symbol "Symbol", o._Class_key, jnum = a.accID
+select d.taxID "Tax ID", substring(o.geneID,1,10) "EG ID", m.symbol "Symbol", o._Class_key "Class", a.accID "J#", o.genetype
 from #todelete d, #orthologs o, MRK_Marker m, ACC_Accession a
 where d.oldKey = o.geneKey
 and d.oldKey = m._Marker_key
@@ -68,7 +68,7 @@ and o._Refs_key = a._Object_key
 and a._MGIType_key = 1
 and a.prefixPart = "J:"
 union
-select d.taxID, substring(o.geneID,1,10) "EG ID", m.symbol "Symbol", o._Class_key, jnum = a.accID
+select d.taxID, substring(o.geneID,1,10), m.symbol, o._Class_key, jnum = a.accID, o.genetype
 from #todelete d, #orthologs o, MRK_Marker m, ACC_Accession a
 where d.newKey = o.geneKey
 and d.newKey = m._Marker_key
