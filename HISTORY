@@ -1,3 +1,10 @@
+TAG: entrezgeneload-3-5-1-23
+DATE: 01/08/2008
+STAFF: lec
+CHANGES: 
+TR8714
+1) deleteIDs.csh; added null ("99999") for deletions of accession ids that don't exist
+
 TAG: entrezgeneload-3-5-1-22
 DATE: 02/12/2007
 STAFF: lec
