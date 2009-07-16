@@ -75,6 +75,7 @@ grep "^${HUMANTAXID}" $i >> $i.mgi
 grep "^${RATTAXID}" $i >> $i.mgi
 grep "^${DOGTAXID}" $i >> $i.mgi
 grep "^${CHIMPTAXID}" $i >> $i.mgi
+grep "^${CATTLETAXID}" $i >> $i.mgi
 end
 
 #
@@ -123,13 +124,13 @@ go
 
 update DP_EntrezGene_Info
 set mapPosition = substring(mapPosition, 3, 100)
-where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID})
+where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID}, ${CATTLETAXID})
 and mapPosition like '[123][0-9]%'
 go
 
 update DP_EntrezGene_Info
 set mapPosition = substring(mapPosition, 2, 100)
-where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID})
+where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID}, ${CATTLETAXID})
 and mapPosition like '[1-9]%'
 go
 

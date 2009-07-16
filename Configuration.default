@@ -38,6 +38,7 @@ setenv CREATEDBY		"entrezgene_load"
 setenv CHIMPTAXID 9598
 setenv DOGTAXID 9615
 setenv HUMANTAXID 9606
+setenv CATTLETAXID 9913
 setenv RATTAXID 10116
 setenv MOUSETAXID 10090
 
