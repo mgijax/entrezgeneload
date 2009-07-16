@@ -40,7 +40,7 @@ if ( ! -d ${REPORTSDIR} ) then
 endif
 end
 
-foreach i (human rat dog chimpanzee)
+foreach i (human rat dog chimpanzee cattle)
 cd $i
 rm -rf Configuration
 ln -s ../Configuration .
