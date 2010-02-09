@@ -99,7 +99,8 @@ for line in accFile.readlines():
 			 genomicGI + TAB + \
 			 startPos + TAB + \
 			 endPos + TAB + \
-			 orient + CRT)
+			 orient + TAB + \
+			 assembly + CRT)
 accFile.close()
 newaccFile.close()
 
