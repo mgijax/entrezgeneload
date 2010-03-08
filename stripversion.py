@@ -23,6 +23,8 @@
 #
 # History:
 #
+# sc    03/8/2010
+#	- added 'assembly' column
 # lec	7/7/2004
 #	- created
 #
