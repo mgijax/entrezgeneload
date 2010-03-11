@@ -23,6 +23,8 @@
 #
 # History:
 #
+# sc    03/8/2010
+#	- added 'assembly' column
 # lec	7/7/2004
 #	- created
 #
@@ -99,7 +101,8 @@ for line in accFile.readlines():
 			 genomicGI + TAB + \
 			 startPos + TAB + \
 			 endPos + TAB + \
-			 orient + CRT)
+			 orient + TAB + \
+			 assembly + CRT)
 accFile.close()
 newaccFile.close()
 

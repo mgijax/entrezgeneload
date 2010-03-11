@@ -1,3 +1,20 @@
+TAG: entrezgeneload-4-3-3-1
+DATE: 03/11/2010
+STAFF: sc
+CHANGES: Merge tr9773 branch to trunk
+
+TAG: entrezgeneload-tr9773-2
+DATE: 03/08/2010
+STAFF: sc
+CHANGES: comments only
+
+TAG: entrezgeneload-tr9773-1
+DATE: 02/09/2010
+STAFF: sc
+CHANGES:
+1) stripversion.py added 'assembly' column to the radar
+   bcp file
+
 TAG: entrezgeneload-tr9773-BP
 DATE: 02/09/2010
 STAFF: sc
