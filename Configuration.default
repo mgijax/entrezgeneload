@@ -30,6 +30,7 @@ setenv EGARCHIVEDIR		${EGDATADIR}/archive
 # FTP Data Files
 setenv FTPDATA1			/data/downloads/ftp.ncbi.nih.gov/gene/DATA
 setenv FTPDATA2			/data/downloads/ftp.ncbi.nih.gov/pub/HomoloGene/current
+setenv FTPDATA3                 /data/downloads/omim
 
 # Load User
 setenv CREATEDBY		"entrezgene_load"
