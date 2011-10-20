@@ -41,15 +41,4 @@ setenv REPORTSDIR ${ENTREZGENELOAD}/reports
 setenv DATADIR ${EGOUTPUTDIR}
 ${ENTREZGENELOAD}/runreports.csh >> ${LOG}
 
-# grep logs for errors
-
-cd ${EGOUTPUTDIR}
-grep "fail" */*log >> ${LOG}
-grep "Traceback" */*log >> ${LOG}
-grep "exception" */*log >> ${LOG}
-grep "<space>error" */*log >> ${LOG}
-grep "Msg" */*log >> ${LOG}
-grep "can't open" */*log >> ${LOG}
-grep "unexpected end of file" */*log >> ${LOG}
-
 date >> ${LOG}
