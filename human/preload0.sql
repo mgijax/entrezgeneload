@@ -1,4 +1,4 @@
-#!/bin/csh
+#!/bin/csh -f
  
 isql -S${MGD_DBSERVER} -U${MGI_PUBLICUSER} -P${MGI_PUBLICPASSWORD} -w300 <<END >> $1
 
