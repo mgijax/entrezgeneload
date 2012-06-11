@@ -1,8 +1,11 @@
+TAG: entrezgeneload-5-0-0-2
 TAG: entrezgeneload-5-0-0-1
 DATE: 06/11/2012
 STAFF: lec
 CHANGES: 
 1) TR10961/Postgres Cleanup - dataload products
+   DP_EntrezGene_History: remove rows where DB_EntrezGene_Info.geneID does not exist
+   DP_HomoloGene: only include taxIDs in mouse, human, rat, etc. list
 
 TAG: entrezgeneload-4-4-2-2
 DATE: 11/22/2011

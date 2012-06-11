@@ -165,6 +165,11 @@ set chromosome = 'XY'
 where chromosome = 'X|Y'
 go
 
+delete DP_EntrezGene_History 
+where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
+	where DP_EntrezGene_History.geneID = DP_EntrezGene_Info.geneID)
+go
+
 EOSQL
 
 date >> ${LOG}
