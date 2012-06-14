@@ -34,6 +34,11 @@
 #
 # Modification History:
 #
+# 06/14/2012 - lec
+#	- TR10994/postgres/exporter
+#	- remove children from parents of DP_EntrezGene_Info that do not exist
+#	  this will cleanup foreign key referential integrity issues
+#
 # 01/03/2005 - lec
 #	- TR 5939/LocusLink->EntrezGene conversion
 #
@@ -165,9 +170,44 @@ set chromosome = 'XY'
 where chromosome = 'X|Y'
 go
 
+delete DP_EntrezGene_Accession
+where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
+	where DP_EntrezGene_Accession.geneID = DP_EntrezGene_Info.geneID)
+go
+
+delete DP_EntrezGene_DBXRef
+where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
+	where DP_EntrezGene_DBXRef.geneID = DP_EntrezGene_Info.geneID)
+go
+
+delete DP_EntrezGene_PubMed
+where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
+	where DP_EntrezGene_PubMed.geneID = DP_EntrezGene_Info.geneID)
+go
+
+delete DP_EntrezGene_RefSeq
+where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
+	where DP_EntrezGene_RefSeq.geneID = DP_EntrezGene_Info.geneID)
+go
+
+delete DP_EntrezGene_Synonym
+where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
+	where DP_EntrezGene_Synonym.geneID = DP_EntrezGene_Info.geneID)
+go
+
 delete DP_EntrezGene_History 
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_EntrezGene_History.geneID = DP_EntrezGene_Info.geneID)
+go
+
+delete DP_HomoloGene
+where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
+	where DP_HomoloGene.geneID = DP_EntrezGene_Info.geneID)
+go
+
+delete DP_EntrezGene_MIM
+where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
+	where DP_EntrezGene_MIM.geneID = DP_EntrezGene_Info.geneID)
 go
 
 EOSQL
