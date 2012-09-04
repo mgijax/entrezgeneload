@@ -60,7 +60,7 @@ cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene_history.gz ${EGINPUTDIR}
-cp ${FTPDATA3}/mim2gene ${EGINPUTDIR}
+cp ${FTPDATA3}/mim2gene.txt ${EGINPUTDIR}
 cp ${FTPDATA2}/homologene.data ${EGINPUTDIR}
 
 # uncompress the files
@@ -96,7 +96,7 @@ end
 #
 # strips out comments from input file
 #
-foreach i (mim2gene)
+foreach i (mim2gene.txt)
 rm -rf $i.mgi
 grep "^[0-9]" $i > $i.mgi
 end
