@@ -13,7 +13,7 @@ endif
 source ${MGICONFIG}/master.config.csh
 
 # data directory
-setenv EGDATADIR		/data/loads/entrezgene/entrezgeneload
+setenv EGDATADIR		${DATALOADSOUTPUT}/entrezgene/entrezgeneload
 
 # input directory
 setenv EGINPUTDIR           	${EGDATADIR}/input
