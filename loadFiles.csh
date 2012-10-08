@@ -124,7 +124,7 @@ cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_RefSeq in ${EGI
 cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_Synonym in ${EGINPUTDIR}/gene_synonym.bcp -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
 cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_History in ${EGINPUTDIR}/gene_history.mgi -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
 cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_HomoloGene in ${EGINPUTDIR}/homologene.data.mgi -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
-cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_MIM in ${EGINPUTDIR}/mim2gene.mgi -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
+cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_MIM in ${EGINPUTDIR}/mim2gene.txt.mgi -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
 
 # create indexes
 ${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}

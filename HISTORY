@@ -1,3 +1,10 @@
+TAG: entrezgeneload-5-0-0-5
+DATE: 10/08/2012
+STAFF: lec
+CHANGES: 
+1) TR11195/loadFiles.csh
+mim2gene => mim2gene.txt is the correct name of the file
+
 TAG: entrezgeneload-5-0-0-4
 DATE: 09/04/2012
 STAFF: sc
