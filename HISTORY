@@ -1,11 +1,14 @@
+TAG: entrezgeneload-5-0-0-7
 TAG: entrezgeneload-5-0-0-6
 DATE: 10/15/2012
 STAFF: lec
 CHANGES: 
 1) TR11195/loadFiles.csh
 mim2gene => mim2gene.txt is the correct name of the file
-radardbschema-5-0-0-2
-pgradardbschema-5-0-0-4
+radardbschema-5-0-0-3
+pgradardbschema-5-0-0-5
+do not created mim2gene.txt from downloaded file; the downloaded data file is no good
+use the mim2gene.txt file that exists in the input directory
 
 TAG: entrezgeneload-5-0-0-5
 DATE: 10/08/2012
