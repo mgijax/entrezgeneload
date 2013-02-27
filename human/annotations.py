@@ -23,6 +23,10 @@
 # History:
 #
 # 	04/28/2005	lec
+#	- TR11195/OMIM/add check for annotation type ("phenotype")
+#	and source (!= "NULL") to query
+#
+# 	04/28/2005	lec
 #	- TR 3853, OMIM
 #
 '''
@@ -139,6 +143,8 @@ def writeAnnotations():
 		select m.geneID, m.mimID
 		from %s..DP_EntrezGene_MIM m
 		where exists (select 1 from #omim o where m.mimID = o.accID) 
+		and m.annotationType = 'phenotype'
+		and m.source != 'NULL'
 		order by geneID
 		''' % (radar), 'auto')
 
