@@ -126,27 +126,24 @@ def writeAnnotations():
 	#
 	'''
 
-	# OMIM ids currently stored in MGI
-
-        db.sql('''
-		select distinct accID into #omim from ACC_Accession
-		where _MGIType_key = 13 and _LogicalDB_key = %s
-		''' % (logicalOMIM), None)
-	db.sql('create index idx1 on #omim(accID)', None)
-
 	#
 	# select OMIM disease annotations...
 	# for those OMIM disease ids that are stored in MGI (in the OMIM vocabulary)
 	#
 
 	results = db.sql('''
-		select m.geneID, m.mimID
-		from %s..DP_EntrezGene_MIM m
-		where exists (select 1 from #omim o where m.mimID = o.accID) 
-		and m.annotationType = 'phenotype'
-		and m.source != 'NULL'
+		select distinct m.geneID, m.mimID
+		from %s..DP_EntrezGene_MIM m, ACC_Accession a
+		where m.mimID = a.accID
+		and a._MGIType_key = 13 
+		and a._LogicalDB_key = %s
+	        and (
+		(m.annotationType = 'phenotype' and m.source != 'NULL')
+		or
+		(m.annotationType = 'gene')
+		)
 		order by geneID
-		''' % (radar), 'auto')
+		''' % (radar, logicalOMIM), 'auto')
 
 	for r in results:
 	    annotFile.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' % (r['mimID'], r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB))
