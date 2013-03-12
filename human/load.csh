@@ -37,6 +37,6 @@ ${ENTREZGENELOAD}/deleteIDs.csh
 ${ENTREZGENELOAD}/createSets.csh
 ${ENTREZGENELOAD}/human/createBuckets.csh
 ${ENTREZGENELOAD}/commonLoad-2.csh
-${ENTREZGENELOAD}/human/annotations.csh
+#${ENTREZGENELOAD}/human/annotations.csh
 
 date >> ${LOG}

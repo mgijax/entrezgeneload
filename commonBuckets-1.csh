@@ -26,6 +26,9 @@ use ${RADAR_DBNAME}
 go
 
 /***** 1:1 by EG id *****/
+-- compare EG set vs. MGI set using a "comparsionID"
+-- a "comparisonID": MGI id,  
+
 
 insert into WRK_EntrezGene_Bucket0Tmp
 select distinct s1.geneID, s2.mgiID, s1.idType
