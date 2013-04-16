@@ -81,6 +81,9 @@ grep "^${RATTAXID}" $i >> $i.mgi
 grep "^${DOGTAXID}" $i >> $i.mgi
 grep "^${CHIMPTAXID}" $i >> $i.mgi
 grep "^${CATTLETAXID}" $i >> $i.mgi
+grep "^${CHICKENTAXID}" $i >> $i.mgi
+grep "^${ZEBRAFISHTAXID}" $i >> $i.mgi
+grep "^${MONKEYTAXID}" $i >> $i.mgi
 end
 
 foreach i (homologene.data)
@@ -91,6 +94,9 @@ grep "	${RATTAXID}	" $i >> $i.mgi
 grep "	${DOGTAXID}	" $i >> $i.mgi
 grep "	${CHIMPTAXID}	" $i >> $i.mgi
 grep "	${CATTLETAXID}	" $i >> $i.mgi
+grep "	${CHICKENTAXID}	" $i >> $i.mgi
+grep "	${ZEBRAFISHTAXID}	" $i >> $i.mgi
+grep "	${MONKEYTAXID}	" $i >> $i.mgi
 end
 
 #
@@ -139,13 +145,13 @@ go
 
 update DP_EntrezGene_Info
 set mapPosition = substring(mapPosition, 3, 100)
-where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID}, ${CATTLETAXID})
+where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID}, ${CATTLETAXID}, ${CHICKENTAXID}, ${ZEBRAFISHTAXID}, ${MONKEYTAXID})
 and mapPosition like '[123][0-9]%'
 go
 
 update DP_EntrezGene_Info
 set mapPosition = substring(mapPosition, 2, 100)
-where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID}, ${CATTLETAXID})
+where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID}, ${CATTLETAXID}, ${CHICKENTAXID}, ${ZEBRAFISHTAXID}, ${MONKEYTAXID})
 and mapPosition like '[1-9]%'
 go
 
