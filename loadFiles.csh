@@ -34,6 +34,9 @@
 #
 # Modification History:
 #
+# 07/23/2013	lec
+#	- TR11317/11195/OMIM/mim2gene_medgen
+#
 # 06/14/2012 - lec
 #	- TR10994/postgres/exporter
 #	- remove children from parents of DP_EntrezGene_Info that do not exist
@@ -60,7 +63,7 @@ cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene_history.gz ${EGINPUTDIR}
-#cp ${FTPDATA1}/mim2gene_medgen ${EGINPUTDIR}
+cp ${FTPDATA1}/mim2gene_medgen ${EGINPUTDIR}
 cp ${FTPDATA2}/homologene.data ${EGINPUTDIR}
 
 # uncompress the files
@@ -102,10 +105,10 @@ end
 #
 # strips out comments from input file
 #
-#foreach i (mim2gene_medgen)
-#rm -rf $i.mgi
-#grep "^[0-9]" $i > $i.mgi
-#end
+foreach i (mim2gene_medgen)
+rm -rf $i.mgi
+grep "^[0-9]" $i > $i.mgi
+end
 
 # split up gene_info.mgi into gene_info.bcp, gene_dbxref.bcp, gene_synonym.bcp
 ${ENTREZGENELOAD}/geneinfo.py >>& ${LOG}
