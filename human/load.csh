@@ -7,6 +7,11 @@
 #
 # History
 #
+#       09/12/2013      lec
+#       - TR11484/human/annotation.py/load.csh
+#               a) load.csh : annotation.csh was turned OFF/turn back ON
+#               b) mim-source "NULL" changed to "-"
+#
 #	09/15/2005 lec
 #	- TR 5972 - add load of SwissProt, NP, XP
 #
@@ -37,6 +42,6 @@ ${ENTREZGENELOAD}/deleteIDs.csh
 ${ENTREZGENELOAD}/createSets.csh
 ${ENTREZGENELOAD}/human/createBuckets.csh
 ${ENTREZGENELOAD}/commonLoad-2.csh
-#${ENTREZGENELOAD}/human/annotations.csh
+${ENTREZGENELOAD}/human/annotations.csh
 
 date >> ${LOG}

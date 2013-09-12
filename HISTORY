@@ -1,3 +1,11 @@
+TAG: entrezgeneload-5-1-5-1
+DATE: 09/12/2013
+STAFF: lec
+CHANGES:
+1) TR11484/human/annotation.py/load.csh
+a) load.csh : annotation.csh was turned OFF/turn back ON
+b) mim-source "NULL" changed to "-"
+
 TAG: entrezgeneload-tr11423-BP
 DATE: 09/11/2013
 STAFF: lec

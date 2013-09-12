@@ -22,6 +22,11 @@
 #
 # History:
 #
+#	09/12/2013	lec
+#	- TR11484/human/annotation.py/load.csh
+#		a) load.csh : annotation.csh was turned OFF/turn back ON
+#		b) mim-source "NULL" changed to "-"
+#
 # 	04/28/2005	lec
 #	- TR11195/OMIM/add check for annotation type ("phenotype")
 #	and source (!= "NULL") to query
@@ -138,7 +143,7 @@ def writeAnnotations():
 		and a._MGIType_key = 13 
 		and a._LogicalDB_key = %s
 	        and (
-		(m.annotationType = 'phenotype' and m.source != 'NULL')
+		(m.annotationType = 'phenotype' and m.source != '-')
 		or
 		(m.annotationType = 'gene')
 		)
