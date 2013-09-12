@@ -24,7 +24,7 @@
 #
 # 	04/28/2005	lec
 #	- TR11195/OMIM/add check for annotation type ("phenotype")
-#	and source (!= "-") to query
+#	and source (!= "NULL") to query
 #
 # 	04/28/2005	lec
 #	- TR 3853, OMIM
@@ -178,7 +178,7 @@ def writeAnnotations2():
                 and a._MGIType_key = 13 
                 and a._LogicalDB_key = %s
                 and (
-                (m.annotationType = 'phenotype' and m.source = '-')
+                (m.annotationType = 'phenotype' and m.source = 'NULL')
                 )
                 order by geneID
                 ''' % (radar, logicalOMIM), 'auto')
@@ -193,6 +193,6 @@ def writeAnnotations2():
 
 init()
 writeAnnotations1()
-#writeAnnotations2()
+writeAnnotations2()
 exit(0)
 

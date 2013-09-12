@@ -55,18 +55,18 @@ setenv ANNOTLOG2                ${ANNOTINPUTFILE}2.log
 
 ${ENTREZGENELOAD}/human/annotations.py >>& ${LOG}
 
-exit 0
-
 setenv ANNOTMODE                new
-setenv ANNOTTYPENAME            ${ANNOTTYPENAME1}
+setenv ANNOTTYPENAME            "${ANNOTTYPENAME1}"
 setenv ANNOTINPUTFILE           ${ANNOTINPUTFILE1}
 setenv ANNOTLOG                 ${ANNOTLOG1}
 setenv ANNOTOBSOLETE            0
 
 ${ANNOTLOAD}/annotload.py >>& ${LOG}
 
+exit 0
+
 setenv ANNOTMODE                new
-setenv ANNOTTYPENAME            ${ANNOTTYPENAME2}
+setenv ANNOTTYPENAME            "${ANNOTTYPENAME2}"
 setenv ANNOTINPUTFILE           ${ANNOTINPUTFILE2}
 setenv ANNOTLOG                 ${ANNOTLOG2}
 setenv ANNOTOBSOLETE            0
