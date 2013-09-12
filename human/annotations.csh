@@ -55,6 +55,8 @@ setenv ANNOTLOG2                ${ANNOTINPUTFILE}2.log
 
 ${ENTREZGENELOAD}/human/annotations.py >>& ${LOG}
 
+exit 0
+
 setenv ANNOTMODE                new
 setenv ANNOTTYPENAME            ${ANNOTTYPENAME1}
 setenv ANNOTINPUTFILE           ${ANNOTINPUTFILE1}
