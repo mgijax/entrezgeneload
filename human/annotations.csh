@@ -12,20 +12,6 @@
 #
 # Requirements Satisfied by This Program:
 #
-# Usage:
-#
-# Envvars:
-#
-# Inputs:
-#
-# Outputs:
-#
-# Exit Codes:
-#
-# Assumes:
-#
-# Bugs:
-#
 # Implementation:
 #
 #    Modules:
