@@ -32,6 +32,9 @@
 #
 # Modification History:
 #
+# 09/12/2013	lec
+#	- TR11423/add new annotation type
+#
 # 04/28/2005
 #	- TR 3853, OMIM
 #
@@ -47,7 +50,7 @@ date >> ${LOG}
 cd ${DATADIR}
 
 setenv ANNOTTYPENAME1           "OMIM/Human Marker"
-setenv ANNOTTYPENAME2           "OMIM/Human Marker/Phenotype"
+setenv ANNOTTYPENAME2           "OMIM/Human Marker/Pheno"
 setenv ANNOTINPUTFILE1          ${DATADIR}/annotations.omim1
 setenv ANNOTINPUTFILE2          ${DATADIR}/annotations.omim2
 setenv ANNOTLOG1                ${ANNOTINPUTFILE}1.log
@@ -62,8 +65,6 @@ setenv ANNOTLOG                 ${ANNOTLOG1}
 setenv ANNOTOBSOLETE            0
 
 ${ANNOTLOAD}/annotload.py >>& ${LOG}
-
-exit 0
 
 setenv ANNOTMODE                new
 setenv ANNOTTYPENAME            "${ANNOTTYPENAME2}"
