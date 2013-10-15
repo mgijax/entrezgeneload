@@ -1,3 +1,9 @@
+TAG: entrezgeneload-5-1-6-?
+DATE: 09/11/2013, 10/15/2013
+STAFF: lec
+CHANGES:
+1) trunk-merge: branch point tag for TR11423 (human disease portal)
+
 TAG: entrezgeneload-5-1-5-1
 DATE: 09/12/2013
 STAFF: lec
@@ -6,8 +12,9 @@ CHANGES:
 a) load.csh : annotation.csh was turned OFF/turn back ON
 b) mim-source "NULL" changed to "-"
 
+TAG: entrezgeneload-tr11423-1
 TAG: entrezgeneload-tr11423-BP
-DATE: 09/11/2013
+DATE: 09/11/2013, 10/15/2013
 STAFF: lec
 CHANGES:
 1) branch point tag for TR11423 (human disease portal)
