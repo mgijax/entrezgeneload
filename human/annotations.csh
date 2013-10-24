@@ -12,25 +12,14 @@
 #
 # Requirements Satisfied by This Program:
 #
-# Usage:
-#
-# Envvars:
-#
-# Inputs:
-#
-# Outputs:
-#
-# Exit Codes:
-#
-# Assumes:
-#
-# Bugs:
-#
 # Implementation:
 #
 #    Modules:
 #
 # Modification History:
+#
+# 09/12/2013	lec
+#	- TR11423/add new annotation type
 #
 # 04/28/2005
 #	- TR 3853, OMIM
@@ -45,7 +34,30 @@ touch ${LOG}
 date >> ${LOG}
 
 cd ${DATADIR}
+
+setenv ANNOTTYPENAME1           "OMIM/Human Marker"
+setenv ANNOTTYPENAME2           "OMIM/Human Marker/Pheno"
+setenv ANNOTINPUTFILE1          ${DATADIR}/annotations.omim1
+setenv ANNOTINPUTFILE2          ${DATADIR}/annotations.omim2
+setenv ANNOTLOG1                ${ANNOTINPUTFILE}1.log
+setenv ANNOTLOG2                ${ANNOTINPUTFILE}2.log
+
 ${ENTREZGENELOAD}/human/annotations.py >>& ${LOG}
+
+setenv ANNOTMODE                new
+setenv ANNOTTYPENAME            "${ANNOTTYPENAME1}"
+setenv ANNOTINPUTFILE           ${ANNOTINPUTFILE1}
+setenv ANNOTLOG                 ${ANNOTLOG1}
+setenv ANNOTOBSOLETE            0
+
+${ANNOTLOAD}/annotload.py >>& ${LOG}
+
+setenv ANNOTMODE                new
+setenv ANNOTTYPENAME            "${ANNOTTYPENAME2}"
+setenv ANNOTINPUTFILE           ${ANNOTINPUTFILE2}
+setenv ANNOTLOG                 ${ANNOTLOG2}
+setenv ANNOTOBSOLETE            0
+
 ${ANNOTLOAD}/annotload.py >>& ${LOG}
 
 date >> ${LOG}
