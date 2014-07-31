@@ -44,7 +44,7 @@ from ACC_Accession a, ${RADAR_DBNAME}..DP_EntrezGene_History e
 where a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
 and a.accID = e.oldgeneID
-and e.taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID}, ${CATTLETAXID}, ${CHICKENTAXID}, ${ZEBRAFISHTAXID}, ${MONKEYTAXID})
+and e.taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID}, ${CATTLETAXID}, ${CHICKENTAXID}, ${ZEBRAFISHTAXID}, ${MONKEYTAXID}, ${XENOPUSTAXID})
 and e.geneID != '-'
 and not exists (select 1 from ACC_Accession x 
 where x._MGIType_key = ${MARKERTYPEKEY}
