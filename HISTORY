@@ -1,3 +1,18 @@
+TAG: entrezgeneload-5-1-9-1
+DATE: 7/31/2014
+STAFF: dbm
+CHANGES: TR11662
+1) Configuration.default: Add environment variable for XENOPUSTAXID
+2) Install: Add xenopus to loop that creates the config file link
+3) index.html: Add section for xenopus report links
+4) loadFiles.csh: Add ${XENOPUSTAXID} to the list of taxon IDs
+5) loadAll.csh: Add call to xenopus/load.csh script
+6) updateIDs.csh: Add ${XENOPUSTAXID} to main query
+7) xenopus.config: New config for xenopus
+8) xenopus/*: Add xenopus directory and all scripts within it by copying the
+              directory of another organism - modify script for xenopus
+9) reports/merges.sql: Add ${XENOPUSTAXID} to query
+
 TAG: entrezgeneload-5-1-6-2
 DATE: 12/02/2013
 STAFF: dbm
