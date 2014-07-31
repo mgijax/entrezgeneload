@@ -37,6 +37,7 @@ ${ENTREZGENELOAD}/cattle/load.csh >> ${LOG}
 ${ENTREZGENELOAD}/chicken/load.csh >> ${LOG}
 ${ENTREZGENELOAD}/zebrafish/load.csh >> ${LOG}
 ${ENTREZGENELOAD}/monkey/load.csh >> ${LOG}
+${ENTREZGENELOAD}/xenopus/load.csh >> ${LOG}
 
 # run general reports
 

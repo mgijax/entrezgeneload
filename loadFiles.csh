@@ -87,6 +87,7 @@ grep "^${CATTLETAXID}" $i >> $i.mgi
 grep "^${CHICKENTAXID}" $i >> $i.mgi
 grep "^${ZEBRAFISHTAXID}" $i >> $i.mgi
 grep "^${MONKEYTAXID}" $i >> $i.mgi
+grep "^${XENOPUSTAXID}" $i >> $i.mgi
 end
 
 foreach i (homologene.data)
@@ -100,6 +101,7 @@ grep "	${CATTLETAXID}	" $i >> $i.mgi
 grep "	${CHICKENTAXID}	" $i >> $i.mgi
 grep "	${ZEBRAFISHTAXID}	" $i >> $i.mgi
 grep "	${MONKEYTAXID}	" $i >> $i.mgi
+grep "	${XENOPUSTAXID}	" $i >> $i.mgi
 end
 
 #
