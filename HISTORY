@@ -1,3 +1,9 @@
+TAG: entrezgeneload-5-1-9-2
+DATE: 8/18/2014
+STAFF: dbm
+CHANGES: TR11662
+1) loadFiles.csh: Add ${XENOPUSTAXID}) to mapPosition update statements
+
 TAG: entrezgeneload-5-1-9-1
 DATE: 7/31/2014
 STAFF: dbm
