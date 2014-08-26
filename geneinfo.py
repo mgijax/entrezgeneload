@@ -85,7 +85,11 @@ for line in infoFile.readlines():
 
 	for s in string.split(dbxRefs, '|'):
 		if s != '-':
-			s = re.sub('MGD:', 'MGI:', s)
+			#
+			# Remove prefixing for MGI and HGNC IDs (TR11734).
+			#
+			s = s.replace('MGI:MGI:','MGI:')
+			s = s.replace('HGNC:HGNC:','HGNC:')
 			dbxOutFile.write(taxID + TAB + geneID + TAB + s + CRT)
 
 infoFile.close()
