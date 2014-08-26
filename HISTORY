@@ -1,3 +1,10 @@
+TAG: entrezgeneload-5-1-9-3
+DATE: 8/26/2014
+STAFF: dbm
+CHANGES: TR11734
+1) geneinfo.py: convert "MGI:MGI:" to "MGI:" and "HGNC:HGNC: to "HGNC:"
+                when it is found in the dbxref field
+
 TAG: entrezgeneload-5-1-9-2
 DATE: 8/18/2014
 STAFF: dbm
