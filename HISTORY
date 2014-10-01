@@ -1,3 +1,14 @@
+TAG: entrezgeneload-5-1-9-4
+DATE: 10/1/2014
+STAFF: dbm
+CHANGES: TR11652
+1) commonLoad-1.csh: Remove call to report script
+2) commonLoad-2.csh: Remove call to report script
+3) deleteIDs.csh: convert HMD_Homology_Marker to MRK_ClusterMember
+4) reports/merges.sql: convert HMD_Homology_Marker to MRK_ClusterMember
+5) */preload*.sql - remove reports that are no longer used
+6) qcr.html - remove report sections for each organism
+
 TAG: entrezgeneload-5-1-9-3
 DATE: 8/26/2014
 STAFF: dbm
