@@ -11,7 +11,6 @@
 #	Load Synonyms
 #	Update Nomenclature information (symbol, name)
 #	Update Mapping information (chromosome, map position)
-#	Run reports
 #
 # History
 #
@@ -26,6 +25,5 @@ ${ENTREZGENELOAD}/acc.csh
 ${ENTREZGENELOAD}/syns.csh
 ${ENTREZGENELOAD}/updateNomen.csh
 ${ENTREZGENELOAD}/updateMapping.csh
-${ENTREZGENELOAD}/runreports.csh
 
 date >> ${LOG}
