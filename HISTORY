@@ -7,7 +7,7 @@ CHANGES: TR11652
 3) deleteIDs.csh: convert HMD_Homology_Marker to MRK_ClusterMember
 4) reports/merges.sql: convert HMD_Homology_Marker to MRK_ClusterMember
 5) */preload*.sql - remove reports that are no longer used
-6) qcr.html - remove report sections for each organism
+6) index.html - remove report sections for each organism
 
 TAG: entrezgeneload-5-1-9-3
 DATE: 8/26/2014
