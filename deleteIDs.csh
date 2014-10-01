@@ -128,7 +128,7 @@ go
 delete MRK_Marker
 from #todelete d, MRK_Marker m
 where d.duplicateKey = m._Marker_key
-and not exists (select 1 from HMD_Homology_Marker h where d.duplicateKey = h._Marker_key)
+and not exists (select 1 from MRK_ClusterMember cm where d.duplicateKey = cm._Marker_key)
 go
 
 select * from #todelete order by geneID
@@ -144,8 +144,8 @@ select m._Marker_key, m.symbol
 into #todelete
 from MRK_Marker m
 where m._Organism_key = ${ORGANISM}
-and not exists (select h.* from HMD_Homology_Marker h where m._Marker_key = h._Marker_key)
-and not exists (select e.* from ${RADAR_DBNAME}..DP_EntrezGene_Info e, ACC_Accession a
+and not exists (select 1 from MRK_ClusterMember cm where m._Marker_key = cm._Marker_key)
+and not exists (select 1 from ${RADAR_DBNAME}..DP_EntrezGene_Info e, ACC_Accession a
 	where e.taxID = ${TAXID}
 	and m._Marker_key = a._Object_key
 	and a._MGIType_key = ${MARKERTYPEKEY}
@@ -174,8 +174,8 @@ select m._Marker_key, m.symbol
 into #todelete
 from MRK_Marker m
 where m._Organism_key = ${ORGANISM}
-and not exists (select h.* from HMD_Homology_Marker h where m._Marker_key = h._Marker_key)
-and not exists (select a.* from ACC_Accession a
+and not exists (select 1 from MRK_ClusterMember cm where m._Marker_key = cm._Marker_key)
+and not exists (select 1 from ACC_Accession a
 	where m._Marker_key = a._Object_key
 	and a._MGIType_key = ${MARKERTYPEKEY}
 	and a._LogicalDB_key = ${LOGICALEGKEY})

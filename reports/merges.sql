@@ -21,7 +21,7 @@ and e.geneID != '-'
 and e.geneID = x.accID
 and x._MGIType_key = ${MARKERTYPEKEY}
 and x._LogicalDB_key = ${LOGICALEGKEY}
-and exists (select 1 from HMD_Homology_Marker hm where a._Object_key = hm._Marker_key)
+and exists (select 1 from MRK_ClusterMember cm where a._Object_key = cm._Marker_key)
 order by oldKey
 go
 
