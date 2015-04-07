@@ -1,3 +1,15 @@
+TAG: entrezgeneload-5-2-1-1
+DATE: 04/07/2015
+STAFF: sc
+CHANGES: Infrastructure project
+1) removed reports/merges.sql - no one is using this report
+2) removed runreports.csh - only ran merges.sql
+3) loadAll.csh - removed call to runreports.csh
+4) index.html - removed  'General Reports' section that only provided link to 
+   merges.sql.rpt
+5) config and Install - I did NOT remove the creation of the reports output 
+   directory as it doesn't hurt anything and it could be used in the future.
+
 TAG: entrezgeneload-5-1-9-5
 TAG: entrezgeneload-5-1-9-4
 DATE: 10/1/2014
