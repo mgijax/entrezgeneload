@@ -39,10 +39,4 @@ ${ENTREZGENELOAD}/zebrafish/load.csh >> ${LOG}
 ${ENTREZGENELOAD}/monkey/load.csh >> ${LOG}
 ${ENTREZGENELOAD}/xenopus/load.csh >> ${LOG}
 
-# run general reports
-
-setenv REPORTSDIR ${ENTREZGENELOAD}/reports
-setenv DATADIR ${EGOUTPUTDIR}
-${ENTREZGENELOAD}/runreports.csh >> ${LOG}
-
 date >> ${LOG}
