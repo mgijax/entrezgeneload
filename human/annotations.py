@@ -39,9 +39,13 @@
 import sys
 import os
 import string
-import db
 import mgi_utils
 import loadlib
+
+import pg_db
+db = pg_db
+db.setTrace()
+db.setAutoTranslateBE()
 
 #globals
 
@@ -102,7 +106,7 @@ def init():
 	global annotFile1, annotFile2, diagFile
  
         # Log all SQL
-        db.set_sqlLogFunction(db.sqlLogAll)
+        #db.set_sqlLogFunction(db.sqlLogAll)
 
         try:
             diagFile = open(diagFileName, 'w')
@@ -110,7 +114,7 @@ def init():
             exit(1, 'Could not open file %s\n' % diagFileName)
       
         # Set Log File Descriptor
-        db.set_sqlLogFD(diagFile)
+        #db.set_sqlLogFD(diagFile)
 
 	try:
 		annotFile1 = open(annotFileName1, 'w')
