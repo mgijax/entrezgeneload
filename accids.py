@@ -116,16 +116,13 @@ def init():
 	global accFile, accrefFile, markerFile, diagFile
 	global accKey, userKey, markerKey
  
-        # Log all SQL
-        db.set_sqlLogFunction(db.sqlLogAll)
-
         try:
             diagFile = open(diagFileName, 'w')
         except:
             exit(1, 'Could not open file %s\n' % diagFileName)
       
         # Set Log File Descriptor
-        db.set_sqlLogFD(diagFile)
+        #db.set_sqlLogFD(diagFile)
 
 	try:
 		accFile = open(accFileName, 'w')
@@ -146,10 +143,10 @@ def init():
 	# Get next available primary key
 	#
 
-	results = db.sql('select maxKey = max(_Accession_key) + 1 from ACC_Accession', 'auto')
+	results = db.sql('select max(_Accession_key) + 1 as maxKey from ACC_Accession', 'auto')
 	accKey = results[0]['maxKey']
 
-	results = db.sql('select maxKey = max(_Marker_key) + 1 from MRK_Marker', 'auto')
+	results = db.sql('select max(_Marker_key) + 1 as maxKey from MRK_Marker', 'auto')
 	markerKey = results[0]['maxKey']
 
 	userKey = loadlib.verifyUser(user, 0, None)
