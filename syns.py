@@ -44,7 +44,6 @@ db.setAutoTranslateBE()
 
 taxId = os.environ['TAXID']
 datadir = os.environ['DATADIR']
-radar = os.environ['PG_RADAR_DBNAME']
 referenceKey = os.environ['REFERENCEKEY']	# _Refs_key of Reference
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
 synTypeKey = os.environ['SYNTYPEKEY']		# _SynonymType_key
@@ -139,7 +138,7 @@ def writeBCP():
 	global synKey, userKey
 
 	results = db.sql('select _Marker_key, synonym ' + \
-		'from %s..WRK_EntrezGene_Synonym ' % (radar) + \
+		'from WRK_EntrezGene_Synonym ' + \
 		'where taxID = %s' % (taxId), 'auto')
 
 	for r in results:

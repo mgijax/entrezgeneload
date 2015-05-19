@@ -46,7 +46,6 @@ import loadlib
 #globals
 
 datadir = os.environ['DATADIR']
-radar = os.environ['RADAR_DBNAME']
 editor = os.environ['CREATEDBY']
 reference = os.environ['DELETEREFERENCE']
 logicalOMIM = os.environ['LOGICALOMIMKEY']
@@ -144,7 +143,7 @@ def writeAnnotations1():
 
 	results = db.sql('''
 		select distinct m.geneID, m.mimID
-		from %s..DP_EntrezGene_MIM m, ACC_Accession a
+		from DP_EntrezGene_MIM m, ACC_Accession a
 		where m.mimID = a.accID
 		and a._MGIType_key = 13 
 		and a._LogicalDB_key = %s
@@ -154,7 +153,7 @@ def writeAnnotations1():
 		(m.annotationType = 'gene')
 		)
 		order by geneID
-		''' % (radar, logicalOMIM), 'auto')
+		''' % (logicalOMIM), 'auto')
 
 	for r in results:
 	    annotFile1.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' % (r['mimID'], r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB))
@@ -178,13 +177,13 @@ def writeAnnotations2():
 
         results = db.sql('''
                 select distinct m.geneID, m.mimID
-                from %s..DP_EntrezGene_MIM m, ACC_Accession a
+                from DP_EntrezGene_MIM m, ACC_Accession a
                 where m.mimID = a.accID
                 and a._MGIType_key = 13 
                 and a._LogicalDB_key = %s
                 and m.annotationType = 'phenotype' and m.source = '-'
                 order by geneID
-                ''' % (radar, logicalOMIM), 'auto')
+                ''' % (logicalOMIM), 'auto')
 
         for r in results:
             annotFile2.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' % (r['mimID'], r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB)
