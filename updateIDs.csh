@@ -28,19 +28,16 @@ touch ${LOG}
 echo "Begin: updating EntrezGene ids..." >> ${LOG}
 date >> ${LOG}
 
-cat - <<EOSQL | doisql.csh ${MGD_DBSERVER} ${MGD_DBNAME} $0 >>& ${LOG}
+cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
  
-use ${MGD_DBNAME}
-go
-
 /* existing EntrezGene ids that are obsolete and need to be mapped to current ids */
 /* only if the "new" EntrezGene id does not already exist */
 /* we don't want to create duplicate entries */
 /* see deleteIDs.csh for handling of potential duplicates */
 
-select a._Accession_key, e.geneID
-into #toupdate
-from ACC_Accession a, ${RADAR_DBNAME}..DP_EntrezGene_History e
+CREATE TEMP TABLE toupdate 
+AS SELECT a._Accession_key, e.geneID
+from ACC_Accession a, DP_EntrezGene_History e
 where a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
 and a.accID = e.oldgeneID
@@ -50,19 +47,17 @@ and not exists (select 1 from ACC_Accession x
 where x._MGIType_key = ${MARKERTYPEKEY}
 and x._LogicalDB_key = ${LOGICALEGKEY}
 and x.accID = e.geneID)
-go
+;
 
-create index idx1 on #toupdate(_Accession_key)
-go
+create index idx1 on toupdate(_Accession_key)
+;
 
 update ACC_Accession
-set accID = u.geneID, numericPart = convert(integer, u.geneID)
-from #toupdate u, ACC_Accession a
+set accID = u.geneID, numericPart = u.geneID::INTEGER
+from toupdate u, ACC_Accession a
 where u._Accession_key = a._Accession_key
-go
+;
 
-quit
- 
 EOSQL
  
 date >> ${LOG}
