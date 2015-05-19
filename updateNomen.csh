@@ -32,9 +32,9 @@ where taxID = ${TAXID}
 create index idx1 on toUpdate(_Marker_key)
 ;
 
-update MRK_Marker
+update MRK_Marker m
 set symbol = egSymbol, name = egName, _ModifiedBy_key = 1001, modification_date = current_date
-from toUpdate u, MRK_Marker m
+from toUpdate u
 where u._Marker_key = m._Marker_key
 ;
 

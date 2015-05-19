@@ -143,7 +143,7 @@ def writeBCP():
 
 	for r in results:
 
-		synFile.write('%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\n'
+		synFile.write('%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'
 			% (synKey, r['_Marker_key'], mgiTypeKey, synTypeKey, referenceKey, r['synonym'], userKey, userKey, loaddate, loaddate))
 		synKey = synKey + 1
 
