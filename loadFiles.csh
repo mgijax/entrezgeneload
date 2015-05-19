@@ -119,107 +119,104 @@ ${ENTREZGENELOAD}/geneinfo.py >>& ${LOG}
 ${ENTREZGENELOAD}/stripversion.py >>& ${LOG}
 
 # truncate existing tables
-${RADAR_DBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
-${RADAR_DBSCHEMADIR}/table/DP_HomoloGene_truncate.object >>& ${LOG}
+${PG_RADAR_DBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
+${PG_RADAR_DBSCHEMADIR}/table/DP_HomoloGene_truncate.object >>& ${LOG}
 
 # drop indexes
-${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
-${RADAR_DBSCHEMADIR}/index/DP_HomoloGene_drop.object >>& ${LOG}
+${PG_RADAR_DBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
+${PG_RADAR_DBSCHEMADIR}/index/DP_HomoloGene_drop.object >>& ${LOG}
 
 # bcp new data into tables
-cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_Accession in ${EGINPUTDIR}/gene2accession.new -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
-cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_Info in ${EGINPUTDIR}/gene_info.bcp -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
-cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_DBXRef in ${EGINPUTDIR}/gene_dbxref.bcp -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
-cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_PubMed in ${EGINPUTDIR}/gene2pubmed.mgi -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
-cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_RefSeq in ${EGINPUTDIR}/gene2refseq.new -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
-cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_Synonym in ${EGINPUTDIR}/gene_synonym.bcp -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
-cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_History in ${EGINPUTDIR}/gene_history.mgi -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
-cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_HomoloGene in ${EGINPUTDIR}/homologene.data.mgi -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
-cat ${RADAR_DBPASSWORDFILE} | bcp ${RADAR_DBNAME}..DP_EntrezGene_MIM in ${EGINPUTDIR}/mim2gene_medgen.mgi -c -t\\t -S${RADAR_DBSERVER} -U${RADAR_DBUSER} >>& ${LOG}
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} DP_EntrezGene_Info ${EGINPUTDIR} gene_info.bcp "\t" "\n" radar
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} DP_EntrezGene_Accession ${EGINPUTDIR} gene2accession.new "\t" "\n" radar
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} DP_EntrezGene_DBXRef ${EGINPUTDIR} gene_dbxref.bcp "\t" "\n" radar
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} DP_EntrezGene_PubMed ${EGINPUTDIR} gene2pubmed.mgi "\t" "\n" radar
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} DP_EntrezGene_RefSeq ${EGINPUTDIR} gene2refseq.new "\t" "\n" radar
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} DP_EntrezGene_Synonym ${EGINPUTDIR} gene_synonym.bcp "\t" "\n" radar
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} DP_EntrezGene_History ${EGINPUTDIR} gene_history.mgi "\t" "\n" radar
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} DP_HomoloGene ${EGINPUTDIR} homologene.data.mgi "\t" "\n" radar
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} DP_EntrezGene_MIM ${EGINPUTDIR} mim2gene_medgen.mgi "\t" "\n" radar
 
 # create indexes
-${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
-${RADAR_DBSCHEMADIR}/index/DP_HomoloGene_create.object >>& ${LOG}
+${PG_RADAR_DBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
+${PG_RADAR_DBSCHEMADIR}/index/DP_HomoloGene_create.object >>& ${LOG}
 
-cat - <<EOSQL | doisql.csh ${RADAR_DBSERVER} ${RADAR_DBNAME} $0 >>& ${LOG}
+cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
  
-use ${RADAR_DBNAME}
-go
-
 /* convert the EG mapPosition values to MGI format (remove the leading chromosome value) */
 
 update DP_EntrezGene_Info
 set mapPosition = substring(mapPosition, 3, 100)
 where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID}, ${CATTLETAXID}, ${CHICKENTAXID}, ${ZEBRAFISHTAXID}, ${MONKEYTAXID}, ${XENOPUSTAXID})
-and mapPosition like '[123][0-9]%'
-go
+and mapPosition SIMILAR To '(1|2|3)(0|1|2|3|4|5|6|7|8|9)%'
+;
 
 update DP_EntrezGene_Info
 set mapPosition = substring(mapPosition, 2, 100)
 where taxID in (${HUMANTAXID}, ${RATTAXID}, ${DOGTAXID}, ${CHIMPTAXID}, ${CATTLETAXID}, ${CHICKENTAXID}, ${ZEBRAFISHTAXID}, ${MONKEYTAXID}, ${XENOPUSTAXID})
-and mapPosition like '[1-9]%'
-go
+and mapPosition SIMILAR TO '(0|1|2|3|4|5|6|7|8|9)%'
+;
 
 update DP_EntrezGene_Info
 set mapPosition = substring(mapPosition, 2, 100)
 where taxID in (${HUMANTAXID}, ${RATTAXID})
-and mapPosition like '[XY]%'
-go
+and mapPosition SIMILAR TO '(X|Y)%'
+;
 
 update DP_EntrezGene_Info
 set chromosome = 'UN'
 where chromosome in ('Un', 'unknown', '-')
-go
+;
 
 update DP_EntrezGene_Info
 set chromosome = 'UN'
 where chromosome like '%|Un'
-go
+;
 
 update DP_EntrezGene_Info
 set chromosome = 'XY'
 where chromosome = 'X|Y'
-go
+;
 
-delete DP_EntrezGene_Accession
+delete from DP_EntrezGene_Accession
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_EntrezGene_Accession.geneID = DP_EntrezGene_Info.geneID)
-go
+;
 
-delete DP_EntrezGene_DBXRef
+delete from  DP_EntrezGene_DBXRef
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_EntrezGene_DBXRef.geneID = DP_EntrezGene_Info.geneID)
-go
+;
 
-delete DP_EntrezGene_PubMed
+delete from  DP_EntrezGene_PubMed
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_EntrezGene_PubMed.geneID = DP_EntrezGene_Info.geneID)
-go
+;
 
-delete DP_EntrezGene_RefSeq
+delete from  DP_EntrezGene_RefSeq
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_EntrezGene_RefSeq.geneID = DP_EntrezGene_Info.geneID)
-go
+;
 
-delete DP_EntrezGene_Synonym
+delete from  DP_EntrezGene_Synonym
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_EntrezGene_Synonym.geneID = DP_EntrezGene_Info.geneID)
-go
+;
 
-delete DP_EntrezGene_History 
+delete from  DP_EntrezGene_History 
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_EntrezGene_History.geneID = DP_EntrezGene_Info.geneID)
-go
+;
 
-delete DP_HomoloGene
+delete from  DP_HomoloGene
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_HomoloGene.geneID = DP_EntrezGene_Info.geneID)
-go
+;
 
-delete DP_EntrezGene_MIM
+delete from  DP_EntrezGene_MIM
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_EntrezGene_MIM.geneID = DP_EntrezGene_Info.geneID)
-go
+;
 
 EOSQL
 
