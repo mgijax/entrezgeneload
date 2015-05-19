@@ -21,40 +21,29 @@ touch ${LOG}
 
 date >> ${LOG}
 
-cat - <<EOSQL | doisql.csh ${MGD_DBSERVER} ${MGD_DBNAME} $0 >>& ${LOG}
+cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
 
-use ${MGD_DBNAME}
-go
-
-select _Marker_key, egChr, egMapPosition
-into #toUpdate
-from ${RADAR_DBNAME}..WRK_EntrezGene_Mapping
+CREATE TEMP TABLE toUpdate
+as select _Marker_key, egChr, egMapPosition
+from WRK_EntrezGene_Mapping
 where taxID = ${TAXID}
-go
+;
 
-create index idx1 on #toUpdate(_Marker_key)
-go
-
-declare @userKey integer
-select @userKey = _User_key from MGI_User where login = "${CREATEDBY}"
+create index idx1 on toUpdate(_Marker_key)
+;
 
 update MRK_Marker
 set chromosome = u.egChr,
     cytogeneticOffset = u.egMapPosition,
-    _ModifiedBy_key = @userKey,
-    modification_date = getdate()
-from #toUpdate u, MRK_Marker m
+    _ModifiedBy_key = 1001,
+    modification_date = current_date
+from toUpdate u, MRK_Marker m
 where u._Marker_key = m._Marker_key
-go
+;
 
-select * from #toUpdate
-go
+select * from toUpdate
+;
 
-checkpoint
-go
-
-quit
- 
 EOSQL
  
 date >> ${LOG}

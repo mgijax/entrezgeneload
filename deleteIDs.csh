@@ -25,8 +25,7 @@ touch ${LOG}
 echo "Begin: deleting Marker/ID associations, duplicate and obsolete Markers..." >> ${LOG}
 date >> ${LOG}
 
-#cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
-cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0
+cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
 
 /* remove existing assocations by reference */
 

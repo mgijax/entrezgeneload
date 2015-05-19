@@ -35,8 +35,8 @@ cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
 /* we don't want to create duplicate entries */
 /* see deleteIDs.csh for handling of potential duplicates */
 
-CREATE TEMP TABLE toupdate 
-AS SELECT a._Accession_key, e.geneID
+CREATE TEMP TABLE toUpdate 
+as select a._Accession_key, e.geneID
 from ACC_Accession a, DP_EntrezGene_History e
 where a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
@@ -49,12 +49,12 @@ and x._LogicalDB_key = ${LOGICALEGKEY}
 and x.accID = e.geneID)
 ;
 
-create index idx1 on toupdate(_Accession_key)
+create index idx1 on toUpdate(_Accession_key)
 ;
 
 update ACC_Accession
 set accID = u.geneID, numericPart = u.geneID::INTEGER
-from toupdate u, ACC_Accession a
+from toUpdate u, ACC_Accession a
 where u._Accession_key = a._Accession_key
 ;
 

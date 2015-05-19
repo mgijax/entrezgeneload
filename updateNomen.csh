@@ -24,9 +24,9 @@ date >> ${LOG}
 cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
 
 CREATE TEMP TABLE toUpdate
-AS SELECT *
-FROM WRK_EntrezGene_Nomen
-WHERE taxID = ${TAXID}
+as select *
+from WRK_EntrezGene_Nomen
+where taxID = ${TAXID}
 ;
 
 create index idx1 on toUpdate(_Marker_key)
