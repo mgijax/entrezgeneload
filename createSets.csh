@@ -44,8 +44,7 @@ touch ${LOG}
 echo "Begin: creating sets..." | tee -a ${LOG}
 date | tee -a ${LOG}
 
-#cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
-cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0
+cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
 
 delete from WRK_EntrezGene_EGSet where taxID = ${TAXID}
 ;
@@ -59,8 +58,7 @@ EOSQL
 ${PG_RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_EGSet_drop.object | tee -a ${LOG}
 ${PG_RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_MGISet_drop.object | tee -a ${LOG}
 
-#cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
-cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0
+cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
  
 /***** MGI *****/
 
