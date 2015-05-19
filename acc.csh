@@ -43,8 +43,11 @@ touch ${LOG}
 date >> ${LOG}
 
 ${ENTREZGENELOAD}/accids.py >>& ${LOG}
-cat ${MGD_DBPASSWORDFILE} | bcp ${MGD_DBNAME}..MRK_Marker in ${DATADIR}/MRK_Marker.bcp -c -t\\t -S${MGD_DBSERVER} -U${MGD_DBUSER} >>& ${LOG}
-cat ${MGD_DBPASSWORDFILE} | bcp ${MGD_DBNAME}..ACC_Accession in ${DATADIR}/ACC_Accession.bcp -c -t\\t -S${MGD_DBSERVER} -U${MGD_DBUSER} >>& ${LOG}
-cat ${MGD_DBPASSWORDFILE} | bcp ${MGD_DBNAME}..ACC_AccessionReference in ${DATADIR}/ACC_AccessionReference.bcp -c -t\\t -S${MGD_DBSERVER} -U${MGD_DBUSER} >>& ${LOG}
+
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} MRK_Marker ${DATADIR} MRK_Marker.bcp "\t" "\n" radar
+
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} ACC_Accession ${DATADIR} ACC_Accession.bcp "\t" "\n" radar
+
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} ACC_AccessionReference ${DATADIR} ACC_AccessionReference.bcp "\t" "\n" radar
 
 date >> ${LOG}

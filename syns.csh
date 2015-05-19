@@ -44,6 +44,7 @@ touch ${LOG}
 date >> ${LOG}
 
 ${ENTREZGENELOAD}/syns.py >>& ${LOG}
-cat ${MGD_DBPASSWORDFILE} | bcp ${MGD_DBNAME}..MGI_Synonym in ${DATADIR}/MGI_Synonym.bcp -c -t\| -S${MGD_DBSERVER} -U${MGD_DBUSER} >>& ${LOG}
+
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} MGI_Synonym ${DATADIR} MGI_Synonym.bcp "\t" "\n" radar
 
 date >> ${LOG}

@@ -12,7 +12,7 @@
 #
 # Assumes:
 #
-#	${RADAR_DBNAME}..WRK_EntrezGene_Bucket0 exists
+#	radar.WRK_EntrezGene_Bucket0 exists
 #
 # Output:
 #

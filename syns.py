@@ -12,7 +12,7 @@
 #
 # Assumes:
 #
-#	${RADAR_DBNAME}..WRK_EntrezGene_Synonym exists
+#	radar.WRK_EntrezGene_Synonym exists
 #
 # Output:
 #
@@ -32,15 +32,19 @@
 import sys
 import os
 import string
-import db
 import mgi_utils
 import loadlib
+
+import pg_db
+db = pg_db
+db.setTrace()
+db.setAutoTranslateBE()
 
 #globals
 
 taxId = os.environ['TAXID']
 datadir = os.environ['DATADIR']
-radar = os.environ['RADAR_DBNAME']
+radar = os.environ['PG_RADAR_DBNAME']
 referenceKey = os.environ['REFERENCEKEY']	# _Refs_key of Reference
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
 synTypeKey = os.environ['SYNTYPEKEY']		# _SynonymType_key
