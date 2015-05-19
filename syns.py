@@ -99,7 +99,7 @@ def init():
 	global synKey, userKey
  
         # Log all SQL
-        db.set_sqlLogFunction(db.sqlLogAll)
+        #db.set_sqlLogFunction(db.sqlLogAll)
 
         try:
             diagFile = open(diagFileName, 'w')
@@ -107,7 +107,7 @@ def init():
             exit(1, 'Could not open file %s\n' % diagFileName)
       
         # Set Log File Descriptor
-        db.set_sqlLogFD(diagFile)
+        #db.set_sqlLogFD(diagFile)
 
 	try:
 		synFile = open(synFileName, 'w')
@@ -118,7 +118,7 @@ def init():
 	# Get next available primary key
 	#
 
-	results = db.sql('select maxKey = max(_Synonym_key) + 1 from MGI_Synonym', 'auto')
+	results = db.sql('select max(_Synonym_key) + 1 as maxKey from MGI_Synonym', 'auto')
 	synKey = results[0]['maxKey']
 
 	userKey = loadlib.verifyUser(user, 0, None)

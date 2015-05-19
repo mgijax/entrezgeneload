@@ -45,6 +45,6 @@ date >> ${LOG}
 
 ${ENTREZGENELOAD}/syns.py >>& ${LOG}
 
-${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} MGI_Synonym ${DATADIR} MGI_Synonym.bcp "\t" "\n" radar
+${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} MGI_Synonym ${DATADIR} MGI_Synonym.bcp "\t" "\n" mgd
 
 date >> ${LOG}
