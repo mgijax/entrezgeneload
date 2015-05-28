@@ -58,65 +58,65 @@ date >> ${LOG}
 
 # grab latest files
 
-#cp ${FTPDATA1}/gene2accession.gz ${EGINPUTDIR}
-#cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
-#cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
-#cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
-#cp ${FTPDATA1}/gene_history.gz ${EGINPUTDIR}
-#cp ${FTPDATA1}/mim2gene_medgen ${EGINPUTDIR}
-#cp ${FTPDATA2}/homologene.data ${EGINPUTDIR}
+cp ${FTPDATA1}/gene2accession.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/gene_history.gz ${EGINPUTDIR}
+cp ${FTPDATA1}/mim2gene_medgen ${EGINPUTDIR}
+cp ${FTPDATA2}/homologene.data ${EGINPUTDIR}
 
 # uncompress the files
-#cd ${EGINPUTDIR}
-#foreach i (*.gz)
-#/usr/local/bin/gunzip -f $i >>& ${LOG}
-#end
+cd ${EGINPUTDIR}
+foreach i (*.gz)
+/usr/local/bin/gunzip -f $i >>& ${LOG}
+end
 
 #
 # parse out mouse, human, rat only
 # also strips out comments from input file
 #
-#foreach i (gene2accession gene2pubmed gene2refseq gene_info gene_history)
-#rm -rf $i.mgi
-#grep "^${MOUSETAXID}" $i > $i.mgi
-#grep "^${HUMANTAXID}" $i >> $i.mgi
-#grep "^${RATTAXID}" $i >> $i.mgi
-#grep "^${DOGTAXID}" $i >> $i.mgi
-#grep "^${CHIMPTAXID}" $i >> $i.mgi
-#grep "^${CATTLETAXID}" $i >> $i.mgi
-#grep "^${CHICKENTAXID}" $i >> $i.mgi
-#grep "^${ZEBRAFISHTAXID}" $i >> $i.mgi
-#grep "^${MONKEYTAXID}" $i >> $i.mgi
-#grep "^${XENOPUSTAXID}" $i >> $i.mgi
-#end
+foreach i (gene2accession gene2pubmed gene2refseq gene_info gene_history)
+rm -rf $i.mgi
+grep "^${MOUSETAXID}" $i > $i.mgi
+grep "^${HUMANTAXID}" $i >> $i.mgi
+grep "^${RATTAXID}" $i >> $i.mgi
+grep "^${DOGTAXID}" $i >> $i.mgi
+grep "^${CHIMPTAXID}" $i >> $i.mgi
+grep "^${CATTLETAXID}" $i >> $i.mgi
+grep "^${CHICKENTAXID}" $i >> $i.mgi
+grep "^${ZEBRAFISHTAXID}" $i >> $i.mgi
+grep "^${MONKEYTAXID}" $i >> $i.mgi
+grep "^${XENOPUSTAXID}" $i >> $i.mgi
+end
 
-#foreach i (homologene.data)
-#rm -rf $i.mgi
-#grep "	${MOUSETAXID}	" $i > $i.mgi
-#grep "	${HUMANTAXID}	" $i >> $i.mgi
-#grep "	${RATTAXID}	" $i >> $i.mgi
-#grep "	${DOGTAXID}	" $i >> $i.mgi
-#grep "	${CHIMPTAXID}	" $i >> $i.mgi
-#grep "	${CATTLETAXID}	" $i >> $i.mgi
-#grep "	${CHICKENTAXID}	" $i >> $i.mgi
-#grep "	${ZEBRAFISHTAXID}	" $i >> $i.mgi
-#grep "	${MONKEYTAXID}	" $i >> $i.mgi
-#grep "	${XENOPUSTAXID}	" $i >> $i.mgi
-#end
+foreach i (homologene.data)
+rm -rf $i.mgi
+grep "	${MOUSETAXID}	" $i > $i.mgi
+grep "	${HUMANTAXID}	" $i >> $i.mgi
+grep "	${RATTAXID}	" $i >> $i.mgi
+grep "	${DOGTAXID}	" $i >> $i.mgi
+grep "	${CHIMPTAXID}	" $i >> $i.mgi
+grep "	${CATTLETAXID}	" $i >> $i.mgi
+grep "	${CHICKENTAXID}	" $i >> $i.mgi
+grep "	${ZEBRAFISHTAXID}	" $i >> $i.mgi
+grep "	${MONKEYTAXID}	" $i >> $i.mgi
+grep "	${XENOPUSTAXID}	" $i >> $i.mgi
+end
 
 #
 # strips out comments from input file
 #
-#foreach i (mim2gene_medgen)
-#rm -rf $i.mgi
-#grep "^[0-9]" $i > $i.mgi
-#end
+foreach i (mim2gene_medgen)
+rm -rf $i.mgi
+grep "^[0-9]" $i > $i.mgi
+end
 
 # split up gene_info.mgi into gene_info.bcp, gene_dbxref.bcp, gene_synonym.bcp
-#${ENTREZGENELOAD}/geneinfo.py >>& ${LOG}
+${ENTREZGENELOAD}/geneinfo.py >>& ${LOG}
 
 # strip version numbers out of gene2accession.mgi, gene2refseq.mgi
-#${ENTREZGENELOAD}/stripversion.py >>& ${LOG}
+${ENTREZGENELOAD}/stripversion.py >>& ${LOG}
 
 # truncate existing tables
 ${PG_RADAR_DBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
