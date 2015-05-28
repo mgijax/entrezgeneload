@@ -69,7 +69,7 @@ cp ${FTPDATA2}/homologene.data ${EGINPUTDIR}
 # uncompress the files
 cd ${EGINPUTDIR}
 foreach i (*.gz)
-/usr/local/bin/gunzip -f $i >>& ${LOG}
+/usr/bin/gunzip -f $i >>& ${LOG}
 end
 
 #
