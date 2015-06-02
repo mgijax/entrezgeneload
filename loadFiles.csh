@@ -90,18 +90,12 @@ grep "^${MONKEYTAXID}" $i >> $i.mgi
 grep "^${XENOPUSTAXID}" $i >> $i.mgi
 end
 
+#
+# mouse homologene is the only organism required
+#
 foreach i (homologene.data)
 rm -rf $i.mgi
 grep "	${MOUSETAXID}	" $i > $i.mgi
-grep "	${HUMANTAXID}	" $i >> $i.mgi
-grep "	${RATTAXID}	" $i >> $i.mgi
-grep "	${DOGTAXID}	" $i >> $i.mgi
-grep "	${CHIMPTAXID}	" $i >> $i.mgi
-grep "	${CATTLETAXID}	" $i >> $i.mgi
-grep "	${CHICKENTAXID}	" $i >> $i.mgi
-grep "	${ZEBRAFISHTAXID}	" $i >> $i.mgi
-grep "	${MONKEYTAXID}	" $i >> $i.mgi
-grep "	${XENOPUSTAXID}	" $i >> $i.mgi
 end
 
 #
