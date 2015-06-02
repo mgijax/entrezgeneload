@@ -96,6 +96,7 @@ end
 foreach i (homologene.data)
 rm -rf $i.mgi
 grep "	${MOUSETAXID}	" $i > $i.mgi
+grep "  ${ZEBRAFISHTAXID}       " $i >> $i.mgi
 end
 
 #
