@@ -168,8 +168,8 @@ and b.mgiID = a.accID
 and a._MGIType_key = ${MARKERTYPEKEY}
 and a._LogicalDB_key = ${LOGICALEGKEY}
 and b.geneID = r.geneID
-and (r.protein like '[O,P,Q][0-9][A-Z, 0-9][A-Z, 0-9][A-Z, 0-9][0-9]'
-or r.protein like '[A-N,R-Z][0-9][A-Z][A-Z, 0-9][A-Z, 0-9][0-9]')
+and (r.protein ~ E'^[O,P,Q][0-9][A-Z, 0-9][A-Z, 0-9][A-Z, 0-9][0-9]'
+or r.protein ~ E'^[A-N,R-Z][0-9][A-Z][A-Z, 0-9][A-Z, 0-9][0-9]')
 ;
 
 insert into WRK_EntrezGene_Bucket0
@@ -179,8 +179,8 @@ where b.idType = 'Symbol'
 and b.mgiID = m.symbol
 and m._Organism_key = ${ORGANISM}
 and b.geneID = r.geneID
-and (r.protein like '[O,P,Q][0-9][A-Z, 0-9][A-Z, 0-9][A-Z, 0-9][0-9]'
-or r.protein like '[A-N,R-Z][0-9][A-Z][A-Z, 0-9][A-Z, 0-9][0-9]')
+and (r.protein ~ E'^[OPQ][0-9][A-Z, 0-9][A-Z, 0-9][A-Z, 0-9][0-9]'
+or r.protein ~ E'^[A-N,R-Z][0-9][A-Z][A-Z, 0-9][A-Z, 0-9][0-9]')
 ;
 
 insert into WRK_EntrezGene_Bucket0
@@ -188,8 +188,8 @@ select distinct ${TAXID}, -1, ${LOGICALSPKEY}, b.geneID, b.mgiID, r.protein, ${S
 from WRK_EntrezGene_Bucket0Tmp b, DP_EntrezGene_Accession r
 where b.mgiID = 'none'
 and b.geneID = r.geneID
-and (r.protein like '[O,P,Q][0-9][A-Z, 0-9][A-Z, 0-9][A-Z, 0-9][0-9]'
-or r.protein like '[A-N,R-Z][0-9][A-Z][A-Z, 0-9][A-Z, 0-9][0-9]')
+and (r.protein ~ E'^[OPQ][0-9][A-Z, 0-9][A-Z, 0-9][A-Z, 0-9][0-9]'
+or r.protein ~ E'^[A-N,R-Z][0-9][A-Z][A-Z, 0-9][A-Z, 0-9][0-9]')
 ;
 
 EOSQL
