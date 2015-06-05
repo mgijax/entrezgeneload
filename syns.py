@@ -32,13 +32,9 @@
 import sys
 import os
 import string
+import db
 import mgi_utils
 import loadlib
-
-import pg_db
-db = pg_db
-db.setTrace()
-db.setAutoTranslateBE()
 
 #globals
 
