@@ -113,12 +113,12 @@ ${ENTREZGENELOAD}/geneinfo.py >>& ${LOG}
 ${ENTREZGENELOAD}/stripversion.py >>& ${LOG}
 
 # truncate existing tables
-${PG_RADAR_DBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
-${PG_RADAR_DBSCHEMADIR}/table/DP_HomoloGene_truncate.object >>& ${LOG}
+${RADAR_DBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
+${RADAR_DBSCHEMADIR}/table/DP_HomoloGene_truncate.object >>& ${LOG}
 
 # drop indexes
-${PG_RADAR_DBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
-${PG_RADAR_DBSCHEMADIR}/index/DP_HomoloGene_drop.object >>& ${LOG}
+${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
+${RADAR_DBSCHEMADIR}/index/DP_HomoloGene_drop.object >>& ${LOG}
 
 # bcp new data into tables
 ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_Info ${EGINPUTDIR} gene_info.bcp "\t" "\n" radar
@@ -132,8 +132,8 @@ ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_HomoloGene ${EGINPU
 ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_MIM ${EGINPUTDIR} mim2gene_medgen.mgi "\t" "\n" radar
 
 # create indexes
-${PG_RADAR_DBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
-${PG_RADAR_DBSCHEMADIR}/index/DP_HomoloGene_create.object >>& ${LOG}
+${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
+${RADAR_DBSCHEMADIR}/index/DP_HomoloGene_create.object >>& ${LOG}
 
 cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
  

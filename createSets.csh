@@ -55,8 +55,8 @@ delete from WRK_EntrezGene_MGISet where taxID = ${TAXID}
 EOSQL
 
 # drop indexes
-${PG_RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_EGSet_drop.object | tee -a ${LOG}
-${PG_RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_MGISet_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_EGSet_drop.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_MGISet_drop.object | tee -a ${LOG}
 
 cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
  
@@ -142,8 +142,8 @@ and e.genomic != '-'
 EOSQL
  
 # create indexes
-${PG_RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_EGSet_create.object | tee -a ${LOG}
-${PG_RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_MGISet_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_EGSet_create.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_MGISet_create.object | tee -a ${LOG}
 
 date | tee -a ${LOG}
 echo "End: creating sets." | tee -a ${LOG}

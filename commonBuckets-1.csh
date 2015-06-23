@@ -17,8 +17,8 @@ date | tee -a ${LOG}
 
 ${ENTREZGENELOAD}/deleteRADAR.csh ${TAXID} | tee -a ${LOG}
  
-${PG_RADAR_DBSCHEMADIR}/table/WRK_EntrezGene_Bucket0Tmp_truncate.object | tee -a ${LOG}
-${PG_RADAR_DBSCHEMADIR}/table/WRK_EntrezGene_SyMatches_truncate.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/table/WRK_EntrezGene_Bucket0Tmp_truncate.object | tee -a ${LOG}
+${RADAR_DBSCHEMADIR}/table/WRK_EntrezGene_SyMatches_truncate.object | tee -a ${LOG}
 
 cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
 

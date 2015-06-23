@@ -25,8 +25,8 @@ delete from WRK_EntrezGene_Synonym where taxID = ${TAXID}
 EOSQL
 
 # drop indexes
-${PG_RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_drop.object
-${PG_RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Nomen_drop.object
-${PG_RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Mapping_drop.object
-${PG_RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Synonym_drop.object
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Bucket0_drop.object
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Nomen_drop.object
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Mapping_drop.object
+${RADAR_DBSCHEMADIR}/index/WRK_EntrezGene_Synonym_drop.object
 
