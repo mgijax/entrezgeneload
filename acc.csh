@@ -44,10 +44,10 @@ date >> ${LOG}
 
 ${ENTREZGENELOAD}/accids.py >>& ${LOG}
 
-${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} MRK_Marker ${DATADIR} MRK_Marker.bcp "\t" "\n" mgd
+${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} MRK_Marker ${DATADIR} MRK_Marker.bcp "\t" "\n" mgd
 
-${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} ACC_Accession ${DATADIR} ACC_Accession.bcp "\t" "\n" mgd
+${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} ACC_Accession ${DATADIR} ACC_Accession.bcp "\t" "\n" mgd
 
-${PG_DBUTILS}/bin/bcpin.csh ${PG_DBSERVER} ${PG_DBNAME} ACC_AccessionReference ${DATADIR} ACC_AccessionReference.bcp "\t" "\n" mgd
+${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} ACC_AccessionReference ${DATADIR} ACC_AccessionReference.bcp "\t" "\n" mgd
 
 date >> ${LOG}
