@@ -103,7 +103,7 @@ end
 #
 foreach i (mim2gene_medgen)
 rm -rf $i.mgi
-grep "^[0-9]" $i > $i.mgi
+grep "^[0-9]" $i | cut -f1-5 > $i.mgi
 end
 
 # split up gene_info.mgi into gene_info.bcp, gene_dbxref.bcp, gene_synonym.bcp
