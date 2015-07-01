@@ -12,7 +12,7 @@
 #
 # Assumes:
 #
-#	${RADARDB}..WRK_EntrezGene_Bucket0 exists
+#	radar.WRK_EntrezGene_Bucket0 exists
 #
 # Output:
 #
@@ -34,8 +34,8 @@
 import sys
 import os
 import string
-import accessionlib
 import db
+import accessionlib
 import mgi_utils
 import loadlib
 
@@ -43,7 +43,6 @@ import loadlib
 
 taxId = os.environ['TAXID']
 datadir = os.environ['DATADIR']
-radar = os.environ['RADAR_DBNAME']
 referenceKey = os.environ['REFERENCEKEY']	# _Refs_key of Reference
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
 egKey = os.environ['LOGICALEGKEY']		# _LogicalDB_key of EntrezGene
@@ -113,16 +112,13 @@ def init():
 	global accFile, accrefFile, markerFile, diagFile
 	global accKey, userKey, markerKey
  
-        # Log all SQL
-        db.set_sqlLogFunction(db.sqlLogAll)
-
         try:
             diagFile = open(diagFileName, 'w')
         except:
             exit(1, 'Could not open file %s\n' % diagFileName)
       
         # Set Log File Descriptor
-        db.set_sqlLogFD(diagFile)
+        #db.set_sqlLogFD(diagFile)
 
 	try:
 		accFile = open(accFileName, 'w')
@@ -143,10 +139,10 @@ def init():
 	# Get next available primary key
 	#
 
-	results = db.sql('select maxKey = max(_Accession_key) + 1 from ACC_Accession', 'auto')
+	results = db.sql('select max(_Accession_key) + 1 as maxKey from ACC_Accession', 'auto')
 	accKey = results[0]['maxKey']
 
-	results = db.sql('select maxKey = max(_Marker_key) + 1 from MRK_Marker', 'auto')
+	results = db.sql('select max(_Marker_key) + 1 as maxKey from MRK_Marker', 'auto')
 	markerKey = results[0]['maxKey']
 
 	userKey = loadlib.verifyUser(user, 0, None)
@@ -168,7 +164,7 @@ def writeAccBCP():
 	# records that require a reference
 
 	results = db.sql('select _Object_key, _LogicalDB_key, accID, private, geneID ' + \
-		'from %s..WRK_EntrezGene_Bucket0 ' % (radar) + \
+		'from WRK_EntrezGene_Bucket0 ' + \
 		'where taxID = %s and refRequired = 1 ' % (taxId), 'auto')
 
 	for r in results:
@@ -187,7 +183,7 @@ def writeAccBCP():
 	# records that don't require a reference
 
 	results = db.sql('select _Object_key, _LogicalDB_key, accID, private, geneID ' + \
-		'from %s..WRK_EntrezGene_Bucket0 ' % (radar) + \
+		'from WRK_EntrezGene_Bucket0 ' + \
 		'where taxID = %s and refRequired = 0' % (taxId), 'auto')
 
 	for r in results:
@@ -219,7 +215,7 @@ def writeMarkerBCP():
 	# new Marker records
 
 	results = db.sql('select b.accID, b.private,  e.symbol, e.name, e.chromosome, e.mapPosition ' + \
-		'from %s..WRK_EntrezGene_Bucket0 b, %s..DP_EntrezGene_Info e ' % (radar, radar) + \
+		'from WRK_EntrezGene_Bucket0 b, DP_EntrezGene_Info e ' + \
 		'where b.taxID = %s and b._Object_key = -1 and b._LogicalDB_key = %s and b.accID = e.geneID' % (taxId, egKey), 'auto')
 
 	for r in results:

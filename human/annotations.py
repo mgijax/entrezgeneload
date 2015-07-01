@@ -12,7 +12,7 @@
 #
 # Assumes:
 #
-#	${RADAR_DBNAME}..WRK_EntrezGene_Bucket0 exists
+#	radar.WRK_EntrezGene_Bucket0 exists
 #
 # Output:
 #
@@ -46,7 +46,6 @@ import loadlib
 #globals
 
 datadir = os.environ['DATADIR']
-radar = os.environ['RADAR_DBNAME']
 editor = os.environ['CREATEDBY']
 reference = os.environ['DELETEREFERENCE']
 logicalOMIM = os.environ['LOGICALOMIMKEY']
@@ -103,7 +102,7 @@ def init():
 	global annotFile1, annotFile2, diagFile
  
         # Log all SQL
-        db.set_sqlLogFunction(db.sqlLogAll)
+        #db.set_sqlLogFunction(db.sqlLogAll)
 
         try:
             diagFile = open(diagFileName, 'w')
@@ -111,7 +110,7 @@ def init():
             exit(1, 'Could not open file %s\n' % diagFileName)
       
         # Set Log File Descriptor
-        db.set_sqlLogFD(diagFile)
+        #db.set_sqlLogFD(diagFile)
 
 	try:
 		annotFile1 = open(annotFileName1, 'w')
@@ -144,7 +143,7 @@ def writeAnnotations1():
 
 	results = db.sql('''
 		select distinct m.geneID, m.mimID
-		from %s..DP_EntrezGene_MIM m, ACC_Accession a
+		from DP_EntrezGene_MIM m, ACC_Accession a
 		where m.mimID = a.accID
 		and a._MGIType_key = 13 
 		and a._LogicalDB_key = %s
@@ -154,7 +153,7 @@ def writeAnnotations1():
 		(m.annotationType = 'gene')
 		)
 		order by geneID
-		''' % (radar, logicalOMIM), 'auto')
+		''' % (logicalOMIM), 'auto')
 
 	for r in results:
 	    annotFile1.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' % (r['mimID'], r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB))
@@ -178,13 +177,13 @@ def writeAnnotations2():
 
         results = db.sql('''
                 select distinct m.geneID, m.mimID
-                from %s..DP_EntrezGene_MIM m, ACC_Accession a
+                from DP_EntrezGene_MIM m, ACC_Accession a
                 where m.mimID = a.accID
                 and a._MGIType_key = 13 
                 and a._LogicalDB_key = %s
                 and m.annotationType = 'phenotype' and m.source = '-'
                 order by geneID
-                ''' % (radar, logicalOMIM), 'auto')
+                ''' % (logicalOMIM), 'auto')
 
         for r in results:
             annotFile2.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' % (r['mimID'], r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB)

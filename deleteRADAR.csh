@@ -8,22 +8,19 @@
 # History
 #
 
-cat - <<EOSQL | doisql.csh ${RADAR_DBSERVER} ${RADAR_DBNAME} $0
+cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
  
-use ${RADAR_DBNAME}
-go
-
 delete from WRK_EntrezGene_Bucket0 where taxID = ${TAXID}
-go
+;
 
 delete from WRK_EntrezGene_Nomen where taxID = ${TAXID}
-go
+;
 
 delete from WRK_EntrezGene_Mapping where taxID = ${TAXID}
-go
+;
 
 delete from WRK_EntrezGene_Synonym where taxID = ${TAXID}
-go
+;
 
 EOSQL
 

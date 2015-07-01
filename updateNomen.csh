@@ -21,37 +21,26 @@ touch ${LOG}
 
 date >> ${LOG}
 
-cat - <<EOSQL | doisql.csh ${MGD_DBSERVER} ${MGD_DBNAME} $0 >>& ${LOG}
+cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
 
-use ${MGD_DBNAME}
-go
-
-select *
-into #toupdate
-from ${RADAR_DBNAME}..WRK_EntrezGene_Nomen
+CREATE TEMP TABLE toUpdate
+as select *
+from WRK_EntrezGene_Nomen
 where taxID = ${TAXID}
-go
+;
 
-create index idx1 on #toupdate(_Marker_key)
-go
+create index idx1 on toUpdate(_Marker_key)
+;
 
-declare @userKey integer
-select @userKey = _User_key from MGI_User where login = "${CREATEDBY}"
-
-update MRK_Marker
-set symbol = egSymbol, name = egName, _ModifiedBy_key = @userKey, modification_date = getdate()
-from #toupdate u, MRK_Marker m
+update MRK_Marker m
+set symbol = egSymbol, name = egName, _ModifiedBy_key = 1001, modification_date = current_date
+from toUpdate u
 where u._Marker_key = m._Marker_key
-go
+;
 
-select * from #toupdate order by geneID
-go
+select * from toUpdate order by geneID
+;
 
-checkpoint
-go
-
-quit
- 
 EOSQL
  
 date >> ${LOG}

@@ -12,7 +12,7 @@
 #
 # Assumes:
 #
-#	${RADAR_DBNAME}..WRK_EntrezGene_Synonym exists
+#	radar.WRK_EntrezGene_Synonym exists
 #
 # Output:
 #
@@ -40,7 +40,6 @@ import loadlib
 
 taxId = os.environ['TAXID']
 datadir = os.environ['DATADIR']
-radar = os.environ['RADAR_DBNAME']
 referenceKey = os.environ['REFERENCEKEY']	# _Refs_key of Reference
 mgiTypeKey = os.environ['MARKERTYPEKEY']	# _Marker_Type_key of a Marker
 synTypeKey = os.environ['SYNTYPEKEY']		# _SynonymType_key
@@ -96,7 +95,7 @@ def init():
 	global synKey, userKey
  
         # Log all SQL
-        db.set_sqlLogFunction(db.sqlLogAll)
+        #db.set_sqlLogFunction(db.sqlLogAll)
 
         try:
             diagFile = open(diagFileName, 'w')
@@ -104,7 +103,7 @@ def init():
             exit(1, 'Could not open file %s\n' % diagFileName)
       
         # Set Log File Descriptor
-        db.set_sqlLogFD(diagFile)
+        #db.set_sqlLogFD(diagFile)
 
 	try:
 		synFile = open(synFileName, 'w')
@@ -115,7 +114,7 @@ def init():
 	# Get next available primary key
 	#
 
-	results = db.sql('select maxKey = max(_Synonym_key) + 1 from MGI_Synonym', 'auto')
+	results = db.sql('select max(_Synonym_key) + 1 as maxKey from MGI_Synonym', 'auto')
 	synKey = results[0]['maxKey']
 
 	userKey = loadlib.verifyUser(user, 0, None)
@@ -135,12 +134,12 @@ def writeBCP():
 	global synKey, userKey
 
 	results = db.sql('select _Marker_key, synonym ' + \
-		'from %s..WRK_EntrezGene_Synonym ' % (radar) + \
+		'from WRK_EntrezGene_Synonym ' + \
 		'where taxID = %s' % (taxId), 'auto')
 
 	for r in results:
 
-		synFile.write('%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\n'
+		synFile.write('%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'
 			% (synKey, r['_Marker_key'], mgiTypeKey, synTypeKey, referenceKey, r['synonym'], userKey, userKey, loaddate, loaddate))
 		synKey = synKey + 1
 
