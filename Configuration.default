@@ -98,6 +98,3 @@ setenv REFSEQPRIVATE	0
 # Reference for Load J:63103
 setenv REFERENCEKEY	64047
 
-# Report header/trailer scripts
-setenv REPORTHEADER     ${MGI_DBUTILS}/text/header.sh
-
