@@ -52,9 +52,9 @@ and x.accID = e.geneID)
 create index idx1 on toUpdate(_Accession_key)
 ;
 
-update ACC_Accession
+update ACC_Accession a
 set accID = u.geneID, numericPart = u.geneID::INTEGER
-from toUpdate u, ACC_Accession a
+from toUpdate u
 where u._Accession_key = a._Accession_key
 ;
 
