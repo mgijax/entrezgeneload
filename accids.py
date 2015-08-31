@@ -65,7 +65,6 @@ userKey = 0	# primary key for DB User
 
 markerStatusKey = 1
 markerTypeKey = 1
-curationStateKey = 166894
 
 geneIDtoMarkerKey = {}
 
@@ -225,8 +224,8 @@ def writeMarkerBCP():
 	    else:
 		mapPosition = r['mapPosition']
 
-	    markerFile.write('%d\t%s\t%d\t%d\t%d\t%s\t%s\t%s\t%s\t%d\t%d\t%s\t%s\n'
-		% (markerKey, organism, markerStatusKey, markerTypeKey, curationStateKey, r['symbol'], r['name'], r['chromosome'], mapPosition, userKey, userKey, loaddate, loaddate))
+	    markerFile.write('%d\t%s\t%d\t%d\t%s\t%s\t%s\t%s\t%d\t%d\t%s\t%s\n'
+		% (markerKey, organism, markerStatusKey, markerTypeKey, r['symbol'], r['name'], r['chromosome'], mapPosition, userKey, userKey, loaddate, loaddate))
 
 	    geneIDtoMarkerKey[r['accID']] = markerKey
 	    markerKey = markerKey + 1
