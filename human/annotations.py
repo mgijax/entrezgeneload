@@ -43,6 +43,9 @@ import db
 import mgi_utils
 import loadlib
 
+db.setAutoTranslate(False)
+db.setAutoTranslateBE(False)
+
 #globals
 
 datadir = os.environ['DATADIR']
