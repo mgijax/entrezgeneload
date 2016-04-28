@@ -34,7 +34,7 @@ create index idx1 on toUpdate(_Marker_key)
 
 update MRK_Marker m
 set chromosome = u.egChr,
-    cytogeneticOffset = u.egMapPosition,
+    cytogeneticOffset = substring(u.egMapPosition,1,20),
     _ModifiedBy_key = 1001,
     modification_date = current_date
 from toUpdate u
