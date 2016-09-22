@@ -18,6 +18,9 @@
 #
 # Modification History:
 #
+# 09/22/2016    lec
+#	"OMIM/Human Marker/Pheno" is obsolete/removed
+#
 # 09/12/2013	lec
 #	- TR11423/add new annotation type
 #
@@ -35,28 +38,13 @@ date >> ${LOG}
 
 cd ${DATADIR}
 
-setenv ANNOTTYPENAME1           "OMIM/Human Marker"
-setenv ANNOTTYPENAME2           "OMIM/Human Marker/Pheno"
-setenv ANNOTINPUTFILE1          ${DATADIR}/annotations.omim1
-setenv ANNOTINPUTFILE2          ${DATADIR}/annotations.omim2
-setenv ANNOTLOG1                ${ANNOTINPUTFILE}1.log
-setenv ANNOTLOG2                ${ANNOTINPUTFILE}2.log
+setenv ANNOTMODE                new
+setenv ANNOTTYPENAME            "OMIM/Human Marker"
+setenv ANNOTINPUTFILE           ${DATADIR}/annotations.omim1
+setenv ANNOTLOG                 ${ANNOTINPUTFILE}1.log
+setenv ANNOTOBSOLETE            0
 
 ${ENTREZGENELOAD}/human/annotations.py >>& ${LOG}
-
-setenv ANNOTMODE                new
-setenv ANNOTTYPENAME            "${ANNOTTYPENAME1}"
-setenv ANNOTINPUTFILE           ${ANNOTINPUTFILE1}
-setenv ANNOTLOG                 ${ANNOTLOG1}
-setenv ANNOTOBSOLETE            0
-
-${ANNOTLOAD}/annotload.py >>& ${LOG}
-
-setenv ANNOTMODE                new
-setenv ANNOTTYPENAME            "${ANNOTTYPENAME2}"
-setenv ANNOTINPUTFILE           ${ANNOTINPUTFILE2}
-setenv ANNOTLOG                 ${ANNOTLOG2}
-setenv ANNOTOBSOLETE            0
 
 ${ANNOTLOAD}/annotload.py >>& ${LOG}
 

@@ -55,8 +55,7 @@ logicalOMIM = os.environ['LOGICALOMIMKEY']
 evidenceCode = 'TAS'
 logicalDB = 'Entrez Gene'
 
-annotFileName1 = os.environ['ANNOTINPUTFILE1']
-annotFileName2 = os.environ['ANNOTINPUTFILE2']
+annotFileName1 = os.environ['ANNOTINPUTFILE']
 diagFileName = datadir + '/annotation.diagnostics'
 
 annotFile = None
@@ -102,7 +101,7 @@ def init():
 	#
 	'''
  
-	global annotFile1, annotFile2, diagFile
+	global annotFile1, diagFile
  
         # Log all SQL
         #db.set_sqlLogFunction(db.sqlLogAll)
@@ -119,11 +118,6 @@ def init():
 		annotFile1 = open(annotFileName1, 'w')
 	except:
 		exit(1, 'Could not open file %s\n' % annotFileName1)
-		
-	try:
-		annotFile2 = open(annotFileName2, 'w')
-	except:
-		exit(1, 'Could not open file %s\n' % annotFileName2)
 		
 	db.useOneConnection(1)
 
@@ -161,43 +155,11 @@ def writeAnnotations1():
 	for r in results:
 	    annotFile1.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' % (r['mimID'], r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB))
 
-def writeAnnotations2():
-        '''
-        # requires:
-        #
-        # effects:
-        #       Creates approrpriate Annotation records
-        #
-        # returns:
-        #       nothing
-        #
-        '''
-
-        #
-        # select OMIM disease annotations...
-        # for those OMIM disease ids that are stored in MGI (in the OMIM vocabulary)
-        #
-
-        results = db.sql('''
-                select distinct m.geneID, m.mimID
-                from DP_EntrezGene_MIM m, ACC_Accession a
-                where m.mimID = a.accID
-                and a._MGIType_key = 13 
-                and a._LogicalDB_key = %s
-                and m.annotationType = 'phenotype' and m.source = '-'
-                order by geneID
-                ''' % (logicalOMIM), 'auto')
-
-        for r in results:
-            annotFile2.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' % (r['mimID'], r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB)
-)
-
 #
 # Main
 #
 
 init()
 writeAnnotations1()
-writeAnnotations2()
 exit(0)
 
