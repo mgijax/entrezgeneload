@@ -116,9 +116,6 @@ def init():
         except:
             exit(1, 'Could not open file %s\n' % diagFileName)
       
-        # Set Log File Descriptor
-        #db.set_sqlLogFD(diagFile)
-
 	try:
 		accFile = open(accFileName, 'w')
 	except:

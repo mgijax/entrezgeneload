@@ -100,17 +100,11 @@ def init():
  
 	global annotFile1, diagFile
  
-        # Log all SQL
-        #db.set_sqlLogFunction(db.sqlLogAll)
-
         try:
             diagFile = open(diagFileName, 'w')
         except:
             exit(1, 'Could not open file %s\n' % diagFileName)
       
-        # Set Log File Descriptor
-        #db.set_sqlLogFD(diagFile)
-
 	try:
 		annotFile1 = open(annotFileName1, 'w')
 	except:
