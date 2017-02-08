@@ -177,6 +177,8 @@ where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_EntrezGene_Accession.geneID = DP_EntrezGene_Info.geneID)
 ;
 
+delete from DP_EntrezGene_Accession where status = 'SUPPRESSED';
+
 delete from  DP_EntrezGene_DBXRef
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_EntrezGene_DBXRef.geneID = DP_EntrezGene_Info.geneID)

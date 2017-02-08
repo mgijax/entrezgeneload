@@ -1,3 +1,9 @@
+TAG: entrezgeneload-6-0-7-2
+DATE: 02/08/2017
+STAFF: lec 
+CHANGES:
+1) TR12497/Remove obsolete RefSet/SUPPRESSED from EntrezGene
+
 TAG: entrezgeneload-6-0-7-1
 DATE: 01/05/2017
 STAFF: lec 
