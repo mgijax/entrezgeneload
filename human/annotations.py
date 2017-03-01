@@ -52,6 +52,8 @@ logicalOMIM = os.environ['LOGICALOMIMKEY']
 evidenceCode = 'TAS'
 logicalDB = 'Entrez Gene'
 
+omimToDOLookup = {}
+
 annotFileName1 = os.environ['ANNOTINPUTFILE']
 diagFileName = datadir + '/annotation.diagnostics'
 
@@ -99,6 +101,7 @@ def init():
 	'''
  
 	global annotFile1, diagFile
+	global omimToDOLookup
  
         try:
             diagFile = open(diagFileName, 'w')
@@ -111,6 +114,28 @@ def init():
 		exit(1, 'Could not open file %s\n' % annotFileName1)
 		
 	db.useOneConnection(1)
+
+    	#   
+    	# omimToDOLookup
+    	# omim term object key -> do id
+    	#   
+    	results = db.sql('''
+       		select a1.accID , t2._Term_key
+       		from ACC_Accession a1, VOC_Term t, ACC_Accession a2, ACC_Accession a3, VOC_Term t2
+       		where t._Vocab_key = 125 
+       		and t._Term_key = a1._Object_key
+       		and a1._LogicalDB_key = 191 
+       		and a1._Object_key = a2._Object_key
+       		and a2._LogicalDB_key = 15
+       		and a2.accID = a3.accID
+       		and a3._LogicalDB_key = 15
+       		and a3._Object_key = t2._Term_key
+       		''', 'auto')
+    	for r in results:
+        	key = r['_Term_key']
+        	value = r['accID']
+        	omimToDOLookup[key] = []
+        	omimToDOLookup[key].append(value)
 
 def writeAnnotations1():
 	'''
@@ -132,7 +157,7 @@ def writeAnnotations1():
 	results = db.sql('''
 		select distinct m.geneID, m.mimID
 		from DP_EntrezGene_MIM m, ACC_Accession a
-		where m.mimID = a.accID
+		where 'OMIM:' || m.mimID = a.accID
 		and a._MGIType_key = 13 
 		and a._LogicalDB_key = %s
 	        and (
@@ -144,7 +169,7 @@ def writeAnnotations1():
 		''' % (logicalOMIM), 'auto')
 
 	for r in results:
-	    annotFile1.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' % (r['mimID'], r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB))
+	    annotFile1.write('OMIM:%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' % (r['mimID'], r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB))
 
 #
 # Main
