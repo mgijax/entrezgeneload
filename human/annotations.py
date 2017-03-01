@@ -154,7 +154,8 @@ def writeAnnotations1():
 
 	#
 	# select OMIM disease annotations...
-	# for those OMIM disease ids that are stored in MGI (in the OMIM vocabulary)
+	# for those OMIM ids that are cross-referenced to DO...
+	#	create annotation data
 	#
 
 	results = db.sql('''
