@@ -18,6 +18,9 @@
 #
 # Modification History:
 #
+# 03/01/2017	lec
+# 	- TR12540/Disease Ontology (DO)
+#
 # 09/22/2016    lec
 #	"OMIM/Human Marker/Pheno" is obsolete/removed
 #
@@ -39,7 +42,7 @@ date >> ${LOG}
 cd ${DATADIR}
 
 setenv ANNOTMODE                new
-setenv ANNOTTYPENAME            "OMIM/Human Marker"
+setenv ANNOTTYPENAME            "DO/Human Marker"
 setenv ANNOTINPUTFILE           ${DATADIR}/annotations.omim1
 setenv ANNOTLOG                 ${ANNOTINPUTFILE}1.log
 setenv ANNOTOBSOLETE            0

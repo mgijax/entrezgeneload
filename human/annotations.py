@@ -22,16 +22,19 @@
 #
 # History:
 #
-#	09/12/2013	lec
+# 03/01/2017	lec
+# 	- TR12540/Disease Ontology (DO)
+#
+# 09/12/2013	lec
 #	- TR11484/human/annotation.py/load.csh
 #		a) load.csh : annotation.csh was turned OFF/turn back ON
 #		b) mim-source "NULL" changed to "-"
 #
-# 	04/28/2005	lec
+# 04/28/2005	lec
 #	- TR11195/OMIM/add check for annotation type ("phenotype")
 #	and source (!= "NULL") to query
 #
-# 	04/28/2005	lec
+# 04/28/2005	lec
 #	- TR 3853, OMIM
 #
 '''
@@ -117,10 +120,10 @@ def init():
 
     	#   
     	# omimToDOLookup
-    	# omim term object key -> do id
+    	# omim id -> do id
     	#   
     	results = db.sql('''
-       		select a1.accID , t2._Term_key
+       		select a1.accID as doID, a2.accID as omimID
        		from ACC_Accession a1, VOC_Term t, ACC_Accession a2, ACC_Accession a3, VOC_Term t2
        		where t._Vocab_key = 125 
        		and t._Term_key = a1._Object_key
@@ -132,8 +135,8 @@ def init():
        		and a3._Object_key = t2._Term_key
        		''', 'auto')
     	for r in results:
-        	key = r['_Term_key']
-        	value = r['accID']
+        	key = r['omimID']
+        	value = r['doID']
         	omimToDOLookup[key] = []
         	omimToDOLookup[key].append(value)
 
@@ -155,7 +158,7 @@ def writeAnnotations1():
 	#
 
 	results = db.sql('''
-		select distinct m.geneID, m.mimID
+		select distinct m.geneID, 'OMIM:' || m.mimID as omimID
 		from DP_EntrezGene_MIM m, ACC_Accession a
 		where 'OMIM:' || m.mimID = a.accID
 		and a._MGIType_key = 13 
@@ -169,7 +172,13 @@ def writeAnnotations1():
 		''' % (logicalOMIM), 'auto')
 
 	for r in results:
-	    annotFile1.write('OMIM:%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' % (r['mimID'], r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB))
+
+	    try:
+	    	doid = omimToDOLookup[r['omimID']][0]
+	        annotFile1.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' \
+			% (doid, r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB))
+	    except:
+	    	diagFile.write('no DO match found for omim id : %s\n' % (r['omimID']))
 
 #
 # Main
