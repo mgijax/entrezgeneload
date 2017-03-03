@@ -123,16 +123,13 @@ def init():
     	# omim id -> do id
     	#   
     	results = db.sql('''
-       		select a1.accID as doID, a2.accID as omimID
-       		from ACC_Accession a1, VOC_Term t, ACC_Accession a2, ACC_Accession a3, VOC_Term t2
+       		select distinct a1.accID as doID, a2.accID as omimID
+       		from ACC_Accession a1, VOC_Term t, ACC_Accession a2
        		where t._Vocab_key = 125 
        		and t._Term_key = a1._Object_key
        		and a1._LogicalDB_key = 191 
        		and a1._Object_key = a2._Object_key
        		and a2._LogicalDB_key = 15
-       		and a2.accID = a3.accID
-       		and a3._LogicalDB_key = 15
-       		and a3._Object_key = t2._Term_key
        		''', 'auto')
     	for r in results:
         	key = r['omimID']
