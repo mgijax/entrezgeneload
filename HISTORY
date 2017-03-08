@@ -3,6 +3,7 @@ DATE: 03/01/2017
 STAFF: lec 
 CHANGES: 
 TR12540/Disease Ontology (DO) All The Way
+human/createBuckets.csh : load mimIDs into WRK tables with 'OMIM:' prefix
 
 TAG: entrezgeneload-6-0-8-1
 DATE: 03/01/2017
