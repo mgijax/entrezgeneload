@@ -156,9 +156,9 @@ def writeAnnotations1():
 	#
 
 	results = db.sql('''
-		select distinct m.geneID, 'OMIM:' || m.mimID as omimID
+		select distinct m.geneID, m.mimID as omimID
 		from DP_EntrezGene_MIM m, ACC_Accession a
-		where 'OMIM:' || m.mimID = a.accID
+		where m.mimID = a.accID
 		and a._MGIType_key = 13 
 		and a._LogicalDB_key = %s
 	        and (
