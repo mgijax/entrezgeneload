@@ -143,6 +143,7 @@ as select m._Marker_key, m.symbol
 from MRK_Marker m
 where m._Organism_key = ${ORGANISM}
 and not exists (SELECT 1 from MRK_ClusterMember cm where m._Marker_key = cm._Marker_key)
+and not exists (SELECT 1 from MGI_Relationship r where r._Category_key = 1006 and m._Marker_key = r._Object_key_2)
 and not exists (SELECT 1 from DP_EntrezGene_Info e, ACC_Accession a
 	where e.taxID = ${TAXID}
 	and m._Marker_key = a._Object_key
@@ -173,6 +174,7 @@ as select m._Marker_key, m.symbol
 from MRK_Marker m
 where m._Organism_key = ${ORGANISM}
 and not exists (select 1 from MRK_ClusterMember cm where m._Marker_key = cm._Marker_key)
+and not exists (SELECT 1 from MGI_Relationship r where r._Category_key = 1006 and m._Marker_key = r._Object_key_2)
 and not exists (select 1 from ACC_Accession a
 	where m._Marker_key = a._Object_key
 	and a._MGIType_key = ${MARKERTYPEKEY}
