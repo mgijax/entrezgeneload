@@ -83,7 +83,7 @@ setenv LOGICALRGDKEY	47
 setenv LOGICALRATMAPKEY	4
 
 # Logical Key for ZFIN ID
-# setenv LOGICALZFINKEY   172
+setenv LOGICALZFINKEY   172
 
 # Private flag EntrezGeneID (0 = no, 1 = yes)
 setenv EGPRIVATE     0
