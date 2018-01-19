@@ -15,5 +15,8 @@ rm -rf ${LOG}
 touch ${LOG}
 
 date >> ${LOG}
-${ENTREZGENELOAD}/commonLoad-1.csh
+${ENTREZGENELOAD}/deleteIDs.csh
+${ENTREZGENELOAD}/createSets.csh
+${ENTREZGENELOAD}/zebrafish/createBuckets.csh
+${ENTREZGENELOAD}/commonLoad-2.csh
 date >> ${LOG}
