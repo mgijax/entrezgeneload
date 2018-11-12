@@ -90,6 +90,7 @@ def exit(status, message = None):
 		diagFile.close()
 		accFile.close()
 		accrefFile.close()
+		markerFile.close()
 	except:
 		pass
 
@@ -138,7 +139,7 @@ def init():
 	results = db.sql('select max(_Accession_key) + 1 as maxKey from ACC_Accession', 'auto')
 	accKey = results[0]['maxKey']
 
-	results = db.sql('select max(_Marker_key) + 1 as maxKey from MRK_Marker', 'auto')
+	results = db.sql(''' select nextval('mrk_marker_seq') as maxKey ''', 'auto')
 	markerKey = results[0]['maxKey']
 
 	userKey = loadlib.verifyUser(user, 0, None)
@@ -171,9 +172,9 @@ def writeAccBCP():
 		    objectKey = r['_Object_key']
 
 		prefixPart, numericPart = accessionlib.split_accnum(r['accID'])
-		accFile.write('%d\t%s\t%s\t%s\t%d\t%d\t%s\t%d\t1\t%s\t%s\t%s\t%s\n'
+		accFile.write('%d|%s|%s|%s|%d|%d|%s|%d|1|%s|%s|%s|%s\n'
 			% (accKey, r['accID'], mgi_utils.prvalue(prefixPart), mgi_utils.prvalue(numericPart), r['_LogicalDB_key'], objectKey, mgiTypeKey, r['private'], userKey, userKey, loaddate, loaddate))
-		accrefFile.write('%d\t%s\t%s\t%s\t%s\t%s\n' % (accKey, referenceKey, userKey, userKey, loaddate, loaddate))
+		accrefFile.write('%d|%s|%s|%s|%s|%s\n' % (accKey, referenceKey, userKey, userKey, loaddate, loaddate))
 		accKey = accKey + 1
 
 	# records that don't require a reference
@@ -190,7 +191,7 @@ def writeAccBCP():
 		    objectKey = r['_Object_key']
 
 		prefixPart, numericPart = accessionlib.split_accnum(r['accID'])
-		accFile.write('%d\t%s\t%s\t%s\t%d\t%d\t%s\t%d\t1\t%s\t%s\t%s\t%s\n'
+		accFile.write('%d|%s|%s|%s|%d|%d|%s|%d|1|%s|%s|%s|%s\n'
 			% (accKey, r['accID'], mgi_utils.prvalue(prefixPart), mgi_utils.prvalue(numericPart), r['_LogicalDB_key'], objectKey, mgiTypeKey, r['private'], userKey, userKey, loaddate, loaddate))
 		accKey = accKey + 1
 
@@ -221,11 +222,51 @@ def writeMarkerBCP():
 	    else:
 		mapPosition = r['mapPosition']
 
-	    markerFile.write('%d\t%s\t%d\t%d\t%s\t%s\t%s\t%s\t%d\t%d\t%s\t%s\n'
+	    markerFile.write('%d|%s|%d|%d|%s|%s|%s|%s|%d|%d|%s|%s\n'
 		% (markerKey, organism, markerStatusKey, markerTypeKey, r['symbol'], r['name'], r['chromosome'], mapPosition, userKey, userKey, loaddate, loaddate))
 
 	    geneIDtoMarkerKey[r['accID']] = markerKey
 	    markerKey = markerKey + 1
+
+def executeBCP():
+    '''
+    # requires:
+    #
+    # effects:
+    #   BCPs the data into the database
+    #
+    # returns:
+    #   nothing
+    #
+    '''
+
+    accFile.close()
+    accrefFile.close()
+    markerFile.close()
+    db.commit()
+
+    bcpCommand = os.environ['PG_DBUTILS'] + '/bin/bcpin.csh'
+
+    bcp1 = '%s %s %s %s %s %s "|" "\\n" mgd' % \
+        (bcpCommand, db.get_sqlServer(), db.get_sqlDatabase(), 'MRK_Marker', datadir, 'MRK_Marker.bcp')
+
+    bcp2 = '%s %s %s %s %s %s "|" "\\n" mgd' % \
+        (bcpCommand, db.get_sqlServer(), db.get_sqlDatabase(), 'ACC_Accession', datadir, 'ACC_Accession.bcp')
+
+    bcp3 = '%s %s %s %s %s %s "|" "\\n" mgd' % \
+        (bcpCommand, db.get_sqlServer(), db.get_sqlDatabase(), 'ACC_AccessionReference', datadir, 'ACC_AccessionReference.bcp')
+
+    diagFile.write('%s\n' % bcp1)
+    diagFile.write('%s\n' % bcp2)
+    diagFile.write('%s\n' % bcp3)
+
+    os.system(bcp1)
+    os.system(bcp2)
+    os.system(bcp3)
+
+    # update mrk_marker_seq auto-sequence
+    db.sql(''' select setval('mrk_marker_seq', (select max(_Marker_key) from MRK_Marker)) ''', None)
+    db.commit()
 
 #
 # Main
@@ -234,5 +275,6 @@ def writeMarkerBCP():
 init()
 writeMarkerBCP()
 writeAccBCP()
+executeBCP()
 exit(0)
 

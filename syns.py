@@ -108,7 +108,7 @@ def init():
 	# Get next available primary key
 	#
 
-	results = db.sql('select max(_Synonym_key) + 1 as maxKey from MGI_Synonym', 'auto')
+	results = db.sql(''' select nextval('mgi_synonym_seq') as maxKey ''', 'auto')
 	synKey = results[0]['maxKey']
 
 	userKey = loadlib.verifyUser(user, 0, None)
@@ -133,9 +133,36 @@ def writeBCP():
 
 	for r in results:
 
-		synFile.write('%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'
+		synFile.write('%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\n'
 			% (synKey, r['_Marker_key'], mgiTypeKey, synTypeKey, referenceKey, r['synonym'], userKey, userKey, loaddate, loaddate))
 		synKey = synKey + 1
+
+def executeBCP():
+    ''' 
+    # requires:
+    #   
+    # effects:
+    #   BCPs the data into the database
+    #   
+    # returns:
+    #   nothing
+    #   
+    ''' 
+
+    synFile.close()
+    db.commit()
+
+    bcpCommand = os.environ['PG_DBUTILS'] + '/bin/bcpin.csh'
+
+    bcp1 = '%s %s %s %s %s %s "|" "\\n" mgd' % \
+        (bcpCommand, db.get_sqlServer(), db.get_sqlDatabase(), 'MGI_Synonym', datadir, 'MGI_Synonym.bcp')
+
+    diagFile.write('%s\n' % bcp1)
+    os.system(bcp1)
+
+    # update mgi_synonym_seq auto-sequence
+    db.sql(''' select setval('mgi_synonym_seq', (select max(_synonym_key) from MGI_Synonym)) ''', None)
+    db.commit()
 
 #
 # Main
@@ -143,5 +170,6 @@ def writeBCP():
 
 init()
 writeBCP()
+executeBCP()
 exit(0)
 
