@@ -222,7 +222,7 @@ def writeMarkerBCP():
 	    else:
 		mapPosition = r['mapPosition']
 
-	    markerFile.write('%d|%s|%d|%d|%s|%s|%s|%s|%d|%d|%s|%s\n'
+	    markerFile.write('%d|%s|%d|%d|%s|%s|%s|%s||%d|%d|%s|%s\n'
 		% (markerKey, organism, markerStatusKey, markerTypeKey, r['symbol'], r['name'], r['chromosome'], mapPosition, userKey, userKey, loaddate, loaddate))
 
 	    geneIDtoMarkerKey[r['accID']] = markerKey
