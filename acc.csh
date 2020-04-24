@@ -42,6 +42,6 @@ touch ${LOG}
 
 date >> ${LOG}
 
-${ENTREZGENELOAD}/accids.py >>& ${LOG}
+${PYTHON} ${ENTREZGENELOAD}/accids.py >>& ${LOG}
 
 date >> ${LOG}

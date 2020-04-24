@@ -47,8 +47,8 @@ setenv ANNOTINPUTFILE           ${DATADIR}/annotations.omim1
 setenv ANNOTLOG                 ${ANNOTINPUTFILE}1.log
 setenv ANNOTOBSOLETE            0
 
-${ENTREZGENELOAD}/human/annotations.py >>& ${LOG}
+${PYTHON} ${ENTREZGENELOAD}/human/annotations.py >>& ${LOG}
 
-${ANNOTLOAD}/annotload.py >>& ${LOG}
+${PYTHON} ${ANNOTLOAD}/annotload.py >>& ${LOG}
 
 date >> ${LOG}

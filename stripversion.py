@@ -1,5 +1,3 @@
-#!/usr/local/bin/python
-
 '''
 #
 # Purpose:
@@ -32,7 +30,6 @@
 
 import sys
 import os
-import string
 
 TAB = '\t'
 CRT = '\n'
@@ -44,7 +41,7 @@ CRT = '\n'
 def splitSeqIdV(seqIdVersion):      # String - seqId.version
 
         # Purpose: split 'seqIdVersion' into seqId and version
-        # Returns: list of two strings - 1) seqId 2) version 
+        # Returns: list of two string - 1) seqId 2) version 
         # Assumes: nothing
         # Effects: nothing
         # Throws: nothing
@@ -55,7 +52,7 @@ def splitSeqIdV(seqIdVersion):      # String - seqId.version
         #           seqId = 'AC002397'
         #           version = ''
 
-        index = string.find(seqIdVersion, '.')
+        index = str.find(seqIdVersion, '.')
         if index == -1:
                 return [seqIdVersion, '']
         else:
@@ -73,36 +70,36 @@ accFile = open(inputDir + '/gene2accession.mgi', 'r')
 newaccFile = open(inputDir + '/gene2accession.new', 'w')
 
 for line in accFile.readlines():
-	tokens = string.splitfields(line[:-1], TAB)
-	taxID = tokens[0]
-	geneID = tokens[1]
-	status = tokens[2]
-	rna = tokens[3]
-	rnaGI = tokens[4]
-	protein = tokens[5]
-	proteinGI = tokens[6]
-	genomic = tokens[7]
-	genomicGI = tokens[8]
-	startPos = tokens[9]
-	endPos = tokens[10]
-	orient = tokens[11]
-	assembly = tokens[12]
-	[newRNA, version] = splitSeqIdV(rna)
-	[newProtein, version] = splitSeqIdV(protein)
-	[newGenomic, version] = splitSeqIdV(genomic)
-	newaccFile.write(taxID + TAB + \
-			 geneID + TAB + \
-			 status + TAB + \
-			 newRNA + TAB + \
-			 rnaGI + TAB + \
-			 newProtein + TAB + \
-			 proteinGI + TAB + \
-			 newGenomic + TAB + \
-			 genomicGI + TAB + \
-			 startPos + TAB + \
-			 endPos + TAB + \
-			 orient + TAB + \
-			 assembly + CRT)
+        tokens = str.split(line[:-1], TAB)
+        taxID = tokens[0]
+        geneID = tokens[1]
+        status = tokens[2]
+        rna = tokens[3]
+        rnaGI = tokens[4]
+        protein = tokens[5]
+        proteinGI = tokens[6]
+        genomic = tokens[7]
+        genomicGI = tokens[8]
+        startPos = tokens[9]
+        endPos = tokens[10]
+        orient = tokens[11]
+        assembly = tokens[12]
+        [newRNA, version] = splitSeqIdV(rna)
+        [newProtein, version] = splitSeqIdV(protein)
+        [newGenomic, version] = splitSeqIdV(genomic)
+        newaccFile.write(taxID + TAB + \
+                         geneID + TAB + \
+                         status + TAB + \
+                         newRNA + TAB + \
+                         rnaGI + TAB + \
+                         newProtein + TAB + \
+                         proteinGI + TAB + \
+                         newGenomic + TAB + \
+                         genomicGI + TAB + \
+                         startPos + TAB + \
+                         endPos + TAB + \
+                         orient + TAB + \
+                         assembly + CRT)
 accFile.close()
 newaccFile.close()
 
@@ -110,35 +107,34 @@ refFile = open(inputDir + '/gene2refseq.mgi', 'r')
 newrefFile = open(inputDir + '/gene2refseq.new', 'w')
 
 for line in refFile.readlines():
-	tokens = string.splitfields(line[:-1], TAB)
-	taxID = tokens[0]
-	geneID = tokens[1]
-	status = tokens[2]
-	rna = tokens[3]
-	rnaGI = tokens[4]
-	protein = tokens[5]
-	proteinGI = tokens[6]
-	genomic = tokens[7]
-	genomicGI = tokens[8]
-	startPos = tokens[9]
-	endPos = tokens[10]
-	orient = tokens[11]
-	assembly = tokens[12]
-	[newRNA, version] = splitSeqIdV(rna)
-	[newProtein, version] = splitSeqIdV(protein)
-	[newGenomic, version] = splitSeqIdV(genomic)
-	newrefFile.write(taxID + TAB + \
-			 geneID + TAB + \
-			 status + TAB + \
-			 newRNA + TAB + \
-			 rnaGI + TAB + \
-			 newProtein + TAB + \
-			 proteinGI + TAB + \
-			 newGenomic + TAB + \
-			 genomicGI + TAB + \
-			 startPos + TAB + \
-			 endPos + TAB + \
-			 orient + CRT)
+        tokens = str.split(line[:-1], TAB)
+        taxID = tokens[0]
+        geneID = tokens[1]
+        status = tokens[2]
+        rna = tokens[3]
+        rnaGI = tokens[4]
+        protein = tokens[5]
+        proteinGI = tokens[6]
+        genomic = tokens[7]
+        genomicGI = tokens[8]
+        startPos = tokens[9]
+        endPos = tokens[10]
+        orient = tokens[11]
+        assembly = tokens[12]
+        [newRNA, version] = splitSeqIdV(rna)
+        [newProtein, version] = splitSeqIdV(protein)
+        [newGenomic, version] = splitSeqIdV(genomic)
+        newrefFile.write(taxID + TAB + \
+                         geneID + TAB + \
+                         status + TAB + \
+                         newRNA + TAB + \
+                         rnaGI + TAB + \
+                         newProtein + TAB + \
+                         proteinGI + TAB + \
+                         newGenomic + TAB + \
+                         genomicGI + TAB + \
+                         startPos + TAB + \
+                         endPos + TAB + \
+                         orient + CRT)
 refFile.close()
 newrefFile.close()
-

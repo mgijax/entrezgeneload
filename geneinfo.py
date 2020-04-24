@@ -1,5 +1,3 @@
-#!/usr/local/bin/python
-
 '''
 #
 # Purpose:
@@ -34,7 +32,6 @@
 
 import sys
 import os
-import string
 import re
 
 TAB = '\t'
@@ -53,48 +50,46 @@ dbxOutFile = open(inputDir + '/gene_dbxref.bcp', 'w')
 
 for line in infoFile.readlines():
 
-	tokens = string.splitfields(line[:-1], TAB)
+        tokens = str.split(line[:-1], TAB)
 
-	taxID = tokens[0]
-	geneID = tokens[1]
-	symbol = tokens[2]
-	locusTag = tokens[3]
-	synonyms = tokens[4]
-	dbxRefs = tokens[5]
-	chr = tokens[6]
-	mp = tokens[7]
-	name = tokens[8]
-	geneType = tokens[9]
-	symbol2 = tokens[10]
-	name2 = tokens[11]
-	status = tokens[12]
+        taxID = tokens[0]
+        geneID = tokens[1]
+        symbol = tokens[2]
+        locusTag = tokens[3]
+        synonyms = tokens[4]
+        dbxRefs = tokens[5]
+        chr = tokens[6]
+        mp = tokens[7]
+        name = tokens[8]
+        geneType = tokens[9]
+        symbol2 = tokens[10]
+        name2 = tokens[11]
+        status = tokens[12]
 
-	# if status = "O", then symbol = symbol, name = name
-	# if status = "I", then symbol = symbol2, name = name2
+        # if status = "O", then symbol = symbol, name = name
+        # if status = "I", then symbol = symbol2, name = name2
 
-	if status == 'I':
-	    symbol = symbol2
-	    name = name2
+        if status == 'I':
+            symbol = symbol2
+            name = name2
 
-	infoOutFile.write(taxID + TAB + status + TAB + geneID + TAB + \
-		symbol + TAB + locusTag + TAB + chr + TAB + mp + TAB + name[:255] + TAB + geneType[:255] + CRT)
+        infoOutFile.write(taxID + TAB + status + TAB + geneID + TAB + \
+                symbol + TAB + locusTag + TAB + chr + TAB + mp + TAB + name[:255] + TAB + geneType[:255] + CRT)
 
-	for s in string.split(synonyms, '|'):
-		if s != '-':
-			synOutFile.write(taxID + TAB + geneID + TAB + s + CRT)
+        for s in str.split(synonyms, '|'):
+                if s != '-':
+                        synOutFile.write(taxID + TAB + geneID + TAB + s + CRT)
 
-	for s in string.split(dbxRefs, '|'):
-		if s != '-':
-			#
-			# Remove prefixing for MGI and HGNC IDs (TR11734).
-			#
-			s = s.replace('MGI:MGI:','MGI:')
-			s = s.replace('HGNC:HGNC:','HGNC:')
-			dbxOutFile.write(taxID + TAB + geneID + TAB + s + CRT)
+        for s in str.split(dbxRefs, '|'):
+                if s != '-':
+                        #
+                        # Remove prefixing for MGI and HGNC IDs (TR11734).
+                        #
+                        s = s.replace('MGI:MGI:','MGI:')
+                        s = s.replace('HGNC:HGNC:','HGNC:')
+                        dbxOutFile.write(taxID + TAB + geneID + TAB + s + CRT)
 
 infoFile.close()
 infoOutFile.close()
 synOutFile.close()
 dbxOutFile.close()
-
-
