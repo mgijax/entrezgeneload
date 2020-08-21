@@ -1,5 +1,3 @@
-#!/usr/local/bin/python
-
 '''
 #
 # Purpose:
@@ -41,7 +39,6 @@
 
 import sys
 import os
-import string
 import db
 import mgi_utils
 import loadlib
@@ -66,57 +63,57 @@ diagFile = None
 loaddate = loadlib.loaddate 	# Creation/Modification date for all records
 
 def exit(status, message = None):
-	'''
-	# requires: status, the numeric exit status (integer)
-	#           message (string)
-	#
-	# effects:
-	# Print message to stderr and exits
-	#
-	# returns:
-	#
-	'''
+        '''
+        # requires: status, the numeric exit status (integer)
+        #           message (string)
+        #
+        # effects:
+        # Print message to stderr and exits
+        #
+        # returns:
+        #
+        '''
  
-	if message is not None:
-		sys.stderr.write('\n' + str(message) + '\n')
+        if message is not None:
+                sys.stderr.write('\n' + str(message) + '\n')
  
-	try:
+        try:
                 diagFile.write('\n\nEnd Date/Time: %s\n' % (mgi_utils.date()))
-		diagFile.close()
-		annotFile.close()
-	except:
-		pass
+                diagFile.close()
+                annotFile.close()
+        except:
+                pass
 
-	db.useOneConnection(0)
-	sys.exit(status)
+        db.useOneConnection(0)
+        sys.exit(status)
  
 def init():
-	'''
-	# requires: 
-	#
-	# effects: 
-	# 1. Processes command line options
-	# 2. Initializes local DBMS parameters
-	# 3. Initializes global file descriptors
-	#
-	# returns:
-	#
-	'''
+        '''
+        # requires: 
+        #
+        # effects: 
+        # 1. Processes command line options
+        # 2. Initializes local DBMS parameters
+        # 3. Initializes global file descriptors
+        #
+        # returns:
+        #
+        '''
  
-	global annotFile1, diagFile
-	global omimToDOLookup
+        global annotFile1, diagFile
+        global omimToDOLookup
  
         try:
             diagFile = open(diagFileName, 'w')
         except:
             exit(1, 'Could not open file %s\n' % diagFileName)
       
-	try:
-		annotFile1 = open(annotFileName1, 'w')
-	except:
-		exit(1, 'Could not open file %s\n' % annotFileName1)
-		
-	db.useOneConnection(1)
+        try:
+                annotFile1 = open(annotFileName1, 'w')
+        except:
+                exit(1, 'Could not open file %s\n' % annotFileName1)
+                
+        db.useOneConnection(1)
 
         #   
         # omimToDOLookup
@@ -150,45 +147,45 @@ def init():
             omimToDOLookup[key].append(value)
 
 def writeAnnotations1():
-	'''
-	# requires:
-	#
-	# effects:
-	#	Creates approrpriate Annotation records
-	#
-	# returns:
-	#	nothing
-	#
-	'''
+        '''
+        # requires:
+        #
+        # effects:
+        #	Creates approrpriate Annotation records
+        #
+        # returns:
+        #	nothing
+        #
+        '''
 
-	#
-	# select OMIM disease annotations...
-	# for those OMIM ids that are cross-referenced to DO...
-	#	create annotation data
-	#
+        #
+        # select OMIM disease annotations...
+        # for those OMIM ids that are cross-referenced to DO...
+        #	create annotation data
+        #
 
-	results = db.sql('''
-		select distinct m.geneID, 'OMIM:' || m.mimID as omimID
-		from DP_EntrezGene_MIM m, ACC_Accession a
-		where 'OMIM:' || m.mimID = a.accID
-		and a._MGIType_key = 13 
-		and a._LogicalDB_key = %s
-	        and (
-		(m.annotationType = 'phenotype' and m.source != '-')
-		or
-		(m.annotationType = 'gene')
-		)
-		order by geneID
-		''' % (logicalOMIM), 'auto')
+        results = db.sql('''
+                select distinct m.geneID, 'OMIM:' || m.mimID as omimID
+                from DP_EntrezGene_MIM m, ACC_Accession a
+                where 'OMIM:' || m.mimID = a.accID
+                and a._MGIType_key = 13 
+                and a._LogicalDB_key = %s
+                and (
+                (m.annotationType = 'phenotype' and m.source != '-')
+                or
+                (m.annotationType = 'gene')
+                )
+                order by geneID
+                ''' % (logicalOMIM), 'auto')
 
-	for r in results:
+        for r in results:
 
-	    try:
-	    	doid = omimToDOLookup[r['omimID']][0]
-	        annotFile1.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' \
-			% (doid, r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB))
-	    except:
-	    	diagFile.write('no DO match found for omim id : %s\n' % (r['omimID']))
+            try:
+                doid = omimToDOLookup[r['omimID']][0]
+                annotFile1.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' \
+                        % (doid, r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB))
+            except:
+                diagFile.write('no DO match found for omim id : %s\n' % (r['omimID']))
 
 #
 # Main
@@ -197,4 +194,3 @@ def writeAnnotations1():
 init()
 writeAnnotations1()
 exit(0)
-

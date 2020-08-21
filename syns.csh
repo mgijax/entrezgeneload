@@ -43,6 +43,6 @@ touch ${LOG}
 
 date >> ${LOG}
 
-${ENTREZGENELOAD}/syns.py >>& ${LOG}
+${PYTHON} ${ENTREZGENELOAD}/syns.py >>& ${LOG}
 
 date >> ${LOG}
