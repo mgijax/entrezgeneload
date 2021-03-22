@@ -64,7 +64,6 @@ cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene_history.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/mim2gene_medgen ${EGINPUTDIR}
-cp ${FTPDATA2}/homologene.data ${EGINPUTDIR}
 
 # uncompress the files
 cd ${EGINPUTDIR}
@@ -91,14 +90,6 @@ grep "^${XENOPUSTAXID}" $i >> $i.mgi
 end
 
 #
-# mouse homologene is the only organism required
-#
-foreach i (homologene.data)
-rm -rf $i.mgi
-grep "	${MOUSETAXID}	" $i > $i.mgi
-end
-
-#
 # strips out comments from input file
 #
 foreach i (mim2gene_medgen)
@@ -114,11 +105,9 @@ ${PYTHON} ${ENTREZGENELOAD}/stripversion.py >>& ${LOG}
 
 # truncate existing tables
 ${RADAR_DBSCHEMADIR}/table/DP_EntrezGene_truncate.logical >>& ${LOG}
-${RADAR_DBSCHEMADIR}/table/DP_HomoloGene_truncate.object >>& ${LOG}
 
 # drop indexes
 ${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_drop.logical >>& ${LOG}
-${RADAR_DBSCHEMADIR}/index/DP_HomoloGene_drop.object >>& ${LOG}
 
 # bcp new data into tables
 ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_Info ${EGINPUTDIR} gene_info.bcp "\t" "\n" radar
@@ -128,12 +117,10 @@ ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_PubMed $
 ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_RefSeq ${EGINPUTDIR} gene2refseq.new "\t" "\n" radar
 ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_Synonym ${EGINPUTDIR} gene_synonym.bcp "\t" "\n" radar
 ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_History ${EGINPUTDIR} gene_history.mgi "\t" "\n" radar
-${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_HomoloGene ${EGINPUTDIR} homologene.data.mgi "\t" "\n" radar
 ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_MIM ${EGINPUTDIR} mim2gene_medgen.mgi "\t" "\n" radar
 
 # create indexes
 ${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
-${RADAR_DBSCHEMADIR}/index/DP_HomoloGene_create.object >>& ${LOG}
 
 cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
  
@@ -202,11 +189,6 @@ where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 delete from  DP_EntrezGene_History 
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_EntrezGene_History.geneID = DP_EntrezGene_Info.geneID)
-;
-
-delete from  DP_HomoloGene
-where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
-	where DP_HomoloGene.geneID = DP_EntrezGene_Info.geneID)
 ;
 
 delete from  DP_EntrezGene_MIM
