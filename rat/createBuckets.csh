@@ -50,37 +50,6 @@ and b.geneID = e.geneID
 and e.dbXrefID like 'RGD:%'
 ;
 
-/***** RatMap *****/
-
-insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, a._Object_key, ${LOGICALRATMAPKEY}, b.geneID, b.mgiID, substring(e.dbXrefID,8,50), ${RATMAPPRIVATE}, 0
-from WRK_EntrezGene_Bucket0Tmp b, ACC_Accession a, DP_EntrezGene_DBXRef e
-where b.idType = 'EG'
-and b.mgiID = a.accID
-and a._MGIType_key = ${MARKERTYPEKEY}
-and a._LogicalDB_key = ${LOGICALEGKEY}
-and b.geneID = e.geneID
-and e.dbXrefID like 'RATMAP%'
-;
-
-insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, m._Marker_key, ${LOGICALRATMAPKEY}, b.geneID, b.mgiID, substring(e.dbXrefID,8,50), ${RATMAPPRIVATE}, 0
-from WRK_EntrezGene_Bucket0Tmp b, MRK_Marker m, DP_EntrezGene_DBXRef e
-where b.idType = 'Symbol'
-and b.mgiID = m.symbol
-and m._Organism_key = ${ORGANISM}
-and b.geneID = e.geneID
-and e.dbXrefID like 'RATMAP%'
-;
-
-insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, -1, ${LOGICALRATMAPKEY}, b.geneID, b.mgiID, substring(e.dbXrefID,8,50), ${RATMAPPRIVATE}, 0
-from WRK_EntrezGene_Bucket0Tmp b, DP_EntrezGene_DBXRef e
-where b.mgiID = 'none'
-and b.geneID = e.geneID
-and e.dbXrefID like 'RATMAP%'
-;
-
 /***** Nomen Bucket *****/
 
 insert into WRK_EntrezGene_Nomen

@@ -57,7 +57,7 @@ drop table toDelete
 ;
 
 /* remove existing associations by logical DB only */
-/* for example, RGD ids, RATMAP ids, etc. */
+/* for example, RGD ids, etc. */
 
 CREATE TEMP TABLE toDelete
 as select a._Accession_key

@@ -79,9 +79,6 @@ setenv LOGICALOMIMKEY 15
 # Logical Key for RGD
 setenv LOGICALRGDKEY	47
 
-# Logical Key for RatMap
-setenv LOGICALRATMAPKEY	4
-
 # Logical Key for ZFIN ID
 setenv LOGICALZFINKEY   172
 
