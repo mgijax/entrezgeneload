@@ -50,11 +50,10 @@ setenv ANNOTTYPENAME            "DO/Human Marker"
 setenv ANNOTINPUTFILE           ${DATADIR}/annotations.omim1
 setenv ANNOTLOG                 ${ANNOTINPUTFILE}1.log
 setenv ANNOTOBSOLETE            0
-setenv DELETEREFERENCE          "J:98535"
+setenv DELETEREFERENCE          "J:306125"
 setenv DELETEUSER               none
 
 # Alliance human/mouse homology file for weekly/MGI_Cov_Human_Gene.py
-setenv ALLIANCE_HUMAN_FILE_GZ  "/data/downloads/fms.alliancegenome.org/download/DISEASE-ALLIANCE_HUMAN.tsv.gz"
 setenv ALLIANCE_HUMAN_FILE     "/data/downloads/fms.alliancegenome.org/download/DISEASE-ALLIANCE_HUMAN.tsv"
 
 ${PYTHON} ${ENTREZGENELOAD}/human/annotations.py >>& ${LOG}
