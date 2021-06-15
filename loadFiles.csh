@@ -63,7 +63,6 @@ cp ${FTPDATA1}/gene2pubmed.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene2refseq.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene_info.gz ${EGINPUTDIR}
 cp ${FTPDATA1}/gene_history.gz ${EGINPUTDIR}
-cp ${FTPDATA1}/mim2gene_medgen ${EGINPUTDIR}
 
 # uncompress the files
 cd ${EGINPUTDIR}
@@ -89,14 +88,6 @@ grep "^${MONKEYTAXID}" $i >> $i.mgi
 grep "^${XENOPUSTAXID}" $i >> $i.mgi
 end
 
-#
-# strips out comments from input file
-#
-foreach i (mim2gene_medgen)
-rm -rf $i.mgi
-grep "^[0-9]" $i | cut -f1-5 > $i.mgi
-end
-
 # split up gene_info.mgi into gene_info.bcp, gene_dbxref.bcp, gene_synonym.bcp
 ${PYTHON} ${ENTREZGENELOAD}/geneinfo.py >>& ${LOG}
 
@@ -117,7 +108,6 @@ ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_PubMed $
 ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_RefSeq ${EGINPUTDIR} gene2refseq.new "\t" "\n" radar
 ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_Synonym ${EGINPUTDIR} gene_synonym.bcp "\t" "\n" radar
 ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_History ${EGINPUTDIR} gene_history.mgi "\t" "\n" radar
-${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_MIM ${EGINPUTDIR} mim2gene_medgen.mgi "\t" "\n" radar
 
 # create indexes
 ${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
@@ -189,11 +179,6 @@ where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 delete from  DP_EntrezGene_History 
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_EntrezGene_History.geneID = DP_EntrezGene_Info.geneID)
-;
-
-delete from  DP_EntrezGene_MIM
-where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
-	where DP_EntrezGene_MIM.geneID = DP_EntrezGene_Info.geneID)
 ;
 
 EOSQL

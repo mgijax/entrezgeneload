@@ -18,6 +18,9 @@
 #
 # Modification History:
 #
+# 06/14/2021    lec
+#       - wts2-646/replace EntrezGene with HGNC
+#
 # 03/01/2017	lec
 # 	- TR12540/Disease Ontology (DO)
 #
@@ -41,14 +44,20 @@ date >> ${LOG}
 
 cd ${DATADIR}
 
+# _annottype_key = 1022
 setenv ANNOTMODE                new
 setenv ANNOTTYPENAME            "DO/Human Marker"
 setenv ANNOTINPUTFILE           ${DATADIR}/annotations.omim1
 setenv ANNOTLOG                 ${ANNOTINPUTFILE}1.log
 setenv ANNOTOBSOLETE            0
+setenv DELETEREFERENCE          "J:98535"
+setenv DELETEUSER               none
+
+# Alliance human/mouse homology file for weekly/MGI_Cov_Human_Gene.py
+setenv ALLIANCE_HUMAN_FILE_GZ  "/data/downloads/fms.alliancegenome.org/download/DISEASE-ALLIANCE_HUMAN.tsv.gz"
+setenv ALLIANCE_HUMAN_FILE     "/data/downloads/fms.alliancegenome.org/download/DISEASE-ALLIANCE_HUMAN.tsv"
 
 ${PYTHON} ${ENTREZGENELOAD}/human/annotations.py >>& ${LOG}
-
 ${PYTHON} ${ANNOTLOAD}/annotload.py >>& ${LOG}
 
 date >> ${LOG}

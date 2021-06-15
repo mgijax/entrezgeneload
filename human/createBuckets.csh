@@ -52,34 +52,34 @@ and e.dbXrefID like 'HGNC:%'
 
 /***** OMIM Gene ids *****/
 
-insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, a._Object_key, ${LOGICALOMIMKEY}, b.geneID, b.mgiID, 'OMIM:' || e.mimID, ${OMIMPRIVATE}, 0
-from WRK_EntrezGene_Bucket0Tmp b, ACC_Accession a, DP_EntrezGene_MIM e
-where b.idType = 'EG'
-and b.mgiID = a.accID
-and a._MGIType_key = ${MARKERTYPEKEY}
-and a._LogicalDB_key = ${LOGICALEGKEY}
-and b.geneID = e.geneID
-and e.annotationType = 'gene'
-;
+--insert into WRK_EntrezGene_Bucket0
+--select distinct ${TAXID}, a._Object_key, ${LOGICALOMIMKEY}, b.geneID, b.mgiID, 'OMIM:' || e.mimID, ${OMIMPRIVATE}, 0
+--from WRK_EntrezGene_Bucket0Tmp b, ACC_Accession a, DP_EntrezGene_MIM e
+--where b.idType = 'EG'
+--and b.mgiID = a.accID
+--and a._MGIType_key = ${MARKERTYPEKEY}
+--and a._LogicalDB_key = ${LOGICALEGKEY}
+--and b.geneID = e.geneID
+--and e.annotationType = 'gene'
+--;
 
-insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, m._Marker_key, ${LOGICALOMIMKEY}, b.geneID, b.mgiID, 'OMIM:' || e.mimID, ${OMIMPRIVATE}, 0
-from WRK_EntrezGene_Bucket0Tmp b, MRK_Marker m, DP_EntrezGene_MIM e
-where b.idType = 'Symbol'
-and b.mgiID = m.symbol
-and m._Organism_key = ${ORGANISM}
-and b.geneID = e.geneID
-and e.annotationType = 'gene'
-;
+--insert into WRK_EntrezGene_Bucket0
+--select distinct ${TAXID}, m._Marker_key, ${LOGICALOMIMKEY}, b.geneID, b.mgiID, 'OMIM:' || e.mimID, ${OMIMPRIVATE}, 0
+--from WRK_EntrezGene_Bucket0Tmp b, MRK_Marker m, DP_EntrezGene_MIM e
+--where b.idType = 'Symbol'
+--and b.mgiID = m.symbol
+--and m._Organism_key = ${ORGANISM}
+--and b.geneID = e.geneID
+--and e.annotationType = 'gene'
+--;
 
-insert into WRK_EntrezGene_Bucket0
-select distinct ${TAXID}, -1, ${LOGICALOMIMKEY}, b.geneID, b.mgiID, 'OMIM:' || e.mimID, ${OMIMPRIVATE}, 0
-from WRK_EntrezGene_Bucket0Tmp b, DP_EntrezGene_MIM e
-where b.mgiID = 'none'
-and b.geneID = e.geneID
-and e.annotationType = 'gene'
-;
+--insert into WRK_EntrezGene_Bucket0
+--select distinct ${TAXID}, -1, ${LOGICALOMIMKEY}, b.geneID, b.mgiID, 'OMIM:' || e.mimID, ${OMIMPRIVATE}, 0
+--from WRK_EntrezGene_Bucket0Tmp b, DP_EntrezGene_MIM e
+--where b.mgiID = 'none'
+--and b.geneID = e.geneID
+--and e.annotationType = 'gene'
+--;
 
 EOSQL
  
