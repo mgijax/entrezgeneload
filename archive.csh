@@ -38,6 +38,7 @@
 
 setenv LOADDATE    `date '+%d-%m-%Y'`
 
+rm -rf ${ARCHIVEDIR}/${LOADDATE}
 mkdir ${ARCHIVEDIR}/${LOADDATE}
 mv ${DATADIR}/* ${ARCHIVEDIR}/${LOADDATE}
 
