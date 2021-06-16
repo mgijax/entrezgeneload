@@ -19,7 +19,7 @@
 # Modification History:
 #
 # 06/14/2021    lec
-#       - wts2-646/replace EntrezGene with HGNC
+#       - wts2-646/Switch load of Human gene to disease associations to use the Alliance file.
 #
 # 03/01/2017	lec
 # 	- TR12540/Disease Ontology (DO)
@@ -47,7 +47,7 @@ cd ${DATADIR}
 # _annottype_key = 1022
 setenv ANNOTMODE                new
 setenv ANNOTTYPENAME            "DO/Human Marker"
-setenv ANNOTINPUTFILE           ${DATADIR}/annotations.omim1
+setenv ANNOTINPUTFILE           ${DATADIR}/annotations.hgnc
 setenv ANNOTLOG                 ${ANNOTINPUTFILE}1.log
 setenv ANNOTOBSOLETE            0
 setenv DELETEREFERENCE          "J:306125"
