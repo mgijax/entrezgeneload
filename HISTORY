@@ -1,3 +1,12 @@
+TAG: entrezgeneload-6-0-17-?
+DATE: 
+STAFF: lec
+CHANGES:
+wts-646/Switch load of Human gene to disease associations to use the Alliance file.
+# entrezgeneload
+# mirror_wget : remove mim2gene_medgen from mirror_wget/ftp.ncbi.nih.gov
+# radardbschema : remove DP_EntrezGene_MIM
+
 TAG: entrezgeneload-6-0-17-3
 TAG: entrezgeneload-6-0-17-2
 DATE: 06/08/2021, 06/15/2021

@@ -34,6 +34,9 @@
 #
 # Modification History:
 #
+# 06/16/2021	lec
+#	- wts2-646/remove OMIM/mim2gene_medgen
+#
 # 07/23/2013	lec
 #	- TR11317/11195/OMIM/mim2gene_medgen
 #
