@@ -2,16 +2,9 @@
 #
 # Purpose:
 #
-#	Create input record for Annotation load
+#	Create input record for Annotation load using Alliance file
+#       using HGNC and DOIID
 #  
-# Input:
-#
-#	None
-#
-# Assumes:
-#
-#	radar.WRK_EntrezGene_Bucket0 exists
-#
 # Output:
 #
 #	${ANNOTATIONFILE}
@@ -50,11 +43,10 @@ editor = os.environ['CREATEDBY']
 reference = os.environ['DELETEREFERENCE']
 logicalOMIM = os.environ['LOGICALOMIMKEY']
 evidenceCode = 'TAS'
-logicalDB = 'Entrez Gene'
+logicalDB = 'HGNC'
 
-omimToDOLookup = {}
-
-annotFileName1 = os.environ['ANNOTINPUTFILE']
+allianceFileName = os.environ['ALLIANCEINPUTFILE']
+annotFileName = os.environ['ANNOTINPUTFILE']
 diagFileName = datadir + '/annotation.diagnostics'
 
 annotFile = None
@@ -81,6 +73,7 @@ def exit(status, message = None):
                 diagFile.write('\n\nEnd Date/Time: %s\n' % (mgi_utils.date()))
                 diagFile.close()
                 annotFile.close()
+                allianceFile.close()
         except:
                 pass
 
@@ -100,8 +93,7 @@ def init():
         #
         '''
  
-        global annotFile1, diagFile
-        global omimToDOLookup
+        global annotFile, allianceFile, diagFile
  
         try:
             diagFile = open(diagFileName, 'w')
@@ -109,42 +101,16 @@ def init():
             exit(1, 'Could not open file %s\n' % diagFileName)
       
         try:
-                annotFile1 = open(annotFileName1, 'w')
+                annotFile = open(annotFileName, 'w')
         except:
-                exit(1, 'Could not open file %s\n' % annotFileName1)
+                exit(1, 'Could not open file %s\n' % annotFileName)
+                
+        try:
+                allianceFile = open(allianceFileName, 'r')
+        except:
+                exit(1, 'Could not open file %s\n' % allianceFileName)
                 
         db.useOneConnection(1)
-
-        #   
-        # omimToDOLookup
-        # omim id -> do id
-        # only translate OMIM->DO where OMIM translates to at most one DO id
-        #   
-        results = db.sql('''
-            WITH includeOMIM AS (
-            select a2.accID
-            from ACC_Accession a1, ACC_Accession a2
-                where a1._MGIType_key = 13
-            and a1._LogicalDB_key = 191 
-            and a1._Object_key = a2._Object_key
-            and a1.preferred = 1 
-            and a2._LogicalDB_key = 15
-            group by a2.accID having count(*) = 1 
-            )
-            select distinct a1.accID as doID, a2.accID as omimID
-            from includeOMIM d, ACC_Accession a1, VOC_Term t, ACC_Accession a2
-            where d.accID = a2.accID
-            and t._Vocab_key = 125 
-            and t._Term_key = a1._Object_key
-            and a1._LogicalDB_key = 191 
-            and a1._Object_key = a2._Object_key
-            and a2._LogicalDB_key = 15
-            ''', 'auto')
-        for r in results:
-            key = r['omimID']
-            value = r['doID']
-            omimToDOLookup[key] = []
-            omimToDOLookup[key].append(value)
 
 def writeAnnotations1():
         '''
@@ -158,34 +124,17 @@ def writeAnnotations1():
         #
         '''
 
-        #
-        # select OMIM disease annotations...
-        # for those OMIM ids that are cross-referenced to DO...
-        #	create annotation data
-        #
+        for line in allianceFile.readlines():
 
-        results = db.sql('''
-                select distinct m.geneID, 'OMIM:' || m.mimID as omimID
-                from DP_EntrezGene_MIM m, ACC_Accession a
-                where 'OMIM:' || m.mimID = a.accID
-                and a._MGIType_key = 13 
-                and a._LogicalDB_key = %s
-                and (
-                (m.annotationType = 'phenotype' and m.source != '-')
-                or
-                (m.annotationType = 'gene')
-                )
-                order by geneID
-                ''' % (logicalOMIM), 'auto')
+            if line[0] == '#' or line[0] == 'Taxon':
+                continue
 
-        for r in results:
+            tokens = str.split(line[:-1], '\t')
+            hgncid = tokens[3]
+            doid = tokens[6]
 
-            try:
-                doid = omimToDOLookup[r['omimID']][0]
-                annotFile1.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' \
-                        % (doid, r['geneID'], reference, evidenceCode, editor, loaddate, logicalDB))
-            except:
-                diagFile.write('no DO match found for omim id : %s\n' % (r['omimID']))
+            annotFile.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' \
+                        % (doid, hgncid, reference, evidenceCode, editor, loaddate, logicalDB))
 
 #
 # Main

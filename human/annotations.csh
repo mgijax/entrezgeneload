@@ -19,7 +19,7 @@
 # Modification History:
 #
 # 03/01/2017	lec
-# 	- TR12540/Disease Ontology (DO)
+# 	- TR12540/Disease Ontology (DO); annottype = 1022
 #
 # 09/22/2016    lec
 #	"OMIM/Human Marker/Pheno" is obsolete/removed
@@ -43,12 +43,25 @@ cd ${DATADIR}
 
 setenv ANNOTMODE                new
 setenv ANNOTTYPENAME            "DO/Human Marker"
-setenv ANNOTINPUTFILE           ${DATADIR}/annotations.omim1
-setenv ANNOTLOG                 ${ANNOTINPUTFILE}1.log
 setenv ANNOTOBSOLETE            0
+setenv ANNOTINPUTFILE           ${DATADIR}/annotation.alliance
+setenv ANNOTLOG                 ${ANNOTINPUTFILE}.log
+setenv ALLIANCEINPUTFILE        ${DATADOWNLOADS}/fms.alliancegenome.org/download/DISEASE-ALLIANCE_HUMAN.tsv.gz
+setenv DELETEREFERENCE          "J:98535"
+setenv DELETEUSER               none
 
+#
+# copy file and gunzip
+#
+cp ${ALLIANCEINPUTFILE} ${DATADIR}
+rm -rf DISEASE-ALLIANCE_HUMAN.tsv
+gunzip DISEASE-ALLIANCE_HUMAN.tsv.gz
+setenv ALLIANCEINPUTFILE           ${DATADIR}/DISEASE-ALLIANCE_HUMAN.tsv
+
+# generate annotation file
 ${PYTHON} ${ENTREZGENELOAD}/human/annotations.py >>& ${LOG}
 
+# process annotation file
 ${PYTHON} ${ANNOTLOAD}/annotload.py >>& ${LOG}
 
 date >> ${LOG}
