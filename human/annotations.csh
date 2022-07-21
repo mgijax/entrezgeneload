@@ -55,8 +55,9 @@ setenv DELETEUSER               none
 #
 cp ${ALLIANCEINPUTFILE} ${DATADIR}
 rm -rf DISEASE-ALLIANCE_HUMAN.tsv
-gunzip DISEASE-ALLIANCE_HUMAN.tsv.gz
-setenv ALLIANCEINPUTFILE           ${DATADIR}/DISEASE-ALLIANCE_HUMAN.tsv
+gunzip DISEASE-ALLIANCE_HUMAN.tsv.gz 
+grep "is_implicated_in" ${DATADIR}/DISEASE-ALLIANCE_HUMAN.tsv > ${DATADIR}/DISEASE-ALLIANCE_HUMAN.tsv.sorted
+setenv ALLIANCEINPUTFILE           ${DATADIR}/DISEASE-ALLIANCE_HUMAN.tsv.sorted
 
 # generate annotation file
 ${PYTHON} ${ENTREZGENELOAD}/human/annotations.py >>& ${LOG}

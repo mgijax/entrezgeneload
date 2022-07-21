@@ -3,7 +3,8 @@
 # Purpose:
 #
 #	Create input record for Annotation load using Alliance file
-#       using HGNC and DOIID
+#       using HGNC (7) and DOIID (4)
+#       only load association type = is_implicated_in (6)
 #  
 # Output:
 #
@@ -12,6 +13,9 @@
 # Processing:
 #
 # History:
+#
+# 07/21/2022	lec
+# 	- wts2-646/Switch load of Human gene to disease associations to use the Alliance file
 #
 # 03/01/2017	lec
 # 	- TR12540/Disease Ontology (DO)
@@ -33,7 +37,6 @@
 import sys
 import os
 import db
-import mgi_utils
 import loadlib
 
 #globals
@@ -54,92 +57,35 @@ diagFile = None
 
 loaddate = loadlib.loaddate 	# Creation/Modification date for all records
 
-def exit(status, message = None):
-        '''
-        # requires: status, the numeric exit status (integer)
-        #           message (string)
-        #
-        # effects:
-        # Print message to stderr and exits
-        #
-        # returns:
-        #
-        '''
- 
-        if message is not None:
-                sys.stderr.write('\n' + str(message) + '\n')
- 
-        try:
-                diagFile.write('\n\nEnd Date/Time: %s\n' % (mgi_utils.date()))
-                diagFile.close()
-                annotFile.close()
-                allianceFile.close()
-        except:
-                pass
-
-        db.useOneConnection(0)
-        sys.exit(status)
- 
-def init():
-        '''
-        # requires: 
-        #
-        # effects: 
-        # 1. Processes command line options
-        # 2. Initializes local DBMS parameters
-        # 3. Initializes global file descriptors
-        #
-        # returns:
-        #
-        '''
- 
-        global annotFile, allianceFile, diagFile
- 
-        try:
-            diagFile = open(diagFileName, 'w')
-        except:
-            exit(1, 'Could not open file %s\n' % diagFileName)
+try:
+        diagFile = open(diagFileName, 'w')
+except:
+        exit(1, 'Could not open file %s\n' % diagFileName)
       
-        try:
-                annotFile = open(annotFileName, 'w')
-        except:
-                exit(1, 'Could not open file %s\n' % annotFileName)
+try:
+        annotFile = open(annotFileName, 'w')
+except:
+        exit(1, 'Could not open file %s\n' % annotFileName)
                 
-        try:
-                allianceFile = open(allianceFileName, 'r')
-        except:
-                exit(1, 'Could not open file %s\n' % allianceFileName)
+try:
+        allianceFile = open(allianceFileName, 'r')
+except:
+        exit(1, 'Could not open file %s\n' % allianceFileName)
                 
-        db.useOneConnection(1)
+db.useOneConnection(1)
 
-def writeAnnotations1():
-        '''
-        # requires:
-        #
-        # effects:
-        #	Creates approrpriate Annotation records
-        #
-        # returns:
-        #	nothing
-        #
-        '''
+for line in allianceFile.readlines():
+        tokens = str.split(line[:-1], '\t')
+        hgncid = tokens[3]
+        associationType = tokens[5]
+        doid = tokens[6]
 
-        for line in allianceFile.readlines():
+        annotFile.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' \
+                % (doid, hgncid, reference, evidenceCode, editor, loaddate, logicalDB))
 
-            if line[0] == '#' or line[0] == 'Taxon':
-                continue
+diagFile.write('\n\nEnd Date/Time: %s\n' % (loaddate))
+diagFile.close()
+annotFile.close()
+allianceFile.close()
+db.useOneConnection(0)
 
-            tokens = str.split(line[:-1], '\t')
-            hgncid = tokens[3]
-            doid = tokens[6]
-
-            annotFile.write('%s\t%s\t%s\t%s\t\t\t%s\t%s\t\t%s\n' \
-                        % (doid, hgncid, reference, evidenceCode, editor, loaddate, logicalDB))
-
-#
-# Main
-#
-
-init()
-writeAnnotations1()
-exit(0)
