@@ -30,7 +30,7 @@ and v._term_key = a._object_key
 and a._mgitype_key = 13
 and a._logicaldb_key = 191
 and a.prefixpart = 'DOID:'
-order by m.symbol
+order by m.symbol, t.term
 ;
 
 EOSQL
