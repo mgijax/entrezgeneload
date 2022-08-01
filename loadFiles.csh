@@ -117,6 +117,7 @@ ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_PubMed $
 ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_RefSeq ${EGINPUTDIR} gene2refseq.new "\t" "\n" radar
 ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_Synonym ${EGINPUTDIR} gene_synonym.bcp "\t" "\n" radar
 ${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_History ${EGINPUTDIR} gene_history.mgi "\t" "\n" radar
+${PG_DBUTILS}/bin/bcpin.csh ${MGD_DBSERVER} ${MGD_DBNAME} DP_EntrezGene_MIM ${EGINPUTDIR} mim2gene_medgen.mgi "\t" "\n" radar
 
 # create indexes
 ${RADAR_DBSCHEMADIR}/index/DP_EntrezGene_create.logical >>& ${LOG}
@@ -188,6 +189,11 @@ where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 delete from  DP_EntrezGene_History 
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
 	where DP_EntrezGene_History.geneID = DP_EntrezGene_Info.geneID)
+;
+
+delete from  DP_EntrezGene_MIM
+where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
+	where DP_EntrezGene_MIM.geneID = DP_EntrezGene_Info.geneID)
 ;
 
 EOSQL
