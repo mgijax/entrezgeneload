@@ -27,8 +27,7 @@ date >> ${LOG}
 
 cat - <<EOSQL | ${PG_DBUTILS}/bin/doisql.csh $0 >>& ${LOG}
 
-/* remove existing assocations by reference */
-
+-- remove existing assocations by reference
 CREATE TEMP TABLE toDelete
 as select a._Accession_key
 from ACC_Accession a, ACC_AccessionReference r, MRK_Marker m 
@@ -39,26 +38,14 @@ and a._LogicalDB_key in (${DELLOGICALDBBYREF})
 and a._Object_key = m._Marker_key
 and m._Organism_key = ${ORGANISM}
 ;
+create index idx1 on toDelete(_Accession_key);
+select * from toDelete;
+delete from ACC_AccessionReference using toDelete d where d._Accession_key = ACC_AccessionReference._Accession_key;
+delete from ACC_Accession using toDelete d where d._Accession_key = ACC_Accession._Accession_key;
+drop table toDelete;
 
-create index idx1 on toDelete(_Accession_key)
-;
-
-delete from ACC_AccessionReference
-using toDelete d
-where d._Accession_key = ACC_AccessionReference._Accession_key
-;
-
-delete from ACC_Accession
-using toDelete d
-where d._Accession_key = ACC_Accession._Accession_key
-;
-
-drop table toDelete
-;
-
-/* remove existing associations by logical DB only */
-/* for example, RGD ids, etc. */
-
+-- remove existing associations by logical DB only
+-- for example, RGD ids, etc.
 CREATE TEMP TABLE toDelete
 as select a._Accession_key
 from ACC_Accession a, MRK_Marker m 
@@ -67,20 +54,12 @@ and a._LogicalDB_key in (${DELLOGICALDB})
 and a._Object_key = m._Marker_key
 and m._Organism_key = ${ORGANISM}
 ;
+create index idx1 on toDelete(_Accession_key);
+select * from toDelete;
+delete from ACC_Accession using toDelete d where d._Accession_key = ACC_Accession._Accession_key;
+drop table toDelete;
 
-create index idx1 on toDelete(_Accession_key)
-;
-
-delete from ACC_Accession
-using toDelete d
-where d._Accession_key = ACC_Accession._Accession_key
-;
-
-drop table toDelete
-;
-
-/* remove synonyms by organism */
-
+-- remove synonyms by organism
 CREATE TEMP TABLE toDelete
 as select s._Synonym_key
 from MGI_Synonym s, MGI_SynonymType st
@@ -88,20 +67,14 @@ where s._SynonymType_key = st._SynonymType_key
 and st._SynonymType_key = ${SYNTYPEKEY}
 and st._Organism_key = ${ORGANISM}
 ;
+create index idx1 on toDelete(_Synonym_key);
+delete from MGI_Synonym using toDelete d where d._Synonym_key = MGI_Synonym._Synonym_key;
+drop table toDelete;
 
-create index idx1 on toDelete(_Synonym_key)
-;
-
-delete from MGI_Synonym
-using toDelete d
-where d._Synonym_key = MGI_Synonym._Synonym_key
-;
-
-drop table toDelete
-;
-
-/* remove duplicate markers by tax id */
-
+-- remove duplicate markers by tax id
+-- that do not have:
+--      an orthology record 
+--      a 1004/expresses_component, 1006/allele_to_driver_gene MGI_Relationship
 CREATE TEMP TABLE toDelete
 as select a._Object_key as duplicateKey, e.geneID, x._Object_key as goodKey
 from ACC_Accession a, DP_EntrezGene_History e, ACC_Accession x
@@ -114,36 +87,29 @@ and e.geneID = x.accID
 and x._MGIType_key = ${MARKERTYPEKEY}
 and x._LogicalDB_key = ${LOGICALEGKEY}
 and not exists (select 1 from MRK_ClusterMember cm where a._Object_key = cm._Marker_key)
+and not exists (SELECT 1 from MGI_Relationship r where r._Category_key in (1004,1006) and r._Object_key_2 = a._Object_key)
 ;
+create index idx1 on toDelete(duplicateKey);
+create index idx2 on toDelete(goodKey);
+select * from toDelete order by geneID;
 
-create index idx1 on toDelete(duplicateKey)
-;
-create index idx2 on toDelete(goodKey)
-;
+-- delete duplicate markers
+delete from MRK_Marker using toDelete d where d.duplicateKey = MRK_Marker._Marker_key;
+drop table toDelete;
 
-/* delete duplicate markers for those that don't have orthology records */
-/* those that *do* have orthology records will be listed in a qc report */
-
-delete from MRK_Marker
-using toDelete d
-where d.duplicateKey = MRK_Marker._Marker_key
-;
-
-select * from toDelete order by geneID
-;
-
-drop table toDelete
-;
-
-/* delete any obsolete markers */
-/* those that don't have an orthology record and their gene id does not exist in EntrezGene */
+-- delete any obsolete markers
+-- that do not have:
+--      an orthology record 
+--      a 1004/expresses_component, 1006/allele_to_driver_gene MGI_Relationship
+--      gene id does not exist in EntrezGene
+-- 
 
 CREATE TEMP TABLE toDelete
-as select m._Marker_key, m.symbol
+as select m._Marker_key, m._Organism_key, m.symbol
 from MRK_Marker m
 where m._Organism_key = ${ORGANISM}
 and not exists (SELECT 1 from MRK_ClusterMember cm where m._Marker_key = cm._Marker_key)
-and not exists (SELECT 1 from MGI_Relationship r where r._Category_key = 1006 and m._Marker_key = r._Object_key_2)
+and not exists (SELECT 1 from MGI_Relationship r where r._Category_key in (1004,1006) and r._Object_key_2 = m._Marker_key)
 and not exists (SELECT 1 from DP_EntrezGene_Info e, ACC_Accession a
 	where e.taxID = ${TAXID}
 	and m._Marker_key = a._Object_key
@@ -152,45 +118,34 @@ and not exists (SELECT 1 from DP_EntrezGene_Info e, ACC_Accession a
 	and a.accID = e.geneID)
 ;
 
-create index idx1 on toDelete(_Marker_key)
-;
+create index idx1 on toDelete(_Marker_key);
+select * from toDelete order by symbol;
+delete from MRK_Marker using toDelete d where d._Marker_key = MRK_Marker._Marker_key;
+drop table toDelete;
 
-delete from MRK_Marker
-using toDelete d
-where d._Marker_key = MRK_Marker._Marker_key
-;
-
-select * from toDelete order by symbol
-;
-
-drop table toDelete
-;
-
-/* delete any obsolete markers */
-/* those that don't have an orthology record and their gene id does not exist in MGI */
+-- delete any obsolete markers 
+-- that do not have:
+--      an orthology record 
+--      a 1004/expresses_component, 1006/allele_to_driver_gene MGI_Relationship
+--      gene id does not exist in MGI
+-- 
 
 CREATE TEMP TABLE toDelete
-as select m._Marker_key, m.symbol
+as select m._Marker_key, m._Organism_key, m.symbol
 from MRK_Marker m
 where m._Organism_key = ${ORGANISM}
 and not exists (select 1 from MRK_ClusterMember cm where m._Marker_key = cm._Marker_key)
-and not exists (SELECT 1 from MGI_Relationship r where r._Category_key = 1006 and m._Marker_key = r._Object_key_2)
+and not exists (SELECT 1 from MGI_Relationship r where r._Category_key in (1004,1006) and m._Marker_key = r._Object_key_2)
 and not exists (select 1 from ACC_Accession a
 	where m._Marker_key = a._Object_key
 	and a._MGIType_key = ${MARKERTYPEKEY}
 	and a._LogicalDB_key = ${LOGICALEGKEY})
 ;
 
-create index idx1 on toDelete(_Marker_key)
-;
-
-delete from MRK_Marker
-using toDelete d
-where d._Marker_key = MRK_Marker._Marker_key
-;
-
-select * from toDelete order by symbol
-;
+create index idx1 on toDelete(_Marker_key);
+select * from toDelete order by symbol;
+delete from MRK_Marker using toDelete d where d._Marker_key = MRK_Marker._Marker_key;
+drop table toDelete;
 
 EOSQL
  

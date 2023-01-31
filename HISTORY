@@ -1,3 +1,12 @@
+TAG: entrezgeneload-6-0-21-?
+DATE: 01/30/2023
+STAFF: lec
+CHANGES:
+fl2/florida too/fl2-172/NRA_Driver: non-mouse entrezgene load analysis for curator-entered NCBI IDs
+add logic for expresses_component (1004)
+test logic for allele_to_driver (1006)
+deleteIDs.csh
+
 TAG: entrezgeneload-6-0-22-2
 TAG: entrezgeneload-6-0-22-1
 TAG: entrezgeneload-6-0-21-1
