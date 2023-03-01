@@ -12,22 +12,6 @@
 #	that were downloaded via mirror_ftp.
 #	Also does some minor tweaking of the input.
 #
-# Requirements Satisfied by This Program:
-#
-# Usage:
-#
-# Envvars:
-#
-# Inputs:
-#
-# Outputs:
-#
-# Exit Codes:
-#
-# Assumes:
-#
-# Bugs:
-#
 # Implementation:
 #
 #    Modules:
@@ -87,6 +71,7 @@ grep "^${CHICKENTAXID}" $i >> $i.mgi
 grep "^${ZEBRAFISHTAXID}" $i >> $i.mgi
 grep "^${MONKEYTAXID}" $i >> $i.mgi
 grep "^${XENOPUSTAXID}" $i >> $i.mgi
+grep "^${XENOPUSLAEVISTAXID}" $i >> $i.mgi
 end
 
 #
