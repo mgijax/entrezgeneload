@@ -187,7 +187,8 @@ def writeAccBCP():
                 else:
                     objectKey = r['_Object_key']
 
-                accid = r['accID'].replace('Xenbase:', '')
+                #accid = r['accID'].replace('Xenbase:', '')
+                accid = r['accID']
                 prefixPart, numericPart = accessionlib.split_accnum(accid)
                 accFile.write('%d|%s|%s|%s|%d|%d|%s|%d|1|%s|%s|%s|%s\n'
                         % (accKey, accid, mgi_utils.prvalue(prefixPart), mgi_utils.prvalue(numericPart), r['_LogicalDB_key'], objectKey, mgiTypeKey, r['private'], userKey, userKey, loaddate, loaddate))
