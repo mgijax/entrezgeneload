@@ -187,9 +187,10 @@ def writeAccBCP():
                 else:
                     objectKey = r['_Object_key']
 
-                prefixPart, numericPart = accessionlib.split_accnum(r['accID'])
+                accid = r['accID'].replace('Xenbase:', '')
+                prefixPart, numericPart = accessionlib.split_accnum(accid)
                 accFile.write('%d|%s|%s|%s|%d|%d|%s|%d|1|%s|%s|%s|%s\n'
-                        % (accKey, r['accID'], mgi_utils.prvalue(prefixPart), mgi_utils.prvalue(numericPart), r['_LogicalDB_key'], objectKey, mgiTypeKey, r['private'], userKey, userKey, loaddate, loaddate))
+                        % (accKey, accid, mgi_utils.prvalue(prefixPart), mgi_utils.prvalue(numericPart), r['_LogicalDB_key'], objectKey, mgiTypeKey, r['private'], userKey, userKey, loaddate, loaddate))
                 accKey = accKey + 1
 
 def writeMarkerBCP():

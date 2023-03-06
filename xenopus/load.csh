@@ -1,7 +1,7 @@
 #!/bin/csh -f
 
 #
-# Process Xenopus Updates
+# Process Xenopus laevis Updates
 #
 # Usage:  load.csh
 #
@@ -15,5 +15,8 @@ rm -rf ${LOG}
 touch ${LOG}
 
 date >> ${LOG}
-${ENTREZGENELOAD}/commonLoad-1.csh
+${ENTREZGENELOAD}/deleteIDs.csh
+${ENTREZGENELOAD}/createSets.csh
+${ENTREZGENELOAD}/xenopus/createBuckets.csh
+${ENTREZGENELOAD}/commonLoad-2.csh
 date >> ${LOG}

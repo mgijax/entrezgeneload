@@ -82,6 +82,9 @@ setenv LOGICALRGDKEY	47
 # Logical Key for ZFIN ID
 setenv LOGICALZFINKEY   172
 
+# Logical Key for XenBase ID
+setenv LOGICALXENKEY   225
+
 # Private flag EntrezGeneID (0 = no, 1 = yes)
 setenv EGPRIVATE     0
 
