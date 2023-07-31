@@ -129,20 +129,32 @@ where taxID in (${HUMANTAXID}, ${RATTAXID})
 and mapPosition SIMILAR TO '(X|Y)%'
 ;
 
-update DP_EntrezGene_Info
-set chromosome = 'UN'
-where chromosome in ('Un', 'unknown', '-')
-;
-
-update DP_EntrezGene_Info
-set chromosome = 'UN'
-where chromosome like '%|Un'
-;
-
-update DP_EntrezGene_Info
-set chromosome = 'XY'
-where chromosome = 'X|Y'
-;
+update DP_EntrezGene_Info set chromosome = 'UN' where chromosome in ('Un', 'unknown', '-') ;
+update DP_EntrezGene_Info set chromosome = 'UN' where chromosome like '%|Un' ;
+update DP_EntrezGene_Info set chromosome = 'XY' where chromosome = 'X|Y' ;
+update DP_EntrezGene_Info set chromosome = '1' where chromosome like '1|%' ;
+update DP_EntrezGene_Info set chromosome = '2' where chromosome like '2|%' ;
+update DP_EntrezGene_Info set chromosome = '3' where chromosome like '3|%' ;
+update DP_EntrezGene_Info set chromosome = '4' where chromosome like '4|%' ;
+update DP_EntrezGene_Info set chromosome = '5' where chromosome like '5|%' ;
+update DP_EntrezGene_Info set chromosome = '6' where chromosome like '6|%' ;
+update DP_EntrezGene_Info set chromosome = '7' where chromosome like '7|%' ;
+update DP_EntrezGene_Info set chromosome = '8' where chromosome like '8|%' ;
+update DP_EntrezGene_Info set chromosome = '9' where chromosome like '9|%' ;
+update DP_EntrezGene_Info set chromosome = '10' where chromosome like '10|%' ;
+update DP_EntrezGene_Info set chromosome = '11' where chromosome like '11|%' ;
+update DP_EntrezGene_Info set chromosome = '12' where chromosome like '12|%' ;
+update DP_EntrezGene_Info set chromosome = '13' where chromosome like '13|%' ;
+update DP_EntrezGene_Info set chromosome = '14' where chromosome like '14|%' ;
+update DP_EntrezGene_Info set chromosome = '15' where chromosome like '15|%' ;
+update DP_EntrezGene_Info set chromosome = '16' where chromosome like '16|%' ;
+update DP_EntrezGene_Info set chromosome = '17' where chromosome like '17|%' ;
+update DP_EntrezGene_Info set chromosome = '18' where chromosome like '18|%' ;
+update DP_EntrezGene_Info set chromosome = '19' where chromosome like '19|%' ;
+update DP_EntrezGene_Info set chromosome = '20' where chromosome like '20|%' ;
+update DP_EntrezGene_Info set chromosome = '21' where chromosome like '21|%' ;
+update DP_EntrezGene_Info set chromosome = '22' where chromosome like '22|%' ;
+update DP_EntrezGene_Info set chromosome = '23' where chromosome like '23|%' ;
 
 delete from DP_EntrezGene_Accession
 where not exists (select DP_EntrezGene_Info.* from DP_EntrezGene_Info
