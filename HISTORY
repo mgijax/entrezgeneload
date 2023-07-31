@@ -1,9 +1,10 @@
+TAG: entrezgeneload-6-0-22-5
 TAG: entrezgeneload-6-0-22-4
 DATE: 04/26/2023
 STAFF: lec
 CHANGES:
 wts2-1246/fl2-471/entrezgeneload/zebrafish issue
-loadFiles.csh : only one chromosome is allowed
+loadFiles.csh : if > 1 chromosome, then set to UN
 
 TAG: entrezgeneload-6-0-22-3
 DATE: 04/26/2023
