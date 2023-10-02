@@ -1,3 +1,9 @@
+TAG: entrezgeneload-6-0-22-6
+DATE: 10/02/2023
+STAFF: dbm
+CHANGES: 
+loadFiles.csh: Add debug timing to the log file
+
 TAG: entrezgeneload-6-0-22-5
 TAG: entrezgeneload-6-0-22-4
 DATE: 04/26/2023
