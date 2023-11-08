@@ -59,8 +59,12 @@ cp ${FTPDATA1}/mim2gene_medgen ${EGINPUTDIR}
 # uncompress the files
 cd ${EGINPUTDIR}
 foreach i (*.gz)
-echo "DEBUG `date`: gunzip $i" >> ${LOG}
-/usr/bin/gunzip -f $i >>& ${LOG}
+    echo "DEBUG `date`: gunzip $i" >> ${LOG}
+    /usr/bin/gunzip -f $i >>& ${LOG}
+    if ( $status != 0 ) then
+        echo "Failed to unzip file: $i" >>& ${LOG}
+        exit 1
+    endif
 end
 
 #
@@ -68,28 +72,28 @@ end
 # also strips out comments from input file
 #
 foreach i (gene2accession gene2pubmed gene2refseq gene_info gene_history)
-echo "DEBUG `date`: parse $i" >> ${LOG}
-rm -rf $i.mgi
-grep "^${MOUSETAXID}" $i > $i.mgi
-grep "^${HUMANTAXID}" $i >> $i.mgi
-grep "^${RATTAXID}" $i >> $i.mgi
-grep "^${DOGTAXID}" $i >> $i.mgi
-grep "^${CHIMPTAXID}" $i >> $i.mgi
-grep "^${CATTLETAXID}" $i >> $i.mgi
-grep "^${CHICKENTAXID}" $i >> $i.mgi
-grep "^${ZEBRAFISHTAXID}" $i >> $i.mgi
-grep "^${MONKEYTAXID}" $i >> $i.mgi
-grep "^${XENOPUSTAXID}" $i >> $i.mgi
-grep "^${XENOPUSLAEVISTAXID}" $i >> $i.mgi
+    echo "DEBUG `date`: parse $i" >> ${LOG}
+    rm -rf $i.mgi
+    grep "^${MOUSETAXID}" $i > $i.mgi
+    grep "^${HUMANTAXID}" $i >> $i.mgi
+    grep "^${RATTAXID}" $i >> $i.mgi
+    grep "^${DOGTAXID}" $i >> $i.mgi
+    grep "^${CHIMPTAXID}" $i >> $i.mgi
+    grep "^${CATTLETAXID}" $i >> $i.mgi
+    grep "^${CHICKENTAXID}" $i >> $i.mgi
+    grep "^${ZEBRAFISHTAXID}" $i >> $i.mgi
+    grep "^${MONKEYTAXID}" $i >> $i.mgi
+    grep "^${XENOPUSTAXID}" $i >> $i.mgi
+    grep "^${XENOPUSLAEVISTAXID}" $i >> $i.mgi
 end
 
 #
 # strips out comments from input file
 #
 foreach i (mim2gene_medgen)
-echo "DEBUG `date`: parse $i" >> ${LOG}
-rm -rf $i.mgi
-grep "^[0-9]" $i | cut -f1-5 > $i.mgi
+    echo "DEBUG `date`: parse $i" >> ${LOG}
+    rm -rf $i.mgi
+    grep "^[0-9]" $i | cut -f1-5 > $i.mgi
 end
 
 # split up gene_info.mgi into gene_info.bcp, gene_dbxref.bcp, gene_synonym.bcp
