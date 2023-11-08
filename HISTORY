@@ -1,3 +1,10 @@
+TAG: entrezgeneload-6-0-22-8
+DATE: 11/08/2023
+STAFF: lec
+CHANGES: 
+wts2-1324/fl2-625/egload pipeline issue/add sanity check
+loadAll.csh : call ${PG_DBUTILS}/bin/testRadarEntrezGene.csh
+
 TAG: entrezgeneload-6-0-22-7
 DATE: 11/08/2023
 STAFF: dbm
