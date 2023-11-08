@@ -4,21 +4,15 @@
 # Program:
 #	loadAll.csh
 #
-# Original Author:
-#	Lori Corbani
-#
 # Purpose:
 #	Wrapper to execute all EntrezGene loads (human, rat)
 #
-# Modification History:
+# History
 #
-#
-# 05/24/2005 - lec
-#	- TR 6046; removing mouse....mouse load is now done by the "egload" product
-#
-# 01/03/2004 - lec
-#	- TR 5939/LocusLink->EntrezGene conversion
-#
+# 11/08/2023    lec
+#       wts2-1324/fl2-625/egload pipeline issue/add sanity check
+#       add call to ${PG_DBUTILS}/bin/testRadarEntrezGene.csh
+#       
 
 cd `dirname $0` && source ./Configuration
 
@@ -26,18 +20,26 @@ setenv LOG      ${EGLOGSDIR}/`basename $0`.log
 rm -rf ${LOG}
 touch ${LOG}
 
-date >> ${LOG}
+date | tee -a ${LOG}
 
-${ENTREZGENELOAD}/updateIDs.csh >> ${LOG}
-${ENTREZGENELOAD}/human/load.csh >> ${LOG}
-${ENTREZGENELOAD}/rat/load.csh >> ${LOG}
-${ENTREZGENELOAD}/dog/load.csh >> ${LOG}
-${ENTREZGENELOAD}/chimpanzee/load.csh >> ${LOG}
-${ENTREZGENELOAD}/cattle/load.csh >> ${LOG}
-${ENTREZGENELOAD}/chicken/load.csh >> ${LOG}
-${ENTREZGENELOAD}/zebrafish/load.csh >> ${LOG}
-${ENTREZGENELOAD}/monkey/load.csh >> ${LOG}
-${ENTREZGENELOAD}/xenopus/load.csh >> ${LOG}
-${ENTREZGENELOAD}/xenopuslaevis/load.csh >> ${LOG}
+echo 'Sanity check the radar.dp_entrezgene tables' | tee -a ${LOG}
+${PG_DBUTILS}/bin/testRadarEntrezGene.csh | tee -a ${LOG}
+if ( $status != 0 ) then
+        echo 'radar.dp_entrezgene tables did not pass sanity check; skipping entrezgeneload' | tee -a ${LOG}
+        exit 0
+endif
+echo 'radar.dp_entrezgene tables passed sanity check; continuing with entrezgeneload' | tee -a ${LOG}
 
-date >> ${LOG}
+${ENTREZGENELOAD}/updateIDs.csh | tee -a ${LOG}
+${ENTREZGENELOAD}/human/load.csh | tee -a ${LOG}
+${ENTREZGENELOAD}/rat/load.csh | tee -a ${LOG}
+${ENTREZGENELOAD}/dog/load.csh | tee -a ${LOG}
+${ENTREZGENELOAD}/chimpanzee/load.csh | tee -a ${LOG}
+${ENTREZGENELOAD}/cattle/load.csh | tee -a ${LOG}
+${ENTREZGENELOAD}/chicken/load.csh | tee -a ${LOG}
+${ENTREZGENELOAD}/zebrafish/load.csh | tee -a ${LOG}
+${ENTREZGENELOAD}/monkey/load.csh | tee -a ${LOG}
+${ENTREZGENELOAD}/xenopus/load.csh | tee -a ${LOG}
+${ENTREZGENELOAD}/xenopuslaevis/load.csh | tee -a ${LOG}
+
+date | tee -a ${LOG}
