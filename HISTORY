@@ -1,3 +1,9 @@
+TAG: entrezgeneload-6-0-22-7
+DATE: 11/08/2023
+STAFF: dbm
+CHANGES: 
+loadFiles.csh: Added error checking on unzip step
+
 TAG: entrezgeneload-6-0-22-6
 DATE: 10/02/2023
 STAFF: dbm
