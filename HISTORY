@@ -1,8 +1,8 @@
-TAG: entrezgeneload-6-0-23-?
-DATE: 05/2024
+TAG: entrezgeneload-6-0-23-1
+DATE: 05/28/2024
 STAFF: lec
 CHANGES: 
-wts2-1403/fl2-732/Change of OMIM prefix to MIM in MGI: back end
+wts2-1403/fl3-732/Change of OMIM prefix to MIM in MGI: back end
 
 TAG: entrezgeneload-6-0-22-8
 DATE: 11/08/2023
