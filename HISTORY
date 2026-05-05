@@ -1,3 +1,11 @@
+TAG: entrezgeneload-6-0-28-1
+DATE: 05/05/2026
+STAFF: lec
+CHANGES: 
+Replace 'grep' with loadFiles.py
+        new file:   loadFiles.py
+        modified:   loadFiles.csh
+
 TAG: entrezgeneload-6-0-23-1
 DATE: 05/28/2024
 STAFF: lec

@@ -74,17 +74,7 @@ end
 foreach i (gene2accession gene2pubmed gene2refseq gene_info gene_history)
     echo "DEBUG `date`: parse $i" >> ${LOG}
     rm -rf $i.mgi
-    grep "^${MOUSETAXID}" $i > $i.mgi
-    grep "^${HUMANTAXID}" $i >> $i.mgi
-    grep "^${RATTAXID}" $i >> $i.mgi
-    grep "^${DOGTAXID}" $i >> $i.mgi
-    grep "^${CHIMPTAXID}" $i >> $i.mgi
-    grep "^${CATTLETAXID}" $i >> $i.mgi
-    grep "^${CHICKENTAXID}" $i >> $i.mgi
-    grep "^${ZEBRAFISHTAXID}" $i >> $i.mgi
-    grep "^${MONKEYTAXID}" $i >> $i.mgi
-    grep "^${XENOPUSTAXID}" $i >> $i.mgi
-    grep "^${XENOPUSLAEVISTAXID}" $i >> $i.mgi
+    $PYTHON ${ENTREZGENELOAD}/loadFiles.py $i
 end
 
 #
